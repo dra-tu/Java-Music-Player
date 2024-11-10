@@ -5,7 +5,6 @@ import TUI.Menus.MenuManager;
 
 public class TUI {
     volatile MusicPlayer musicPlayer;
-    TUIInputDataControl tuiInputDataControl;
     TerminalLock termLock;
 
     TUIUpdater songUiUpdater;
@@ -13,7 +12,6 @@ public class TUI {
 
     public TUI(int maxLoadSongs) {
         musicPlayer = new MusicPlayer(maxLoadSongs);
-        tuiInputDataControl = new TUIInputDataControl();
         termLock = new TerminalLock();
 
         songUiUpdater = new TUIUpdater(
