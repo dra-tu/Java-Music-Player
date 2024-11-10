@@ -3,16 +3,13 @@ package TUI.Menus;
 import MusicPlayer.MusicPlayer;
 import TUI.*;
 
-import java.util.HashMap;
-
 public abstract class Menu {
     // default Strings
     String prompt = "? ";
-    String unknownMsg = "WHAT?";
+    String unknownMsg = "unknown Option";
     String exitMsg = "BY";
-    String inputMsg = ">>";
+    String inputMsg = "=> ";
     String optionsMenu = "no Options";
-    HashMap<String, SongOption> songOptions = new HashMap<>();
 
     TerminalPosition startPos;
 
@@ -35,11 +32,6 @@ public abstract class Menu {
         this.inputFunc = inputFunc;
     }
 
-    public void start() {
-        setUp();
-        action();
-    }
-
     void clear() {
         termLock.lockTerminal();
         TerminalControl.clear();
@@ -47,6 +39,16 @@ public abstract class Menu {
         termLock.unlockTerminal();
     }
 
-    abstract void setUp();
+    public void start() {
+        setUp();
+        action();
+    }
+
+    void setUp() {
+        termLock.lockTerminal();
+        TerminalControl.setCursorPos(startPos);
+        termLock.unlockTerminal();
+    }
+
     abstract void action();
 }

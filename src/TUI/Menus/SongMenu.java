@@ -4,7 +4,11 @@ import MusicPlayer.MusicPlayer;
 import MusicPlayer.TimeStamp;
 import TUI.*;
 
+import java.util.HashMap;
+
 public class SongMenu extends Menu {
+    HashMap<String, SongOption> songOptions = new HashMap<>();
+
     // set Menu specific Strings in here
     public SongMenu(
             TerminalPosition startPos,
@@ -16,9 +20,7 @@ public class SongMenu extends Menu {
         super(startPos, musicPlayer, termLock, share, inputFunc);
 
         prompt = "Select option [p/c/q/.../? shows all options]: ";
-        unknownMsg = "Good By!";
         exitMsg = "Song done";
-        inputMsg = "=> ";
         optionsMenu = """
                 
                 p: Pause
@@ -42,11 +44,10 @@ public class SongMenu extends Menu {
         songOptions.put("?", SongOption.HELP);
     }
 
-    @Override
-    void setUp() {
-        termLock.lockTerminal();
-        TerminalControl.setCursorPos(startPos);
-        termLock.unlockTerminal();
+    private void quid() {
+        share.savePrintln(exitMsg);
+        musicPlayer.exitSong();
+        clear();
     }
 
     @Override
@@ -82,7 +83,7 @@ public class SongMenu extends Menu {
 
                 // TUI Controls
                 case SongOption.QUIT: // Quit
-                    share.savePrintln(exitMsg);
+                    quid();
                     return;
                 case SongOption.CLEAR: // cLear
                     clear();

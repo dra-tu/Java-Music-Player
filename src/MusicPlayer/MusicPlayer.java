@@ -8,7 +8,7 @@ public class MusicPlayer {
     File rootDir;
     Song[] songs;
 
-    public LoadedSong currentSong;
+    private LoadedSong currentSong;
     MusicPlayerState state;
 
     int maxLoadedSongs;
@@ -47,6 +47,24 @@ public class MusicPlayer {
         rootDir = dir;
 
         return true;
+    }
+
+    public boolean reloadDir() {
+        return useDir(rootDir.getPath());
+    }
+
+    public String getSongList() {
+        StringBuilder out = new StringBuilder();
+
+        for(Song song: songs) {
+            out.append(" - ").append("(").append( String.format("%03d", song.SONG_ID)).append(") ").append(song.name).append("\n");
+        }
+
+        return out.toString();
+    }
+
+    public LoadedSong getCurrentSong() {
+        return currentSong;
     }
 
     public boolean loadSong(int number) {

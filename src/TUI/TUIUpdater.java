@@ -20,16 +20,21 @@ public class TUIUpdater implements Runnable {
     }
 
     private void SongMenuStart() {
-        LoadedSong song = musicPlayer.currentSong;
+        TimeStamp songLength;
+        String songName;
+        TimeStamp currentTime;
 
-        final TimeStamp SONG_LENGTH = song.getTimeStampLength();
-        final String SONG_NAME = song.getName();
-        TimeStamp currentTime = new TimeStamp(0L);
+        while (true) {
+            LoadedSong song = musicPlayer.getCurrentSong();
+            if (song == null) {
+                printSongInfo("---", "---", "----");
+            } else {
+                songLength = song.getTimeStampLength();
+                songName = song.getName();
+                currentTime = song.getTimeStampPosition();
 
-        while (currentTime.compareTo(SONG_LENGTH) > 0) {
-            currentTime = song.getTimeStampPosition();
-
-            printSongInfo(currentTime, SONG_LENGTH, SONG_NAME);
+                printSongInfo(currentTime.getFormatted(), songLength.getFormatted(), songName);
+            }
 
             try {
                 Thread.sleep(1_000);
@@ -39,15 +44,16 @@ public class TUIUpdater implements Runnable {
         }
     }
 
-    private void printSongInfo(TimeStamp currentTime, TimeStamp songLength, String songName) {
+    private void printSongInfo(String currentTime, String songLength, String songName) {
         termLock.lockTerminal();
         TerminalControl.saveCursorPos();
 
         TerminalControl.setCursorPos(END_POS);
         TerminalControl.clearToStart();
         TerminalControl.setCursorPos(TerminalPosition.START);
+
         System.out.println("Playing: " + songName);
-        System.out.println(currentTime.getFormatted() + " / " + songLength.getFormatted());
+        System.out.println(currentTime + " / " + songLength);
 
         TerminalControl.loadCursorPos();
         termLock.unlockTerminal();
