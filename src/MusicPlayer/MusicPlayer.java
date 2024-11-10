@@ -21,7 +21,7 @@ public class MusicPlayer {
 
     public MusicPlayer(int maxLoadedSongs) {
         this.maxLoadedSongs = maxLoadedSongs;
-        this.loadedSongs = new HashMap<Integer, LoadedSong>();
+        this.loadedSongs = new HashMap<>();
         this.loadHistory = new int[maxLoadedSongs];
         Arrays.fill(loadHistory, -1);
         this.nextOpenLoadHistorySlot = 0;
