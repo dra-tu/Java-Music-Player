@@ -33,18 +33,6 @@ public class TimeStamp implements Comparable<TimeStamp>{
 
     @Override
     public int compareTo(TimeStamp o) {
-        if(minutes > o.minutes) {
-            return -1;
-        } else if (minutes < o.minutes) {
-            return 1;
-        }else {
-            if(seconds > o.seconds) {
-                return -1;
-            } else if (seconds < o.seconds) {
-                return 1;
-            }else {
-                return 0;
-            }
-        }
+        return Long.compare(this.toMicroseconds(), o.toMicroseconds());
     }
 }

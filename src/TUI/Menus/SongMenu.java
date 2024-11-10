@@ -4,6 +4,7 @@ import MusicPlayer.MusicPlayer;
 import MusicPlayer.TimeStamp;
 import TUI.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class SongMenu extends Menu {
@@ -56,7 +57,13 @@ public class SongMenu extends Menu {
         TimeStamp jumpTime;
 
         while (true) {
-            in = inputFunc.getString(prompt);
+
+            try {
+                in = inputFunc.getString(prompt);
+            } catch (IOException | InterruptedException e) {
+                quid();
+                return;
+            }
             share.savePrintln(inputMsg + in);
 
             switch (songOptions.get(in)) {
@@ -69,15 +76,33 @@ public class SongMenu extends Menu {
                     musicPlayer.continueSong();
                     break;
                 case SongOption.JUMP: // Jump
-                    jumpTime = inputFunc.getTimeStamp();
+                    try {
+                        jumpTime = inputFunc.getTimeStamp();
+                    } catch (IOException | InterruptedException e) {
+                        share.savePrintln("an error has curd");
+                        quid();
+                        return;
+                    }
                     musicPlayer.jumpTo(jumpTime);
                     break;
                 case SongOption.SKIP: // sKips
-                    jumpTime = inputFunc.getTimeStamp();
+                    try {
+                        jumpTime = inputFunc.getTimeStamp();
+                    } catch (IOException | InterruptedException e) {
+                        share.savePrintln("an error has curd");
+                        quid();
+                        return;
+                    }
                     musicPlayer.skipTime(jumpTime);
                     break;
                 case SongOption.REWIND: // Rewind
-                    jumpTime = inputFunc.getTimeStamp();
+                    try {
+                        jumpTime = inputFunc.getTimeStamp();
+                    } catch (IOException | InterruptedException e) {
+                        share.savePrintln("an error has curd");
+                        quid();
+                        return;
+                    }
                     musicPlayer.rewindTime(jumpTime);
                     break;
 

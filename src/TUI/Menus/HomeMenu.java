@@ -6,6 +6,7 @@ import TUI.Share;
 import TUI.TerminalLock;
 import TUI.TerminalPosition;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class HomeMenu extends Menu {
@@ -51,10 +52,20 @@ public class HomeMenu extends Menu {
         homeOptions.put("q", HomeOption.QUIT);
     }
 
+    private void quid() {
+        share.savePrintln(exitMsg);
+    }
+
     @Override
-    void action() {String in;
+    void action() {
+        String in;
         while (true) {
-            in = inputFunc.getString(prompt);
+            try {
+                in = inputFunc.getString(prompt);
+            } catch (IOException | InterruptedException e) {
+                quid();
+                return;
+            }
             share.savePrintln(inputMsg + in);
 
             switch (homeOptions.get(in)) {
@@ -64,14 +75,20 @@ public class HomeMenu extends Menu {
                     share.savePrint(musicPlayer.getSongList());
                     break;
                 case HomeOption.PLAY:
-                    int songId = inputFunc.getInt("Song id: ");
+                    int songId;
+                    try {
+                         songId = inputFunc.getInt("Song id: ");
+                    } catch (IOException | InterruptedException e) {
+                        share.savePrintln("an error has curd");
+                        quid();
+                        return;
+                    }
                     clear();
 
-                    if(menuMgr.startSong(songId)) {
+                    if (menuMgr.startSong(songId)) {
                         clear();
                         songMenu.start();
-                    }
-                    else share.savePrintln("cannot load Song");
+                    } else share.savePrintln("cannot load Song");
                     break;
                 case HomeOption.MIX:
                     break;
@@ -83,7 +100,7 @@ public class HomeMenu extends Menu {
 
                 // TUI Controls
                 case HomeOption.QUIT: // Quit
-                    share.savePrintln(exitMsg);
+                    quid();
                     return;
                 case HomeOption.CLEAR: // cLear
                     clear();

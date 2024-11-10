@@ -29,7 +29,8 @@ public class MenuManager implements Runnable {
 
         // des hier kann normal nicht gesehen werden
         // ist dafür da fals was schif geht
-        if (!musicPlayer.loadSong(SongId)) {
+        int loadResold = musicPlayer.loadSong(SongId);
+        if (loadResold == -1) {
             System.out.println("cannot load Song  :(");
             return false;
         }

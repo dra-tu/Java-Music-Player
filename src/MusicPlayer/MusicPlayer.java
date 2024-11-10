@@ -67,7 +67,7 @@ public class MusicPlayer {
         return currentSong;
     }
 
-    public boolean loadSong(int number) {
+    public int loadSong(int number) {
 
         if(loadedSongs.size() == maxLoadedSongs) shiftLoadedSongs();
 
@@ -76,15 +76,15 @@ public class MusicPlayer {
         // load Song and save it in HasMap
         LoadedSong song = new LoadedSong();
         boolean loadWorked = song.loadSong(songs[number]);
-        if(!loadWorked) return false; // can not load Song
-        if(loadedSongs.containsKey(SONG_ID)) return false; // can not load same Song two times
+        if(!loadWorked) return -1; // can not load Song
+        if(loadedSongs.containsKey(SONG_ID)) return 1; // can not load same Song two times
         loadedSongs.put(SONG_ID, song);
 
         // make reference to new Song in loadSlots Array
         loadHistory[nextOpenLoadHistorySlot] = SONG_ID;
         nextOpenLoadHistorySlot++;
 
-        return true;
+        return 0;
     }
 
     private void shiftLoadedSongs() {

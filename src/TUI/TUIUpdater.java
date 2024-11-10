@@ -3,15 +3,22 @@ package TUI;
 import MusicPlayer.MusicPlayer;
 import MusicPlayer.TimeStamp;
 import MusicPlayer.LoadedSong;
+import TUI.Menus.MenuManager;
 
 public class TUIUpdater implements Runnable {
+    Thread menuThread;
     MusicPlayer musicPlayer;
     TerminalLock termLock;
     final TerminalPosition END_POS = new TerminalPosition(500, 2);
 
-    public TUIUpdater(MusicPlayer musicPlayer, TerminalLock termLock) {
+    private boolean infoSent;
+
+    public TUIUpdater(Thread menuThread, MusicPlayer musicPlayer, TerminalLock termLock) {
+        this.menuThread = menuThread;
         this.musicPlayer = musicPlayer;
         this.termLock = termLock;
+
+        infoSent = true;
     }
 
     @Override
@@ -29,11 +36,18 @@ public class TUIUpdater implements Runnable {
             if (song == null) {
                 printSongInfo("---", "---", "----");
             } else {
+                infoSent = false;
+
                 songLength = song.getTimeStampLength();
                 songName = song.getName();
                 currentTime = song.getTimeStampPosition();
 
                 printSongInfo(currentTime.getFormatted(), songLength.getFormatted(), songName);
+
+                // System.out.println(!infoSent + " : " + (songLength.compareTo(currentTime) == 0));
+                if((songLength.compareTo(currentTime) == 0) && !infoSent) {
+                    menuThread.interrupt();
+                }
             }
 
             try {

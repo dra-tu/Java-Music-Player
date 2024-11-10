@@ -7,24 +7,9 @@ public class TUI {
     volatile MusicPlayer musicPlayer;
     TerminalLock termLock;
 
-    TUIUpdater songUiUpdater;
-    MenuManager menuMgr;
-
     public TUI(int maxLoadSongs) {
         musicPlayer = new MusicPlayer(maxLoadSongs);
         termLock = new TerminalLock();
-
-        songUiUpdater = new TUIUpdater(
-                musicPlayer,
-                termLock
-        );
-
-        menuMgr = new MenuManager(
-                new TerminalPosition(1, 3),
-                musicPlayer,
-                termLock,
-                this
-        );
     }
 
     public void setDir(String dirPath) {
@@ -39,8 +24,21 @@ public class TUI {
         // prepare Terminal
         TerminalControl.clear();
 
+        // create obj to be multithreaded
         // Creating Threads to update the ui and listen to inputController
+        MenuManager menuMgr = new MenuManager(
+                new TerminalPosition(1, 3),
+                musicPlayer,
+                termLock,
+                this
+        );
         Thread menuThread = new Thread(menuMgr);
+
+        TUIUpdater songUiUpdater = new TUIUpdater(
+                menuThread,
+                musicPlayer,
+                termLock
+        );
         Thread updaterThread = new Thread(songUiUpdater);
 
         // Starting the Threads
