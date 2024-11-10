@@ -3,7 +3,6 @@ package TUI;
 import MusicPlayer.MusicPlayer;
 import MusicPlayer.TimeStamp;
 import MusicPlayer.LoadedSong;
-import TUI.Menus.MenuManager;
 
 public class TUIUpdater implements Runnable {
     Thread menuThread;
