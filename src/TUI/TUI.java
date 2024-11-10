@@ -60,33 +60,6 @@ public class TUI {
         updaterThread.start();
         inputThread.start();
 
-        TUIInputData option;
-        do {
-            option = tuiInputDataControl.receive();
-
-            switch (option.songOption) {
-                case  SongOption.PAUSE: // Pause
-                    musicPlayer.stopSong();
-                    break;
-                case SongOption.CONTINUE: // Continue
-                    musicPlayer.continueSong();
-                    break;
-                case SongOption.JUMP: // Jump
-                    musicPlayer.jumpTo(option.time);
-                    break;
-                case SongOption.SKIP: // sKips
-                    musicPlayer.skipTime(option.time);
-                    break;
-                case SongOption.REWIND: // Rewind
-                    musicPlayer.rewindTime(option.time);
-                    break;
-                case SongOption.QUIT: // Quit
-                    System.out.println("Good By!");
-                    break;
-            }
-            // System.out.println(option);
-        }while(option.songOption != SongOption.QUIT);
-
         // exit the Program
         inputThread.join();
         updaterThread.interrupt();
