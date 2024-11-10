@@ -21,12 +21,23 @@ public abstract class Menu {
     TerminalLock termLock;
     InputFunc inputFunc;
 
-    public Menu(Share share, MusicPlayer musicPlayer, TerminalLock termLock, TerminalPosition startPos) {
+    public Menu(
+            TerminalPosition startPos,
+            MusicPlayer musicPlayer,
+            TerminalLock termLock,
+            Share share,
+            InputFunc inputFunc
+    ) {
         this.startPos = startPos;
-        this.share = share;
         this.musicPlayer = musicPlayer;
         this.termLock = termLock;
-        this.inputFunc = new InputFunc(termLock);
+        this.share = share;
+        this.inputFunc = inputFunc;
+    }
+
+    public void start() {
+        setUp();
+        action();
     }
 
     void clear() {
@@ -36,5 +47,6 @@ public abstract class Menu {
         termLock.unlockTerminal();
     }
 
-    abstract boolean action(String input);
+    abstract void setUp();
+    abstract void action();
 }
