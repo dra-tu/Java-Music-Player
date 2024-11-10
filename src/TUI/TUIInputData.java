@@ -1,6 +1,7 @@
 package TUI;
 
 import MusicPlayer.TimeStamp;
+import TUI.Menus.SongOption;
 
 public class TUIInputData {
     public SongOption songOption;

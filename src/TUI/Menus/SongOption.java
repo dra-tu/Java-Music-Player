@@ -1,4 +1,4 @@
-package TUI;
+package TUI.Menus;
 
 public enum SongOption {
     PAUSE,

@@ -2,6 +2,7 @@ package TUI;
 
 import MusicPlayer.MusicPlayer;
 import MusicPlayer.TimeStamp;
+import TUI.Menus.SongOption;
 
 import java.util.HashMap;
 
@@ -14,6 +15,8 @@ public class TUIMenuMgr implements Runnable {
     HashMap<String, SongOption> songOptions;
 
     MusicPlayer musicPlayer;
+
+//    TODO: use The Manu Classes
 
     // output Strings
     final String prompt = "Select option [p/c/q/.../? shows all options]: ";
@@ -39,7 +42,7 @@ public class TUIMenuMgr implements Runnable {
         this.inputFunc = new InputFunc(termLock);
         this.share = new Share(termLock);
 
-        songOptions = new HashMap<String, SongOption>();
+        songOptions = new HashMap<>();
         songOptions.put("p", SongOption.PAUSE);
         songOptions.put("c", SongOption.CONTINUE);
         songOptions.put("j", SongOption.JUMP);
