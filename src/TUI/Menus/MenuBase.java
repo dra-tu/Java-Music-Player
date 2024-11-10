@@ -1,9 +1,9 @@
 package TUI.Menus;
 
 import MusicPlayer.MusicPlayer;
-import TUI.*;
+import TUI.Terminal.*;
 
-public abstract class Menu {
+public abstract class MenuBase {
     // default Strings
     String prompt = "? ";
     String unknownMsg = "unknown Option";
@@ -12,24 +12,23 @@ public abstract class Menu {
     String optionsMenu = "no Options";
 
     TerminalPosition startPos;
-
-    Share share;
+    TerminalHelper terminalHelper;
     MusicPlayer musicPlayer;
     TerminalLock termLock;
-    InputFunc inputFunc;
+    TerminalInput terminalInput;
 
-    public Menu(
+    public MenuBase(
             TerminalPosition startPos,
             MusicPlayer musicPlayer,
             TerminalLock termLock,
-            Share share,
-            InputFunc inputFunc
+            TerminalHelper terminalHelper,
+            TerminalInput terminalInput
     ) {
         this.startPos = startPos;
         this.musicPlayer = musicPlayer;
         this.termLock = termLock;
-        this.share = share;
-        this.inputFunc = inputFunc;
+        this.terminalHelper = terminalHelper;
+        this.terminalInput = terminalInput;
     }
 
     void clear() {
@@ -51,4 +50,5 @@ public abstract class Menu {
     }
 
     abstract void action();
+    abstract void quid();
 }

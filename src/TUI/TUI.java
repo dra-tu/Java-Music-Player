@@ -1,7 +1,11 @@
 package TUI;
 
 import MusicPlayer.MusicPlayer;
+
 import TUI.Menus.MenuManager;
+import TUI.Terminal.TerminalControl;
+import TUI.Terminal.TerminalLock;
+import TUI.Terminal.TerminalPosition;
 
 public class TUI {
     volatile MusicPlayer musicPlayer;
@@ -34,7 +38,7 @@ public class TUI {
         );
         Thread menuThread = new Thread(menuMgr);
 
-        TUIUpdater songUiUpdater = new TUIUpdater(
+        TUISongDisplay songUiUpdater = new TUISongDisplay(
                 menuThread,
                 musicPlayer,
                 termLock

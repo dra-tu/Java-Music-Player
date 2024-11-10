@@ -1,23 +1,23 @@
 package TUI;
 
 import MusicPlayer.MusicPlayer;
-import MusicPlayer.TimeStamp;
-import MusicPlayer.LoadedSong;
+import MusicPlayer.Types.TimeStamp;
+import MusicPlayer.Types.LoadedSong;
 
-public class TUIUpdater implements Runnable {
+import TUI.Terminal.TerminalControl;
+import TUI.Terminal.TerminalLock;
+import TUI.Terminal.TerminalPosition;
+
+public class TUISongDisplay implements Runnable {
     Thread menuThread;
     MusicPlayer musicPlayer;
     TerminalLock termLock;
     final TerminalPosition END_POS = new TerminalPosition(500, 2);
 
-    private boolean infoSent;
-
-    public TUIUpdater(Thread menuThread, MusicPlayer musicPlayer, TerminalLock termLock) {
+    public TUISongDisplay(Thread menuThread, MusicPlayer musicPlayer, TerminalLock termLock) {
         this.menuThread = menuThread;
         this.musicPlayer = musicPlayer;
         this.termLock = termLock;
-
-        infoSent = true;
     }
 
     @Override
@@ -35,16 +35,13 @@ public class TUIUpdater implements Runnable {
             if (song == null) {
                 printSongInfo("---", "---", "----");
             } else {
-                infoSent = false;
-
-                songLength = song.getTimeStampLength();
+                currentTime = song.getCurrentTime();
+                songLength = song.getMaxTime();
                 songName = song.getName();
-                currentTime = song.getTimeStampPosition();
 
                 printSongInfo(currentTime.getFormatted(), songLength.getFormatted(), songName);
 
-                // System.out.println(!infoSent + " : " + (songLength.compareTo(currentTime) == 0));
-                if((songLength.compareTo(currentTime) == 0) && !infoSent) {
+                if((songLength.compareTo(currentTime) == 0)) {
                     menuThread.interrupt();
                 }
             }

@@ -1,34 +1,34 @@
-package TUI;
+package TUI.Terminal;
 
-import MusicPlayer.TimeStamp;
+import MusicPlayer.Types.TimeStamp;
 
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class InputFunc {
+public class TerminalInput {
     Scanner scanner;
-    Share share;
+    TerminalHelper terminalHelper;
 
-    public InputFunc(TerminalLock termLock) {
+    public TerminalInput(TerminalLock termLock) {
         scanner = new Scanner(System.in).useLocale(Locale.ENGLISH);
-        share = new Share(termLock);
+        terminalHelper = new TerminalHelper(termLock);
     }
 
     public String getString(String prompt) throws IOException, InterruptedException {
-        share.savePrint(prompt);
+        terminalHelper.savePrint(prompt);
         waitForStuff();
         return scanner.next();
     }
 
     public int getInt(String prompt) throws IOException, InterruptedException {
-        share.savePrint(prompt);
+        terminalHelper.savePrint(prompt);
         waitForStuff();
         return scanner.nextInt();
     }
 
     public float getFloat(String prompt) throws IOException, InterruptedException {
-        share.savePrint(prompt);
+        terminalHelper.savePrint(prompt);
         waitForStuff();
         return scanner.nextFloat();
     }
@@ -45,7 +45,7 @@ public class InputFunc {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
-                throw new InterruptedException("Interabted while reading input");
+                throw new InterruptedException("Interrupted while reading input");
             }
         }
 

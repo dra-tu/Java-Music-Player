@@ -1,5 +1,9 @@
 package MusicPlayer;
 
+import MusicPlayer.Types.LoadedSong;
+import MusicPlayer.Types.Song;
+import MusicPlayer.Types.TimeStamp;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,7 +13,6 @@ public class MusicPlayer {
     Song[] songs;
 
     private LoadedSong currentSong;
-    MusicPlayerState state;
 
     int maxLoadedSongs;
     HashMap<Integer, LoadedSong> loadedSongs;
@@ -22,7 +25,6 @@ public class MusicPlayer {
         this.loadHistory = new int[maxLoadedSongs];
         Arrays.fill(loadHistory, -1);
         this.nextOpenLoadHistorySlot = 0;
-        this.state = MusicPlayerState.IDLE;
     }
 
     public boolean useDir(String dirPath) {
@@ -57,7 +59,11 @@ public class MusicPlayer {
         StringBuilder out = new StringBuilder();
 
         for(Song song: songs) {
-            out.append(" - ").append("(").append( String.format("%03d", song.SONG_ID)).append(") ").append(song.name).append("\n");
+            out.append(" - (")
+                    .append( String.format("%3d", song.getSongId())) // format of SONG_ID whit lIst in HomeMenu
+                    .append(") ")
+                    .append(song.getName())
+                    .append("\n");
         }
 
         return out.toString();
@@ -71,7 +77,7 @@ public class MusicPlayer {
 
         if(loadedSongs.size() == maxLoadedSongs) shiftLoadedSongs();
 
-        final int SONG_ID = songs[number].SONG_ID;
+        final int SONG_ID = songs[number].getSongId();
 
         // load Song and save it in HasMap
         LoadedSong song = new LoadedSong();
@@ -103,52 +109,48 @@ public class MusicPlayer {
 
     public void unloadSong(int songId) {
         // TODO: add return feedback
-        if(currentSong.SONG_ID == songId) return;
+        if(currentSong.getSongId() == songId) return;
         loadedSongs.remove(songId);
     }
 
     public boolean playSong(int songId) {
         if(!loadedSongs.containsKey(songId)) return false; // song not loaded
 
-        loadedSongs.get(songId).clip.start();
+        loadedSongs.get(songId).start();
 
         currentSong = loadedSongs.get(songId);
-        state = MusicPlayerState.PLAYING;
 
         return true;
     }
 
     public void continueSong() {
-        currentSong.clip.start();
-        state = MusicPlayerState.PLAYING;
+        currentSong.start();
     }
 
     public void jumpTo(TimeStamp jumpTime) {
-        currentSong.clip.setMicrosecondPosition(jumpTime.toMicroseconds());
+        currentSong.setTime(jumpTime);
     }
 
     public void skipTime(TimeStamp skipTime) {
-        currentSong.clip.setMicrosecondPosition(
-                currentSong.clip.getMicrosecondPosition() + skipTime.toMicroseconds()
+        currentSong.setTime(
+                TimeStamp.add(currentSong.getCurrentTime(), skipTime)
         );
     }
 
     public void rewindTime(TimeStamp rewindTime) {
-        currentSong.clip.setMicrosecondPosition(
-                currentSong.clip.getMicrosecondPosition() - rewindTime.toMicroseconds()
+        currentSong.setTime(
+                TimeStamp.subtract(currentSong.getCurrentTime(), rewindTime)
         );
     }
 
     public void stopSong() {
-        currentSong.clip.stop();
-        state = MusicPlayerState.STOPPED;
+        currentSong.stop();
     }
 
     public void exitSong() {
-        currentSong.clip.stop();
-        currentSong.clip.setMicrosecondPosition(0L);
+        currentSong.stop();
+        currentSong.setTimeToStart();
 
         currentSong = null;
-        state = MusicPlayerState.IDLE;
     }
 }

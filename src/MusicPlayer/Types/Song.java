@@ -1,4 +1,4 @@
-package MusicPlayer;
+package MusicPlayer.Types;
 
 import javax.sound.sampled.*;
 
@@ -14,6 +14,14 @@ public class Song {
         this.SONG_ID = SONG_ID;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getSongId() {
+        return SONG_ID;
+    }
+
     public boolean setFile(File file) {
         if( !(file.isFile() && file.getName().endsWith(".wav")) ) return false;
 
@@ -23,7 +31,7 @@ public class Song {
         return true;
     }
 
-    public Clip createClip() {
+    Clip createClip() {
         try {
 
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);

@@ -1,4 +1,4 @@
-package TUI.Menus;
+package TUI.Menus.Options;
 
 public enum HomeOption {
     LIST,
@@ -8,6 +8,4 @@ public enum HomeOption {
     CLEAR,
     QUIT,
     HELP,
-
-    NONE
 }

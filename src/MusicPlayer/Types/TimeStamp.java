@@ -1,6 +1,6 @@
-package MusicPlayer;
+package MusicPlayer.Types;
 
-public class TimeStamp implements Comparable<TimeStamp>{
+public class TimeStamp implements Comparable<TimeStamp> {
     int minutes;
     int seconds;
 
@@ -29,6 +29,20 @@ public class TimeStamp implements Comparable<TimeStamp>{
 
     public long toMicroseconds() {
         return (minutes * 60L + seconds) * 1_000_000L;
+    }
+
+    static public TimeStamp add(TimeStamp stamp1, TimeStamp stamp2) {
+        return new TimeStamp(
+                stamp1.minutes + stamp2.minutes,
+                stamp1.seconds + stamp2.seconds
+        );
+    }
+
+    static public TimeStamp subtract(TimeStamp stamp1, TimeStamp stamp2) {
+        return new TimeStamp(
+                stamp1.minutes - stamp2.minutes,
+                stamp1.seconds - stamp2.seconds
+        );
     }
 
     @Override

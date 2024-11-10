@@ -1,9 +1,9 @@
-package TUI;
+package TUI.Terminal;
 
-public class Share {
+public class TerminalHelper {
     final private TerminalLock termLock;
 
-    public Share(TerminalLock termLock) {
+    public TerminalHelper(TerminalLock termLock) {
         this.termLock = termLock;
     }
 

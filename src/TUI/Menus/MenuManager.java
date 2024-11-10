@@ -2,10 +2,10 @@ package TUI.Menus;
 
 import MusicPlayer.MusicPlayer;
 import TUI.TUI;
-import TUI.InputFunc;
-import TUI.Share;
-import TUI.TerminalLock;
-import TUI.TerminalPosition;
+import TUI.Terminal.TerminalInput;
+import TUI.Terminal.TerminalHelper;
+import TUI.Terminal.TerminalLock;
+import TUI.Terminal.TerminalPosition;
 
 
 public class MenuManager implements Runnable {
@@ -17,11 +17,11 @@ public class MenuManager implements Runnable {
     public MenuManager(TerminalPosition startPos, MusicPlayer musicPlayer, TerminalLock termLock, TUI tui) {
         this.musicPlayer = musicPlayer;
 
-        Share share = new Share(termLock);
-        InputFunc inFunc = new InputFunc(termLock);
+        TerminalHelper terminalHelper = new TerminalHelper(termLock);
+        TerminalInput inFunc = new TerminalInput(termLock);
 
-        songMenu = new SongMenu(startPos, musicPlayer, termLock, share, inFunc);
-        homeMenu = new HomeMenu(startPos, musicPlayer, termLock, share, inFunc, this, songMenu);
+        songMenu = new SongMenu(startPos, musicPlayer, termLock, terminalHelper, inFunc);
+        homeMenu = new HomeMenu(startPos, musicPlayer, termLock, terminalHelper, inFunc, this, songMenu);
     }
 
     public boolean startSong(int SongId) {

@@ -1,4 +1,4 @@
-package TUI;
+package TUI.Terminal;
 
 public class TerminalLock {
     private boolean inUse;

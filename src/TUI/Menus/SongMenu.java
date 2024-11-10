@@ -1,13 +1,18 @@
 package TUI.Menus;
 
 import MusicPlayer.MusicPlayer;
-import MusicPlayer.TimeStamp;
-import TUI.*;
+import MusicPlayer.Types.TimeStamp;
+
+import TUI.Terminal.TerminalInput;
+import TUI.Menus.Options.SongOption;
+import TUI.Terminal.TerminalHelper;
+import TUI.Terminal.TerminalLock;
+import TUI.Terminal.TerminalPosition;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-public class SongMenu extends Menu {
+public class SongMenu extends MenuBase {
     HashMap<String, SongOption> songOptions = new HashMap<>();
 
     // set Menu specific Strings in here
@@ -15,10 +20,10 @@ public class SongMenu extends Menu {
             TerminalPosition startPos,
             MusicPlayer musicPlayer,
             TerminalLock termLock,
-            Share share,
-            InputFunc inputFunc
+            TerminalHelper terminalHelper,
+            TerminalInput terminalInput
     ) {
-        super(startPos, musicPlayer, termLock, share, inputFunc);
+        super(startPos, musicPlayer, termLock, terminalHelper, terminalInput);
 
         prompt = "Select option [p/c/q/.../? shows all options]: ";
         exitMsg = "Song done";
@@ -45,8 +50,8 @@ public class SongMenu extends Menu {
         songOptions.put("?", SongOption.HELP);
     }
 
-    private void quid() {
-        share.savePrintln(exitMsg);
+    void quid() {
+        terminalHelper.savePrintln(exitMsg);
         musicPlayer.exitSong();
         clear();
     }
@@ -59,12 +64,12 @@ public class SongMenu extends Menu {
         while (true) {
 
             try {
-                in = inputFunc.getString(prompt);
+                in = terminalInput.getString(prompt);
             } catch (IOException | InterruptedException e) {
                 quid();
                 return;
             }
-            share.savePrintln(inputMsg + in);
+            terminalHelper.savePrintln(inputMsg + in);
 
             switch (songOptions.get(in)) {
 
@@ -77,9 +82,9 @@ public class SongMenu extends Menu {
                     break;
                 case SongOption.JUMP: // Jump
                     try {
-                        jumpTime = inputFunc.getTimeStamp();
+                        jumpTime = terminalInput.getTimeStamp();
                     } catch (IOException | InterruptedException e) {
-                        share.savePrintln("an error has curd");
+                        terminalHelper.savePrintln("an error has curd");
                         quid();
                         return;
                     }
@@ -87,9 +92,9 @@ public class SongMenu extends Menu {
                     break;
                 case SongOption.SKIP: // sKips
                     try {
-                        jumpTime = inputFunc.getTimeStamp();
+                        jumpTime = terminalInput.getTimeStamp();
                     } catch (IOException | InterruptedException e) {
-                        share.savePrintln("an error has curd");
+                        terminalHelper.savePrintln("an error has curd");
                         quid();
                         return;
                     }
@@ -97,9 +102,9 @@ public class SongMenu extends Menu {
                     break;
                 case SongOption.REWIND: // Rewind
                     try {
-                        jumpTime = inputFunc.getTimeStamp();
+                        jumpTime = terminalInput.getTimeStamp();
                     } catch (IOException | InterruptedException e) {
-                        share.savePrintln("an error has curd");
+                        terminalHelper.savePrintln("an error has curd");
                         quid();
                         return;
                     }
@@ -114,11 +119,11 @@ public class SongMenu extends Menu {
                     clear();
                     break;
                 case SongOption.HELP: // show options
-                    share.savePrintln(optionsMenu);
+                    terminalHelper.savePrintln(optionsMenu);
                     break;
                 case null:
                 default:
-                    share.savePrintln(unknownMsg);
+                    terminalHelper.savePrintln(unknownMsg);
                     break;
             }
         }

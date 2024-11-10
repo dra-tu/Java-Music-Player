@@ -1,15 +1,17 @@
 package TUI.Menus;
 
 import MusicPlayer.MusicPlayer;
-import TUI.InputFunc;
-import TUI.Share;
-import TUI.TerminalLock;
-import TUI.TerminalPosition;
+
+import TUI.Terminal.TerminalInput;
+import TUI.Menus.Options.HomeOption;
+import TUI.Terminal.TerminalHelper;
+import TUI.Terminal.TerminalLock;
+import TUI.Terminal.TerminalPosition;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-public class HomeMenu extends Menu {
+public class HomeMenu extends MenuBase {
     MenuManager menuMgr;
     SongMenu songMenu;
 
@@ -19,12 +21,12 @@ public class HomeMenu extends Menu {
             TerminalPosition startPos,
             MusicPlayer musicPlayer,
             TerminalLock termLock,
-            Share share,
-            InputFunc inputFunc,
+            TerminalHelper terminalHelper,
+            TerminalInput terminalInput,
             MenuManager mgr,
             SongMenu songMenu
     ) {
-        super(startPos, musicPlayer, termLock, share, inputFunc);
+        super(startPos, musicPlayer, termLock, terminalHelper, terminalInput);
 
         this.menuMgr = mgr;
         this.songMenu = songMenu;
@@ -52,8 +54,8 @@ public class HomeMenu extends Menu {
         homeOptions.put("q", HomeOption.QUIT);
     }
 
-    private void quid() {
-        share.savePrintln(exitMsg);
+    void quid() {
+        terminalHelper.savePrintln(exitMsg);
     }
 
     @Override
@@ -61,25 +63,25 @@ public class HomeMenu extends Menu {
         String in;
         while (true) {
             try {
-                in = inputFunc.getString(prompt);
+                in = terminalInput.getString(prompt);
             } catch (IOException | InterruptedException e) {
                 quid();
                 return;
             }
-            share.savePrintln(inputMsg + in);
+            terminalHelper.savePrintln(inputMsg + in);
 
             switch (homeOptions.get(in)) {
 
                 // MusicPlayer Controls
                 case HomeOption.LIST:
-                    share.savePrint(musicPlayer.getSongList());
+                    terminalHelper.savePrint(musicPlayer.getSongList());
                     break;
                 case HomeOption.PLAY:
                     int songId;
                     try {
-                         songId = inputFunc.getInt("Song id: ");
+                         songId = terminalInput.getInt("Song id: ");
                     } catch (IOException | InterruptedException e) {
-                        share.savePrintln("an error has curd");
+                        terminalHelper.savePrintln("an error has curd");
                         quid();
                         return;
                     }
@@ -88,14 +90,14 @@ public class HomeMenu extends Menu {
                     if (menuMgr.startSong(songId)) {
                         clear();
                         songMenu.start();
-                    } else share.savePrintln("cannot load Song");
+                    } else terminalHelper.savePrintln("cannot load Song");
                     break;
                 case HomeOption.MIX:
                     break;
                 case HomeOption.RELOAD:
-                    share.savePrintln("Reloading Songs ...");
+                    terminalHelper.savePrintln("Reloading Songs ...");
                     musicPlayer.reloadDir();
-                    share.savePrintln("Done!");
+                    terminalHelper.savePrintln("Done!");
                     break;
 
                 // TUI Controls
@@ -106,11 +108,11 @@ public class HomeMenu extends Menu {
                     clear();
                     break;
                 case HomeOption.HELP: // show options
-                    share.savePrintln(optionsMenu);
+                    terminalHelper.savePrintln(optionsMenu);
                     break;
                 case null:
                 default:
-                    share.savePrintln(unknownMsg);
+                    terminalHelper.savePrintln(unknownMsg);
                     break;
             }
         }
