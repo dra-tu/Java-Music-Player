@@ -5,7 +5,7 @@ import MusicPlayer.TimeStamp;
 
 import java.util.HashMap;
 
-public class TerminalInput implements Runnable {
+public class TUIMenuMgr implements Runnable {
     InputFunc inputFunc;
     TerminalPosition startPos;
     TerminalLock termLock;
@@ -32,7 +32,7 @@ public class TerminalInput implements Runnable {
                 
                 """;
 
-    public TerminalInput(TerminalPosition startPos, MusicPlayer musicPlayer, TerminalLock termLock) {
+    public TUIMenuMgr(TerminalPosition startPos, MusicPlayer musicPlayer, TerminalLock termLock) {
         this.startPos = startPos;
         this.musicPlayer = musicPlayer;
         this.termLock = termLock;

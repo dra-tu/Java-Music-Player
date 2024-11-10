@@ -49,7 +49,7 @@ public class TUI {
         );
         Thread updaterThread = new Thread(updater);
 
-        TerminalInput inputController = new TerminalInput(
+        TUIMenuMgr inputController = new TUIMenuMgr(
                 new TerminalPosition(1, 3),
                 musicPlayer,
                 termLock
