@@ -24,7 +24,7 @@ public class TUI {
         }
     }
 
-    public void start() throws InterruptedException {
+    public void start() {
         // prepare Terminal
         TerminalControl.clear();
 
@@ -50,7 +50,9 @@ public class TUI {
         updaterThread.start();
 
         // exit the Program
-        menuThread.join();
+        try {
+            menuThread.join();
+        } catch (InterruptedException _) {}
         updaterThread.interrupt();
     }
 }

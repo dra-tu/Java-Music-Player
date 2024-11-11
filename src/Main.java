@@ -1,7 +1,7 @@
 import TUI.TUI;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
         int maxLoadSongs = 3;
         String musicDir = "/home/dratu/Music/";
