@@ -90,9 +90,10 @@ public class HomeMenu extends MenuBase {
                     if (menuMgr.startSong(songId)) {
                         clear();
                         songMenu.start();
-                    } else terminalHelper.savePrintln("cannot load Song");
+                    }
                     break;
                 case HomeOption.MIX:
+                    menuMgr.startMixPlay();
                     break;
                 case HomeOption.RELOAD:
                     terminalHelper.savePrintln("Reloading Songs ...");
