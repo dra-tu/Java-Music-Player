@@ -4,11 +4,14 @@ public class Main {
     public static void main(String[] args) {
 
         int maxLoadSongs = 3;
-        String musicDir = "/home/dratu/Music/";
+
+        if(args.length == 0) {
+            System.out.println("Pleas insert Dir");
+            return;
+        }
 
         TUI tui = new TUI(maxLoadSongs);
-        tui.setDir(musicDir);
-        tui.start();
+        tui.start(args[0]);
 
     }
 }

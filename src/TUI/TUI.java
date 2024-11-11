@@ -16,15 +16,20 @@ public class TUI {
         termLock = new TerminalLock();
     }
 
-    public void setDir(String dirPath) {
+    public boolean setDir(String dirPath){
         if (musicPlayer.useDir(dirPath)) {
-            System.out.println(dirPath + " Loaded!");
+            System.out.println(dirPath + "Directory Loaded!");
+            return true;
         } else {
-            System.out.println(dirPath + "can not be Loaded!!!!!!!!!!");
+            System.out.println("cant load Directory: " + dirPath);
+            return false;
         }
     }
 
-    public void start() {
+    public void start(String dirPath) {
+
+        if(!setDir(dirPath)) return;
+
         // prepare Terminal
         TerminalControl.clear();
 
