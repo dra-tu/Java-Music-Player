@@ -7,7 +7,6 @@ import TUI.Terminal.TerminalHelper;
 import TUI.Terminal.TerminalLock;
 import TUI.Terminal.TerminalPosition;
 
-
 public class MenuManager implements Runnable {
     MusicPlayer musicPlayer;
 
@@ -24,6 +23,7 @@ public class MenuManager implements Runnable {
         homeMenu = new HomeMenu(startPos, musicPlayer, termLock, terminalHelper, inFunc, this, songMenu);
     }
 
+    // TODO: wired position in code(think about it and maybe move)
     public boolean startSong(int SongId) {
         System.out.println("Loading Song ID " + SongId + " ...");
 
@@ -42,6 +42,13 @@ public class MenuManager implements Runnable {
             System.out.println("cannot play Song  :(");
             return false;
         }
+
+        return true;
+    }
+
+    // TODO: implement method
+    // TODO: wired position in code(think about it and maybe move)
+    public boolean startMixPlay() {
 
         return true;
     }
