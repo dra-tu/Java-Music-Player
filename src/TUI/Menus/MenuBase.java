@@ -38,9 +38,11 @@ public abstract class MenuBase {
         termLock.unlockTerminal();
     }
 
-    public void start() {
+    // 0: normal exit (user)
+    // 1: Exception
+    public int start() {
         setUp();
-        action();
+        return action();
     }
 
     void setUp() {
@@ -49,6 +51,6 @@ public abstract class MenuBase {
         termLock.unlockTerminal();
     }
 
-    abstract void action();
+    abstract int action();
     abstract void quid();
 }

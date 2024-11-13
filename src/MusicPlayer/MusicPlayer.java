@@ -69,6 +69,10 @@ public class MusicPlayer {
         return out.toString();
     }
 
+    public Song[] getSongs() {
+        return songs;
+    }
+
     public LoadedSong getCurrentSong() {
         return currentSong;
     }

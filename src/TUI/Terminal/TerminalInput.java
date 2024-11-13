@@ -48,7 +48,5 @@ public class TerminalInput {
                 throw new InterruptedException("Interrupted while reading input");
             }
         }
-
-
     }
 }

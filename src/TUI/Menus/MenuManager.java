@@ -1,13 +1,16 @@
 package TUI.Menus;
 
 import MusicPlayer.MusicPlayer;
+import MusicPlayer.Types.Song;
 import TUI.TUI;
 import TUI.Terminal.TerminalInput;
 import TUI.Terminal.TerminalHelper;
 import TUI.Terminal.TerminalLock;
 import TUI.Terminal.TerminalPosition;
 
-public class MenuManager implements Runnable {
+import java.util.Random;
+
+public class MenuManager {
     MusicPlayer musicPlayer;
 
     SongMenu songMenu;
@@ -46,15 +49,22 @@ public class MenuManager implements Runnable {
         return true;
     }
 
-    // TODO: implement method
     // TODO: wired position in code(think about it and maybe move)
     public boolean startMixPlay() {
+        Song[] songs = musicPlayer.getSongs();
+        int status;
+
+        do {
+            Random rng = new Random();
+            startSong(rng.nextInt(0, songs.length));
+            songMenu.clear();
+            status = songMenu.start();
+        } while(status != 0);
 
         return true;
     }
 
-    @Override
-    public void run() {
+    public void start() {
         homeMenu.start();
     }
 }

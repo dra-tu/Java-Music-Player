@@ -41,23 +41,19 @@ public class TUI {
                 termLock,
                 this
         );
-        Thread menuThread = new Thread(menuMgr);
 
         TUISongDisplay songUiUpdater = new TUISongDisplay(
-                menuThread,
+                Thread.currentThread(),
                 musicPlayer,
                 termLock
         );
         Thread updaterThread = new Thread(songUiUpdater);
 
         // Starting the Threads
-        menuThread.start();
         updaterThread.start();
+        menuMgr.start();
 
         // exit the Program
-        try {
-            menuThread.join();
-        } catch (InterruptedException _) {}
         updaterThread.interrupt();
     }
 }

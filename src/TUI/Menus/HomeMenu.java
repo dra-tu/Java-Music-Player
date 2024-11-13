@@ -59,14 +59,14 @@ public class HomeMenu extends MenuBase {
     }
 
     @Override
-    void action() {
+    int action() {
         String in;
         while (true) {
             try {
                 in = terminalInput.getString(prompt);
             } catch (IOException | InterruptedException e) {
                 quid();
-                return;
+                return 1;
             }
             terminalHelper.savePrintln(inputMsg + in);
 
@@ -83,7 +83,7 @@ public class HomeMenu extends MenuBase {
                     } catch (IOException | InterruptedException e) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
-                        return;
+                        return 1;
                     }
                     clear();
 
@@ -104,7 +104,7 @@ public class HomeMenu extends MenuBase {
                 // TUI Controls
                 case HomeOption.QUIT: // Quit
                     quid();
-                    return;
+                    return 0;
                 case HomeOption.CLEAR: // cLear
                     clear();
                     break;

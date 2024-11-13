@@ -57,7 +57,7 @@ public class SongMenu extends MenuBase {
     }
 
     @Override
-    void action() {
+    int action() {
         String in;
         TimeStamp jumpTime;
 
@@ -67,7 +67,7 @@ public class SongMenu extends MenuBase {
                 in = terminalInput.getString(prompt);
             } catch (IOException | InterruptedException e) {
                 quid();
-                return;
+                return 1;
             }
             terminalHelper.savePrintln(inputMsg + in);
 
@@ -86,7 +86,7 @@ public class SongMenu extends MenuBase {
                     } catch (IOException | InterruptedException e) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
-                        return;
+                        return 1;
                     }
                     musicPlayer.jumpTo(jumpTime);
                     break;
@@ -96,7 +96,7 @@ public class SongMenu extends MenuBase {
                     } catch (IOException | InterruptedException e) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
-                        return;
+                        return 1;
                     }
                     musicPlayer.skipTime(jumpTime);
                     break;
@@ -106,7 +106,7 @@ public class SongMenu extends MenuBase {
                     } catch (IOException | InterruptedException e) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
-                        return;
+                        return 1;
                     }
                     musicPlayer.rewindTime(jumpTime);
                     break;
@@ -114,7 +114,7 @@ public class SongMenu extends MenuBase {
                 // TUI Controls
                 case SongOption.QUIT: // Quit
                     quid();
-                    return;
+                    return 0;
                 case SongOption.CLEAR: // cLear
                     clear();
                     break;
