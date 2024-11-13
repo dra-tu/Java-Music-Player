@@ -10,10 +10,8 @@ import TUI.Terminal.TerminalLock;
 import TUI.Terminal.TerminalPosition;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class SongMenu extends MenuBase {
-    HashMap<String, SongOption> songOptions = new HashMap<>();
 
     // set Menu specific Strings in here
     public SongMenu(
@@ -27,27 +25,6 @@ public class SongMenu extends MenuBase {
 
         prompt = "Select option [p/c/q/.../? shows all options]: ";
         exitMsg = "Song done";
-        optionsMenu = """
-                
-                p: Pause
-                c: Continue
-                j: Jump
-                k: sKips
-                r: Rewind
-                l: cLear
-                ?: help
-                q: Quit
-                
-                """;
-
-        songOptions.put("p", SongOption.PAUSE);
-        songOptions.put("c", SongOption.CONTINUE);
-        songOptions.put("j", SongOption.JUMP);
-        songOptions.put("k", SongOption.SKIP);
-        songOptions.put("r", SongOption.REWIND);
-        songOptions.put("l", SongOption.CLEAR);
-        songOptions.put("q", SongOption.QUIT);
-        songOptions.put("?", SongOption.HELP);
     }
 
     void quid() {
@@ -71,7 +48,7 @@ public class SongMenu extends MenuBase {
             }
             terminalHelper.savePrintln(inputMsg + in);
 
-            switch (songOptions.get(in)) {
+            switch (SongOption.getByKey(in)) {
 
                 // MusicPlayer Controls
                 case SongOption.PAUSE: // Pause
@@ -119,7 +96,7 @@ public class SongMenu extends MenuBase {
                     clear();
                     break;
                 case SongOption.HELP: // show options
-                    terminalHelper.savePrintln(optionsMenu);
+                    terminalHelper.savePrintln(SongOption.getHelpString());
                     break;
                 case null:
                 default:

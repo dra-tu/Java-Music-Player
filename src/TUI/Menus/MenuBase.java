@@ -9,7 +9,6 @@ public abstract class MenuBase {
     String unknownMsg = "unknown Option";
     String exitMsg = "BY";
     String inputMsg = "=> ";
-    String optionsMenu = "no Options";
 
     TerminalPosition startPos;
     TerminalHelper terminalHelper;

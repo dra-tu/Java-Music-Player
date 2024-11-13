@@ -9,13 +9,10 @@ import TUI.Terminal.TerminalLock;
 import TUI.Terminal.TerminalPosition;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class HomeMenu extends MenuBase {
     MenuManager menuMgr;
     SongMenu songMenu;
-
-    HashMap<String, HomeOption> homeOptions = new HashMap<>();
 
     public HomeMenu(
             TerminalPosition startPos,
@@ -33,25 +30,6 @@ public class HomeMenu extends MenuBase {
 
         prompt = "Select option [i/q/m/.../? shows all options]: ";
         exitMsg = "Have a great day!";
-        optionsMenu = """
-                
-                i: lIst
-                p: Play
-                m: Mix
-                r: Reload
-                l: cLear
-                ?: help
-                q: Quit
-                
-                """;
-
-        homeOptions.put("i", HomeOption.LIST);
-        homeOptions.put("p", HomeOption.PLAY);
-        homeOptions.put("m", HomeOption.MIX);
-        homeOptions.put("r", HomeOption.RELOAD);
-        homeOptions.put("l", HomeOption.CLEAR);
-        homeOptions.put("?", HomeOption.HELP);
-        homeOptions.put("q", HomeOption.QUIT);
     }
 
     void quid() {
@@ -70,7 +48,7 @@ public class HomeMenu extends MenuBase {
             }
             terminalHelper.savePrintln(inputMsg + in);
 
-            switch (homeOptions.get(in)) {
+            switch (HomeOption.getByKey(in)) {
 
                 // MusicPlayer Controls
                 case HomeOption.LIST:
@@ -109,7 +87,7 @@ public class HomeMenu extends MenuBase {
                     clear();
                     break;
                 case HomeOption.HELP: // show options
-                    terminalHelper.savePrintln(optionsMenu);
+                    terminalHelper.savePrintln(HomeOption.getHelpString());
                     break;
                 case null:
                 default:
