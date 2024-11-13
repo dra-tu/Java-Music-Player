@@ -16,7 +16,7 @@ public class MenuManager {
     SongMenu songMenu;
     HomeMenu homeMenu;
 
-    public MenuManager(TerminalPosition startPos, MusicPlayer musicPlayer, TerminalLock termLock, TUI tui) {
+    public MenuManager(TerminalPosition startPos, MusicPlayer musicPlayer, TerminalLock termLock) {
         this.musicPlayer = musicPlayer;
 
         TerminalHelper terminalHelper = new TerminalHelper(termLock);
@@ -50,7 +50,7 @@ public class MenuManager {
     }
 
     // TODO: wired position in code(think about it and maybe move)
-    public boolean startMixPlay() {
+    public void startMixPlay() {
         Song[] songs = musicPlayer.getSongs();
         int status;
 
@@ -60,8 +60,6 @@ public class MenuManager {
             songMenu.clear();
             status = songMenu.start();
         } while(status != 0);
-
-        return true;
     }
 
     public void start() {

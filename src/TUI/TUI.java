@@ -38,8 +38,7 @@ public class TUI {
         MenuManager menuMgr = new MenuManager(
                 new TerminalPosition(1, 3),
                 musicPlayer,
-                termLock,
-                this
+                termLock
         );
 
         TUISongDisplay songUiUpdater = new TUISongDisplay(

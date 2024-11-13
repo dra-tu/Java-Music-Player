@@ -97,8 +97,8 @@ public class HomeMenu extends MenuBase {
                     break;
                 case HomeOption.RELOAD:
                     terminalHelper.savePrintln("Reloading Songs ...");
-                    musicPlayer.reloadDir();
-                    terminalHelper.savePrintln("Done!");
+                    String out = musicPlayer.reloadDir() ? "Done!" : "can not load Songs";
+                    terminalHelper.savePrintln(out);
                     break;
 
                 // TUI Controls
