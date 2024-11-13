@@ -113,6 +113,8 @@ public class MusicPlayer {
 
     public void unloadSong(int songId) {
         if(currentSong.getSongId() == songId) return;
+
+        loadedSongs.get(songId).unload();
         loadedSongs.remove(songId);
     }
 

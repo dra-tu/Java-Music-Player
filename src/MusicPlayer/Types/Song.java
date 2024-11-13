@@ -37,6 +37,9 @@ public class Song {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
+
+            audioStream.close();
+
             return clip;
 
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
