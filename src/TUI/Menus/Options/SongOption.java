@@ -3,12 +3,12 @@ package TUI.Menus.Options;
 import java.util.HashMap;
 
 public enum SongOption {
-    PAUSE("p", "Pause"),
-    CONTINUE("c", "Continue"),
-    JUMP("j", "Jump"),
-    SKIP("k", "sKips"),
-    REWIND("r", "Rewind"),
-    CLEAR("l", "cLear"),
+    PAUSE("pa", "Pause"),
+    CONTINUE("co", "Continue"),
+    JUMP("ju", "Jump"),
+    SKIP("sk", "Skips"),
+    REWIND("re", "Rewind"),
+    CLEAR("cl", "Clear"),
     QUIT("q", "Quit"),
     HELP("?", "Help");
 

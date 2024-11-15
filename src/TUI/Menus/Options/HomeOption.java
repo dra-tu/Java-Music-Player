@@ -3,12 +3,12 @@ package TUI.Menus.Options;
 import java.util.HashMap;
 
 public enum HomeOption {
-    LIST("i", "lIst"),
-    PLAY("p", "Play"),
-    MIX("m", "Mix"),
-    RELOAD("r", "Reload"),
-    CLEAR("l", "cLear"),
-    HELP("?", "help"),
+    LIST("li", "List"),
+    PLAY("pl", "Play"),
+    MIX("mi", "Mix"),
+    RELOAD("re", "Reload"),
+    CLEAR("cl", "Clear"),
+    HELP("?", "Help"),
     QUIT("q", "Quit");
 
     // this part is the same in all Option Enums

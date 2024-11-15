@@ -28,7 +28,7 @@ public class HomeMenu extends MenuBase {
         this.menuMgr = mgr;
         this.songMenu = songMenu;
 
-        prompt = "Select option [i/q/m/.../? shows all options]: ";
+        prompt = "Select option [li/pl/mi/.../? shows all options]: ";
         exitMsg = "Have a great day!";
     }
 
