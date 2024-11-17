@@ -2,7 +2,6 @@ import TUI.TUI;
 
 public class Main {
     public static void main(String[] args) {
-
         int maxLoadSongs = 3;
 
         if(args.length == 0) {
