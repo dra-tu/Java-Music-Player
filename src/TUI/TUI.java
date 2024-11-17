@@ -2,14 +2,22 @@ package TUI;
 
 import MusicPlayer.MusicPlayer;
 
+import MusicPlayer.Types.Song;
+
 import TUI.Menus.MenuManager;
+import TUI.Menus.SongMenu;
+
+import TUI.Terminal.TerminalColor;
 import TUI.Terminal.TerminalControl;
 import TUI.Terminal.TerminalLock;
 import TUI.Terminal.TerminalPosition;
 
+import java.util.Random;
+
 public class TUI {
     volatile MusicPlayer musicPlayer;
     TerminalLock termLock;
+    MenuManager menuMgr;
 
     public TUI(int maxLoadSongs) {
         musicPlayer = new MusicPlayer(maxLoadSongs);
@@ -35,10 +43,11 @@ public class TUI {
 
         // create obj to be multithreaded
         // Creating Threads to update the ui and listen to inputController
-        MenuManager menuMgr = new MenuManager(
+        menuMgr = new MenuManager(
                 new TerminalPosition(1, 3),
                 musicPlayer,
-                termLock
+                termLock,
+                this
         );
 
         TUISongDisplay songUiUpdater = new TUISongDisplay(
@@ -54,5 +63,40 @@ public class TUI {
 
         // exit the Program
         updaterThread.interrupt();
+    }
+
+    public boolean playtSong(int SongId) {
+        System.out.println("Loading Song ID " + SongId + " ...");
+
+        // des hier kann normal nicht gesehen werden
+        // ist dafür da fals was schif geht
+        int loadResold = musicPlayer.loadSong(SongId);
+        if (loadResold == -1) {
+            System.out.println( TerminalColor.RED +  "cannot load Song  :(" + TerminalColor.RESET);
+            return false;
+        }
+
+        System.out.println("Song loaded");
+        System.out.println("Start playing Song ...");
+
+        if (!musicPlayer.playSong(SongId)) {
+            System.out.println("cannot play Song  :(");
+            return false;
+        }
+
+        return true;
+    }
+
+    public void startMixPlay() {
+        Song[] songs = musicPlayer.getSongs();
+        SongMenu songMenu = menuMgr.getSongMenu();
+
+        int status;
+        do {
+            Random rng = new Random();
+            playtSong(rng.nextInt(0, songs.length));
+            songMenu.clear();
+            status = songMenu.start();
+        } while(status != 0);
     }
 }

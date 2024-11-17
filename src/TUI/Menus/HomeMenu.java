@@ -5,6 +5,7 @@ import MusicPlayer.Types.Song;
 
 import TUI.Menus.Options.HomeOption;
 
+import TUI.TUI;
 import TUI.Terminal.TerminalInput;
 import TUI.Terminal.TerminalHelper;
 import TUI.Terminal.TerminalLock;
@@ -13,7 +14,7 @@ import TUI.Terminal.TerminalPosition;
 import java.io.IOException;
 
 public class HomeMenu extends MenuBase {
-    MenuManager menuMgr;
+    TUI tui;
     SongMenu songMenu;
 
     String songList;
@@ -24,12 +25,12 @@ public class HomeMenu extends MenuBase {
             TerminalLock termLock,
             TerminalHelper terminalHelper,
             TerminalInput terminalInput,
-            MenuManager mgr,
+            TUI tui,
             SongMenu songMenu
     ) {
         super(startPos, musicPlayer, termLock, terminalHelper, terminalInput);
 
-        this.menuMgr = mgr;
+        this.tui = tui;
         this.songMenu = songMenu;
 
         songList = genSongList();
@@ -86,13 +87,13 @@ public class HomeMenu extends MenuBase {
                     }
                     clear();
 
-                    if (menuMgr.startSong(songId)) {
+                    if (tui.playtSong(songId)) {
                         clear();
                         songMenu.start();
                     }
                     break;
                 case HomeOption.MIX:
-                    menuMgr.startMixPlay();
+                    tui.startMixPlay();
                     break;
                 case HomeOption.RELOAD:
                     terminalHelper.savePrintln("Reloading Songs ...");

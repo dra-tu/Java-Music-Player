@@ -30,7 +30,7 @@ public abstract class MenuBase {
         this.terminalInput = terminalInput;
     }
 
-    void clear() {
+    public void clear() {
         termLock.lockTerminal();
         TerminalControl.clear();
         TerminalControl.setCursorPos(startPos);
