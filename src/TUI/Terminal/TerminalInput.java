@@ -27,12 +27,6 @@ public class TerminalInput {
         return scanner.nextInt();
     }
 
-    public float getFloat(String prompt) throws IOException, InterruptedException {
-        terminalHelper.savePrint(prompt);
-        waitForStuff();
-        return scanner.nextFloat();
-    }
-
     public TimeStamp getTimeStamp() throws IOException, InterruptedException {
         int minute = getInt("minute? ");
         int second = getInt("second? ");
