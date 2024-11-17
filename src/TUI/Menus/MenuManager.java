@@ -3,10 +3,11 @@ package TUI.Menus;
 import MusicPlayer.MusicPlayer;
 import MusicPlayer.Types.Song;
 
-import TUI.Terminal.TerminalInput;
-import TUI.Terminal.TerminalHelper;
+import TUI.Terminal.TerminalColor;
 import TUI.Terminal.TerminalLock;
+import TUI.Terminal.TerminalHelper;
 import TUI.Terminal.TerminalPosition;
+import TUI.Terminal.TerminalInput;
 
 import java.util.Random;
 
@@ -34,7 +35,7 @@ public class MenuManager {
         // ist dafür da fals was schif geht
         int loadResold = musicPlayer.loadSong(SongId);
         if (loadResold == -1) {
-            System.out.println("cannot load Song  :(");
+            System.out.println( TerminalColor.RED +  "cannot load Song  :(" + TerminalColor.RESET);
             return false;
         }
 

@@ -77,9 +77,9 @@ public class MusicPlayer {
     }
 
     public int loadSong(int songId) {
-        if(loadedSongs.size() == maxLoadedSongs) shiftLoadedSongs();
+        if(songId > songs.length || songId < 0) return -1; // can not load Song
 
-        // final int SONG_ID = songs[songId].getSongId();
+        if(loadedSongs.size() == maxLoadedSongs) shiftLoadedSongs();
 
         // load Song and save it in HasMap
         LoadedSong song = new LoadedSong();
