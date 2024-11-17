@@ -1,7 +1,7 @@
 package TUI.Menus;
 
 import MusicPlayer.MusicPlayer;
-import MusicPlayer.Types.TimeStamp;
+import TUI.TimeStamp;
 
 import TUI.Terminal.TerminalInput;
 import TUI.Menus.Options.SongOption;
@@ -65,7 +65,7 @@ public class SongMenu extends MenuBase {
                         quid();
                         return 1;
                     }
-                    musicPlayer.jumpTo(jumpTime);
+                    musicPlayer.jumpTo(jumpTime.getMicroseconds());
                     break;
                 case SongOption.SKIP: // sKips
                     try {
@@ -75,7 +75,7 @@ public class SongMenu extends MenuBase {
                         quid();
                         return 1;
                     }
-                    musicPlayer.skipTime(jumpTime);
+                    musicPlayer.skipTime(jumpTime.getMicroseconds());
                     break;
                 case SongOption.REWIND: // Rewind
                     try {
@@ -85,7 +85,7 @@ public class SongMenu extends MenuBase {
                         quid();
                         return 1;
                     }
-                    musicPlayer.rewindTime(jumpTime);
+                    musicPlayer.rewindTime(jumpTime.getMicroseconds());
                     break;
 
                 // TUI Controls

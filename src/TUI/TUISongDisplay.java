@@ -1,7 +1,6 @@
 package TUI;
 
 import MusicPlayer.MusicPlayer;
-import MusicPlayer.Types.TimeStamp;
 import MusicPlayer.Types.LoadedSong;
 
 import TUI.Terminal.TerminalControl;
@@ -26,9 +25,9 @@ public class TUISongDisplay implements Runnable {
     }
 
     private void SongMenuStart() {
-        TimeStamp songLength;
+        long songLength;
         String songName;
-        TimeStamp currentTime;
+        long currentTime;
 
         while (true) {
             LoadedSong song = musicPlayer.getCurrentSong();
@@ -39,9 +38,13 @@ public class TUISongDisplay implements Runnable {
                 songLength = song.getMaxTime();
                 songName = song.getName();
 
-                printSongInfo(currentTime.getFormatted(), songLength.getFormatted(), songName);
+                printSongInfo(
+                        TimeStamp.format(currentTime),
+                        TimeStamp.format(songLength),
+                        songName
+                );
 
-                if((songLength.compareTo(currentTime) == 0)) {
+                if(songLength == currentTime) {
                     menuThread.interrupt();
                 }
             }

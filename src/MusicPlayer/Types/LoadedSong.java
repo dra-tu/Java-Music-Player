@@ -31,20 +31,20 @@ public class LoadedSong {
         return SONG_ID;
     }
 
-    public void setTime(TimeStamp time) {
-        clip.setMicrosecondPosition(time.toMicroseconds());
+    public void setTime(long timeMicroseconds) {
+        clip.setMicrosecondPosition(timeMicroseconds);
     }
 
     public void setTimeToStart() {
-        clip.setMicrosecondPosition(0L);
+        setTime(0L);
     }
 
-    public TimeStamp getCurrentTime() {
-        return new TimeStamp(clip.getMicrosecondPosition());
+    public long getCurrentTime() {
+        return clip.getMicrosecondPosition();
     }
 
-    public TimeStamp getMaxTime() {
-        return new TimeStamp(clip.getMicrosecondLength());
+    public long getMaxTime() {
+        return clip.getMicrosecondLength();
     }
 
     public String getName() {

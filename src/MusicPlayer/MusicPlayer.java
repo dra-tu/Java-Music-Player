@@ -2,7 +2,6 @@ package MusicPlayer;
 
 import MusicPlayer.Types.LoadedSong;
 import MusicPlayer.Types.Song;
-import MusicPlayer.Types.TimeStamp;
 
 import java.io.File;
 import java.util.Arrays;
@@ -77,21 +76,20 @@ public class MusicPlayer {
         return currentSong;
     }
 
-    public int loadSong(int number) {
-
+    public int loadSong(int songId) {
         if(loadedSongs.size() == maxLoadedSongs) shiftLoadedSongs();
 
-        final int SONG_ID = songs[number].getSongId();
+        // final int SONG_ID = songs[songId].getSongId();
 
         // load Song and save it in HasMap
         LoadedSong song = new LoadedSong();
-        boolean loadWorked = song.loadSong(songs[number]);
+        boolean loadWorked = song.loadSong(songs[songId]);
         if(!loadWorked) return -1; // can not load Song
-        if(loadedSongs.containsKey(SONG_ID)) return 1; // can not load same Song two times
-        loadedSongs.put(SONG_ID, song);
+        if(loadedSongs.containsKey(songId)) return 1; // can not load same Song two times
+        loadedSongs.put(songId, song);
 
         // make reference to new Song in loadSlots Array
-        loadHistory[nextOpenLoadHistorySlot] = SONG_ID;
+        loadHistory[nextOpenLoadHistorySlot] = songId;
         nextOpenLoadHistorySlot++;
 
         return 0;
@@ -132,19 +130,19 @@ public class MusicPlayer {
         currentSong.start();
     }
 
-    public void jumpTo(TimeStamp jumpTime) {
+    public void jumpTo(long jumpTime) {
         currentSong.setTime(jumpTime);
     }
 
-    public void skipTime(TimeStamp skipTime) {
+    public void skipTime(long skipTime) {
         currentSong.setTime(
-                TimeStamp.add(currentSong.getCurrentTime(), skipTime)
+                currentSong.getCurrentTime() + skipTime
         );
     }
 
-    public void rewindTime(TimeStamp rewindTime) {
+    public void rewindTime(long rewindTime) {
         currentSong.setTime(
-                TimeStamp.subtract(currentSong.getCurrentTime(), rewindTime)
+                currentSong.getCurrentTime() - rewindTime
         );
     }
 
