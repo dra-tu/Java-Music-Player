@@ -23,7 +23,7 @@ public class Song {
     }
 
     public boolean setFile(File file) {
-        if( !(file.isFile() && file.getName().endsWith(".wav")) ) return false;
+        if( !file.isFile() || !file.getName().endsWith(".wav") ) return false;
 
         this.file = file;
         this.name = file.getName().replaceAll(".wav", "");
