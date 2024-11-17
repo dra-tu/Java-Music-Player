@@ -54,20 +54,6 @@ public class MusicPlayer {
         return useDir(rootDir.getPath());
     }
 
-    public String getSongList() {
-        StringBuilder out = new StringBuilder();
-
-        for(Song song: songs) {
-            out.append(" - (")
-                    .append( String.format("%3d", song.getSongId())) // format of SONG_ID whit lIst in HomeMenu
-                    .append(") ")
-                    .append(song.getName())
-                    .append("\n");
-        }
-
-        return out.toString();
-    }
-
     public Song[] getSongs() {
         return songs;
     }

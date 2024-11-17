@@ -1,9 +1,11 @@
 package TUI.Menus;
 
 import MusicPlayer.MusicPlayer;
+import MusicPlayer.Types.Song;
+
+import TUI.Menus.Options.HomeOption;
 
 import TUI.Terminal.TerminalInput;
-import TUI.Menus.Options.HomeOption;
 import TUI.Terminal.TerminalHelper;
 import TUI.Terminal.TerminalLock;
 import TUI.Terminal.TerminalPosition;
@@ -13,6 +15,8 @@ import java.io.IOException;
 public class HomeMenu extends MenuBase {
     MenuManager menuMgr;
     SongMenu songMenu;
+
+    String songList;
 
     public HomeMenu(
             TerminalPosition startPos,
@@ -28,12 +32,29 @@ public class HomeMenu extends MenuBase {
         this.menuMgr = mgr;
         this.songMenu = songMenu;
 
+        songList = genSongList();
+
         prompt = "Select option [li/pl/mi/.../? shows all options]: ";
         exitMsg = "Have a great day!";
     }
 
     void quid() {
         terminalHelper.savePrintln(exitMsg);
+    }
+
+    private String  genSongList() {
+        StringBuilder out = new StringBuilder();
+        Song[] songs = musicPlayer.getSongs();
+
+        for(Song song: songs) {
+            out.append(" - (")
+                    .append( String.format("%3d", song.getSongId())) // format of SONG_ID whit lIst in HomeMenu
+                    .append(") ")
+                    .append(song.getName())
+                    .append("\n");
+        }
+
+        return out.toString();
     }
 
     @Override
@@ -52,7 +73,7 @@ public class HomeMenu extends MenuBase {
 
                 // MusicPlayer Controls
                 case HomeOption.LIST:
-                    terminalHelper.savePrint(musicPlayer.getSongList());
+                    terminalHelper.savePrint(songList);
                     break;
                 case HomeOption.PLAY:
                     int songId;
@@ -76,6 +97,7 @@ public class HomeMenu extends MenuBase {
                 case HomeOption.RELOAD:
                     terminalHelper.savePrintln("Reloading Songs ...");
                     String out = musicPlayer.reloadDir() ? "Done!" : "can not load Songs";
+                    songList = genSongList();
                     terminalHelper.savePrintln(out);
                     break;
 
