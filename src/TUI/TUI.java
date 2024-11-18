@@ -24,25 +24,13 @@ public class TUI {
         termLock = new TerminalLock();
     }
 
-    public boolean setDir(String dirPath){
-        if (musicPlayer.useDir(dirPath)) {
-            System.out.println(dirPath + "Directory Loaded!");
-            return true;
-        } else {
-            System.out.println("cant load Directory: " + dirPath);
-            return false;
-        }
-    }
-
     public void start(String dirPath) {
 
-        if(!setDir(dirPath)) return;
+        if (!setDir(dirPath)) return;
 
         // prepare Terminal
         TerminalControl.clear();
 
-        // create obj to be multithreaded
-        // Creating Threads to update the ui and listen to inputController
         menuMgr = new MenuManager(
                 new TerminalPosition(1, 3),
                 musicPlayer,
@@ -55,24 +43,33 @@ public class TUI {
                 musicPlayer,
                 termLock
         );
-        Thread updaterThread = new Thread(songUiUpdater);
 
         // Starting the Threads
-        updaterThread.start();
+        songUiUpdater.start();
         menuMgr.start();
 
         // exit the Program
-        updaterThread.interrupt();
+        songUiUpdater.interrupt();
     }
 
-    public boolean playtSong(int SongId) {
+    public boolean setDir(String dirPath) {
+        if (musicPlayer.useDir(dirPath)) {
+            System.out.println(dirPath + "Directory Loaded!");
+            return true;
+        } else {
+            System.out.println("cant load Directory: " + dirPath);
+            return false;
+        }
+    }
+
+    public boolean playSong(int SongId) {
         System.out.println("Loading Song ID " + SongId + " ...");
 
         // des hier kann normal nicht gesehen werden
         // ist dafür da fals was schif geht
         int loadResold = musicPlayer.loadSong(SongId);
         if (loadResold == -1) {
-            System.out.println( TerminalColor.RED +  "cannot load Song  :(" + TerminalColor.RESET);
+            System.out.println(TerminalColor.RED + "cannot load Song  :(" + TerminalColor.RESET);
             return false;
         }
 
@@ -94,7 +91,7 @@ public class TUI {
         int status;
         do {
             Random rng = new Random();
-            playtSong(rng.nextInt(0, songs.length));
+            playSong(rng.nextInt(0, songs.length));
             songMenu.clear();
             status = songMenu.start();
         } while(status != 0);

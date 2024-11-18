@@ -7,7 +7,7 @@ import TUI.Terminal.TerminalControl;
 import TUI.Terminal.TerminalLock;
 import TUI.Terminal.TerminalPosition;
 
-public class TUISongDisplay implements Runnable {
+public class TUISongDisplay extends Thread {
     Thread menuThread;
     MusicPlayer musicPlayer;
     TerminalLock termLock;
