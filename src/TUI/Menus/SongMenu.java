@@ -22,7 +22,7 @@ public class SongMenu extends MenuBase {
     ) {
         super(startPos, musicPlayer, termLock, terminalHelper, terminalInput);
 
-        prompt = "Select option [pa/co/q/.../? shows all options]: ";
+        prompt = "Select option [p/o/q/.../? shows all options]: ";
         exitMsg = "Song done";
     }
 

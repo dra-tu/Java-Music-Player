@@ -35,7 +35,7 @@ public class HomeMenu extends MenuBase {
 
         songList = genSongList();
 
-        prompt = "Select option [li/pl/mi/.../? shows all options]: ";
+        prompt = "Select option [l/p/m/.../? shows all options]: ";
         exitMsg = "Have a great day!";
     }
 
