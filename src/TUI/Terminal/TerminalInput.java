@@ -27,11 +27,11 @@ public class TerminalInput {
         return scanner.nextInt();
     }
 
-    public TimeStamp getTimeStamp() throws IOException, InterruptedException {
+    public long getTimeStamp() throws IOException, InterruptedException {
         int minute = getInt("minute? ");
         int second = getInt("second? ");
 
-        return new TimeStamp(minute, second);
+        return TimeStamp.toMicroseconds(minute, second);
     }
 
     private void waitForStuff() throws IOException, InterruptedException {
