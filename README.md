@@ -5,7 +5,7 @@ Musicplayer writen in Java for wav files.
 ## Installation
 ### Dependencies
 - java
-  - buid and testet whit java-23
+  - build and tested whit java-23
 ### Download
 Can be found in Releases
 
@@ -20,6 +20,7 @@ java -jar jmp-v[VERSION].jar [MUSIC DIRECTORY]
 - quit whit q
 
 ## Future plans
+### likely
 - add a gui version
-- improve code
-- suppord for mp3
+### unlikely
+- support for mp3
