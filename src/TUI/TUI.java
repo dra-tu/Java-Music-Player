@@ -31,6 +31,8 @@ public class TUI {
         // prepare Terminal
         TerminalControl.clear();
 
+        // Create the Menu Manager
+        // The Menu Manager will create the Menus(Home and Song)
         menuMgr = new MenuManager(
                 new TerminalPosition(1, 3),
                 musicPlayer,
@@ -38,18 +40,21 @@ public class TUI {
                 this
         );
 
+        // create the song info UI
         TUISongDisplay songUiUpdater = new TUISongDisplay(
                 Thread.currentThread(),
                 musicPlayer,
                 termLock
         );
 
-        // Starting the Threads
+        // start the Menus and the song Info ui
         songUiUpdater.start();
         menuMgr.start();
 
-        // exit the Program
-        songUiUpdater.interrupt();
+        // Menu Manager returning mens that the Home Menu is closed
+        // therefor we can now end the program
+
+        songUiUpdater.interrupt(); // exit the Program
     }
 
     public boolean setDir(String dirPath) {
