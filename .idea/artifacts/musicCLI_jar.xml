@@ -2,7 +2,7 @@
   <artifact type="jar" build-on-make="true" name="musicCLI:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/musicCLI_jar</output-path>
     <root id="archive" name="musicCLI.jar">
-      <element id="module-output" name="musicCLI" />
+      <element id="module-output" name="jmp" />
     </root>
   </artifact>
 </component>
