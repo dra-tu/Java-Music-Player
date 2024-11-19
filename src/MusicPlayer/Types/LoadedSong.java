@@ -14,11 +14,6 @@ public class LoadedSong {
         return clip != null;
     }
 
-    public void unload() {
-        clip.stop();
-        clip.close();
-    }
-
     public void start() {
         clip.start();
     }
