@@ -2,8 +2,6 @@ package tui;
 
 import musicPlayer.MusicPlayer;
 
-import musicPlayer.types.Song;
-
 import tui.menus.MenuManager;
 import tui.menus.SongMenu;
 
@@ -78,12 +76,12 @@ public class TUI {
         return true;
     }
 
-    private boolean loadSong(int songId) {
+    private boolean loadSong(int songId, boolean addToHistory) {
         System.out.println("Loading Song ID " + songId + " ...");
 
         // des hier kann normal nicht gesehen werden
         // ist dafür da fals was schif geht
-        int loadResold = musicPlayer.loadSong(songId);
+        int loadResold = musicPlayer.loadSong(songId, addToHistory);
         if (loadResold == -1) {
             System.out.println(TerminalColor.RED + "cannot load Song  :(" + TerminalColor.RESET);
             return false;
@@ -94,22 +92,42 @@ public class TUI {
         return true;
     }
 
-    public boolean loadAndPlaySong(int songId) {
-        if(!loadSong(songId)) return false;
+    public boolean loadAndPlaySong(int songId, boolean addToHistory) {
+        if(!loadSong(songId, addToHistory)) return false;
         return playSong();
     }
 
     public void mixPlay() {
-        Song[] songs = musicPlayer.getSongs();
+        final int SONG_COUNT = musicPlayer.getSongs().length;
         SongMenu songMenu = menuMgr.getSongMenu();
+        songMenu.setMixPlay(true);
 
         Random rng = new Random();
-        int status;
-        do {
-            loadAndPlaySong(rng.nextInt(0, songs.length));
 
-            songMenu.clear();
+        int historyPos = -1;
+        int status;
+        int maxIndex;
+        Integer[] history;
+        do {
+            if(historyPos == -1) {
+                loadSong(rng.nextInt(0, SONG_COUNT), true);
+                historyPos = 0;
+            }
+
+            history = musicPlayer.getHistory();
+
+            loadAndPlaySong(history[historyPos], false);
+
+            maxIndex = musicPlayer.getHistory().length - 1;
+
             status = songMenu.start();
+            if (status == 1) { // go one back in History
+                historyPos = Math.min(historyPos + 1, maxIndex);
+            } else { // go one forward in history
+                historyPos = Math.max(historyPos - 1, -1);
+            }
         } while(status != 0);
+
+        songMenu.setMixPlay(false);
     }
 }

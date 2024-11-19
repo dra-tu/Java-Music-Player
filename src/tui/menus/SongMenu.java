@@ -2,6 +2,7 @@ package tui.menus;
 
 import musicPlayer.MusicPlayer;
 
+import tui.menus.options.MixOption;
 import tui.terminal.TerminalInput;
 import tui.menus.options.SongOption;
 import tui.terminal.TerminalHelper;
@@ -11,6 +12,8 @@ import tui.terminal.TerminalPosition;
 import java.io.IOException;
 
 public class SongMenu extends MenuBase {
+
+    private boolean mixPlay;
 
     // set Menu specific Strings in here
     public SongMenu(
@@ -22,8 +25,14 @@ public class SongMenu extends MenuBase {
     ) {
         super(startPos, musicPlayer, termLock, terminalHelper, terminalInput);
 
+        mixPlay = false;
+
         prompt = "Select option [p/o/q/.../? shows all options]: ";
         exitMsg = "Song done";
+    }
+
+    public void setMixPlay(boolean mixPlay) {
+        this.mixPlay = mixPlay;
     }
 
     void quid() {
@@ -43,7 +52,7 @@ public class SongMenu extends MenuBase {
                 in = terminalInput.getString(prompt);
             } catch (IOException | InterruptedException e) {
                 quid();
-                return 1;
+                return -1;
             }
             terminalHelper.savePrintln(inputMsg + in);
 
@@ -62,7 +71,7 @@ public class SongMenu extends MenuBase {
                     } catch (IOException | InterruptedException e) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
-                        return 1;
+                        return -1;
                     }
                     musicPlayer.jumpTo(jumpTime);
                     break;
@@ -72,7 +81,7 @@ public class SongMenu extends MenuBase {
                     } catch (IOException | InterruptedException e) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
-                        return 1;
+                        return -1;
                     }
                     musicPlayer.skipTime(jumpTime);
                     break;
@@ -82,7 +91,7 @@ public class SongMenu extends MenuBase {
                     } catch (IOException | InterruptedException e) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
-                        return 1;
+                        return -1;
                     }
                     musicPlayer.rewindTime(jumpTime);
                     break;
@@ -95,10 +104,24 @@ public class SongMenu extends MenuBase {
                     clear();
                     break;
                 case SongOption.HELP: // show options
-                    terminalHelper.savePrintln(SongOption.getHelpString());
+                    terminalHelper.savePrintln(
+                            (mixPlay ? MixOption.getHelpString() : "" ) +
+                        SongOption.getHelpString()
+                    );
                     break;
                 case null:
                 default:
+                    if (mixPlay) {
+                        int sw = switch (MixOption.getByKey(in)) {
+                            case MixOption.NEXT -> 2;
+                            case MixOption.PREVIOUS -> 1;
+                            case null -> 0;
+                        };
+                        if (sw != 0) {
+                            quid();
+                            return sw;
+                        }
+                    }
                     terminalHelper.savePrintln(unknownMsg);
                     break;
             }

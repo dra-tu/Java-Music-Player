@@ -26,21 +26,24 @@ public class TUISongDisplay extends Thread {
         String songName;
         long songLength;
         long currentTime;
+        int songId;
 
         boolean runing = true;
         do {
             currentSong = musicPlayer.getCurrentSong();
             if (currentSong == null) {
-                printSongInfo("---", "---", "----");
+                printSongInfo("---", "---", "----", -1);
             } else {
                 songName = currentSong.getName();
                 songLength = currentSong.getMaxTime();
                 currentTime = currentSong.getCurrentTime();
+                songId = currentSong.getSongId();
 
                 printSongInfo(
                         TimeStamp.toString(currentTime),
                         TimeStamp.toString(songLength),
-                        songName
+                        songName,
+                        songId
                 );
 
                 // Song Menu will clos and go back to Home Menu when song is done playing
@@ -57,7 +60,7 @@ public class TUISongDisplay extends Thread {
         } while(runing);
     }
 
-    private void printSongInfo(String currentTime, String songLength, String songName) {
+    private void printSongInfo(String currentTime, String songLength, String songName, int songId) {
         // save cursor position
         termLock.lockTerminal();
         TerminalControl.saveCursorPos();
@@ -68,7 +71,7 @@ public class TUISongDisplay extends Thread {
         TerminalControl.setCursorPos(TerminalPosition.START);
 
         // print the info
-        System.out.println("Playing: " + songName);
+        System.out.println("Playing: (" + songId + ") " + songName);
         System.out.println(currentTime + " / " + songLength);
 
         // reset cursor to before this function

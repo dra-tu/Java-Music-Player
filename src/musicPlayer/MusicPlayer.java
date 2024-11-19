@@ -4,6 +4,7 @@ import musicPlayer.types.LoadedSong;
 import musicPlayer.types.Song;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * A wrapper for javax.sound.sampled.Clip, whit more functionality. Examples: jump Methods, supports multiple Songs/Clips.
@@ -22,10 +23,13 @@ public class MusicPlayer {
      */
     private LoadedSong currentSong;
 
+    private ArrayList<Integer> history;
+
     /**
      * Creates a new MusicPlayer
      */
     public MusicPlayer() {
+        history = new ArrayList<>();
     }
 
     /**
@@ -82,13 +86,18 @@ public class MusicPlayer {
         return currentSong;
     }
 
+    public Integer[] getHistory() {
+        Integer[] intArray = new Integer[history.size()];
+        return history.toArray(intArray);
+    }
+
     /**
      * loading a Song is required before playing it
      * @param songId int: the songId of the song to load
      * @return int: -2 if the song can not be loaded, -1 if the songId is invalid,
      * 1 if the song is already loaded or 0 if the song is now loaded
      */
-    public int loadSong(int songId) {
+    public int loadSong(int songId, boolean addToHistory) {
         if(songId > songs.length || songId < 0) return -1; // can not load Song
         if(currentSong != null) {
             if (currentSong.getSongId() == songId) return 1; // will not load same Song two times
@@ -97,7 +106,9 @@ public class MusicPlayer {
         LoadedSong song = new LoadedSong();
         boolean loadWorked = song.loadSong(songs[songId]);
         if(!loadWorked) return -1; // can not load Song
+
         currentSong = song;
+        if(addToHistory) history.addFirst(songId);
 
         return 0;
     }
