@@ -67,26 +67,36 @@ public class TUI {
         }
     }
 
-    public boolean playSong(int SongId) {
-        System.out.println("Loading Song ID " + SongId + " ...");
+    public boolean playSong(int songId) {
+        System.out.println("Start playing Song ...");
+
+        if (!musicPlayer.playSong(songId)) {
+            System.out.println("cannot play Song  :(");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean loadSong(int songId) {
+        System.out.println("Loading Song ID " + songId + " ...");
 
         // des hier kann normal nicht gesehen werden
         // ist dafür da fals was schif geht
-        int loadResold = musicPlayer.loadSong(SongId);
+        int loadResold = musicPlayer.loadSong(songId);
         if (loadResold == -1) {
             System.out.println(TerminalColor.RED + "cannot load Song  :(" + TerminalColor.RESET);
             return false;
         }
 
         System.out.println("Song loaded");
-        System.out.println("Start playing Song ...");
-
-        if (!musicPlayer.playSong(SongId)) {
-            System.out.println("cannot play Song  :(");
-            return false;
-        }
 
         return true;
+    }
+
+    public boolean loadAndPlaySong(int songId) {
+        if(!loadSong(songId)) return false;
+        return playSong(songId);
     }
 
     public void startMixPlay() {
@@ -96,7 +106,7 @@ public class TUI {
         Random rng = new Random();
         int status;
         do {
-            playSong(rng.nextInt(0, songs.length));
+            loadAndPlaySong(rng.nextInt(0, songs.length));
 
             songMenu.clear();
             status = songMenu.start();
