@@ -93,10 +93,11 @@ public class TUI {
         Song[] songs = musicPlayer.getSongs();
         SongMenu songMenu = menuMgr.getSongMenu();
 
+        Random rng = new Random();
         int status;
         do {
-            Random rng = new Random();
             playSong(rng.nextInt(0, songs.length));
+
             songMenu.clear();
             status = songMenu.start();
         } while(status != 0);

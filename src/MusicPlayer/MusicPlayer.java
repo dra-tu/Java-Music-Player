@@ -158,7 +158,9 @@ public class MusicPlayer {
      * @param songId songID to be unloaded
      */
     public void unloadSong(int songId) {
-        if(currentSong.getSongId() == songId) return;
+        if(currentSong != null) {
+            if (currentSong.getSongId() == songId) return;
+        }
 
         loadedSongs.get(songId).unload();
         loadedSongs.remove(songId);
