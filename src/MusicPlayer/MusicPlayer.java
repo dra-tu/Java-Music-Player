@@ -4,8 +4,6 @@ import MusicPlayer.Types.LoadedSong;
 import MusicPlayer.Types.Song;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
 
 /**
  * A wrapper for javax.sound.sampled.Clip, whit more functionality. Examples: jump Methods, supports multiple Songs/Clips.
@@ -14,44 +12,20 @@ public class MusicPlayer {
     /**
      * the directory with all the Song files
      */
-    File rootDir;
+    private File rootDir;
     /**
      * An Array with all the songs from rootDir
      */
-    Song[] songs;
-
+    private Song[] songs;
     /**
      * The currently playing Song
      */
     private LoadedSong currentSong;
 
     /**
-     * This is equivalent to loadHistory.Length
-     */
-    int maxLoadedSongs;
-    /**
-     * All the loaded Songs the Key is the SongID
-     */
-    HashMap<Integer, LoadedSong> loadedSongs;
-    /**
-     * The next index of the loadHistory Array without a value
-     */
-    int nextOpenLoadHistorySlot;
-    /**
-     * An Array sorted by the time a Song got loaded, the newest has the biggest index.
-     */
-    int[] loadHistory;
-
-    /**
      * Creates a new MusicPlayer
-     * @param maxLoadedSongs the max loaded Songs increasing this may result in higher ram uses and less cpu or reversed if decreased.
      */
-    public MusicPlayer(int maxLoadedSongs) {
-        this.maxLoadedSongs = maxLoadedSongs;
-        this.loadedSongs = new HashMap<>();
-        this.loadHistory = new int[maxLoadedSongs];
-        Arrays.fill(loadHistory, -1);
-        this.nextOpenLoadHistorySlot = 0;
+    public MusicPlayer() {
     }
 
     /**
@@ -77,9 +51,6 @@ public class MusicPlayer {
         }
 
         // reset values
-        nextOpenLoadHistorySlot = 0;
-        Arrays.fill(loadHistory, -1);
-        loadedSongs.clear();
         rootDir = dir;
 
         return true;
@@ -119,66 +90,16 @@ public class MusicPlayer {
      */
     public int loadSong(int songId) {
         if(songId > songs.length || songId < 0) return -1; // can not load Song
+        if(currentSong != null) {
+            if (currentSong.getSongId() == songId) return 1; // will not load same Song two times
+        }
 
-        if(loadedSongs.size() == maxLoadedSongs) shiftLoadedSongs();
-
-        // load Song and save it in HasMap
         LoadedSong song = new LoadedSong();
         boolean loadWorked = song.loadSong(songs[songId]);
         if(!loadWorked) return -1; // can not load Song
-        if(loadedSongs.containsKey(songId)) return 1; // can not load same Song two times
-        loadedSongs.put(songId, song);
-
-        // make reference to new Song in loadSlots Array
-        loadHistory[nextOpenLoadHistorySlot] = songId;
-        nextOpenLoadHistorySlot++;
+        currentSong = song;
 
         return 0;
-    }
-
-    /**
-     * unloads the oldest loaded song
-     */
-    private void shiftLoadedSongs() {
-        // remove HasMap entry
-        if(loadHistory[0] != -1) unloadSong(loadHistory[0]);
-
-        // removing entry from loadSlots
-        for(int i = 0; i < maxLoadedSongs - 1; i++) {
-            loadHistory[i] = loadHistory[i + 1];
-        }
-        loadHistory[maxLoadedSongs-1] = -1;
-
-        // degrees nextOpenLoadSlot
-        nextOpenLoadHistorySlot = Math.max(nextOpenLoadHistorySlot - 1, 0);
-    }
-
-    /**
-     * Unloads the song with the given songID
-     * @param songId songID to be unloaded
-     */
-    public void unloadSong(int songId) {
-        if(currentSong != null) {
-            if (currentSong.getSongId() == songId) return;
-        }
-
-        loadedSongs.get(songId).unload();
-        loadedSongs.remove(songId);
-    }
-
-    /**
-     * Start the Playback of the Song with the given songID.
-     * @param songId the Song to be played
-     * @return false if the Song is not loaded, true if the Song is now playing.
-     */
-    public boolean playSong(int songId) {
-        if(!loadedSongs.containsKey(songId)) return false; // song not loaded
-
-        loadedSongs.get(songId).start();
-
-        currentSong = loadedSongs.get(songId);
-
-        return true;
     }
 
     /**
@@ -193,10 +114,13 @@ public class MusicPlayer {
     /**
      * continues playing after a Song got stopped from stopSong().
      * If the currentSong is not stopped noting happens.
-     * @throws NullPointerException if there is no currentSong
+     * @return FALSE if there is no song to continue else TRUE
      */
-    public void continueSong() throws NullPointerException {
+    public boolean continueSong() {
+        if(currentSong == null) return false; // no song to continue
+
         currentSong.start();
+        return true;
     }
 
     /**
@@ -222,9 +146,10 @@ public class MusicPlayer {
     /**
      * Lets you jump backwards in the Song. This works by subtracting the rewindTime from the currentTime and then jump to the new time.
      * @param rewindTime time to rewind in microseconds
-     * @throws NullPointerException if there is no currentSong
      */
-    public void rewindTime(long rewindTime) throws NullPointerException {
+    public void rewindTime(long rewindTime){
+        if(currentSong == null) return;
+
         currentSong.setTime(
                 currentSong.getCurrentTime() - rewindTime
         );
@@ -232,9 +157,10 @@ public class MusicPlayer {
 
     /**
      * Stops the currentSong and then sets the currentSong to null.
-     * @throws NullPointerException if there is no currentSong
      */
-    public void exitSong() throws NullPointerException {
+    public void exitSong(){
+        if(currentSong == null) return;
+
         currentSong.stop();
         currentSong.setTimeToStart();
 

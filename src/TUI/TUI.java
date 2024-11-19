@@ -19,8 +19,8 @@ public class TUI {
     TerminalLock termLock;
     MenuManager menuMgr;
 
-    public TUI(int maxLoadSongs) {
-        musicPlayer = new MusicPlayer(maxLoadSongs);
+    public TUI() {
+        musicPlayer = new MusicPlayer();
         termLock = new TerminalLock();
     }
 
@@ -67,10 +67,10 @@ public class TUI {
         }
     }
 
-    public boolean playSong(int songId) {
+    public boolean playSong() {
         System.out.println("Start playing Song ...");
 
-        if (!musicPlayer.playSong(songId)) {
+        if (!musicPlayer.continueSong()) {
             System.out.println("cannot play Song  :(");
             return false;
         }
@@ -96,7 +96,7 @@ public class TUI {
 
     public boolean loadAndPlaySong(int songId) {
         if(!loadSong(songId)) return false;
-        return playSong(songId);
+        return playSong();
     }
 
     public void startMixPlay() {
