@@ -22,6 +22,10 @@ public class LoadedSong {
         clip.stop();
     }
 
+    public void exit() {
+        clip.close();
+    }
+
     public int getSongId() {
         return SONG_ID;
     }

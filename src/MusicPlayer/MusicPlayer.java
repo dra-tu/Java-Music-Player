@@ -161,8 +161,9 @@ public class MusicPlayer {
     public void exitSong(){
         if(currentSong == null) return;
 
-        currentSong.stop();
-        currentSong.setTimeToStart();
+        currentSong.exit();
+//        currentSong.stop();
+//        currentSong.setTimeToStart();
 
         currentSong = null;
     }
