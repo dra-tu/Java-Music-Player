@@ -1,12 +1,12 @@
-package TUI.Menus;
+package tui.menus;
 
-import MusicPlayer.MusicPlayer;
+import musicPlayer.MusicPlayer;
 
-import TUI.TUI;
-import TUI.Terminal.TerminalLock;
-import TUI.Terminal.TerminalHelper;
-import TUI.Terminal.TerminalPosition;
-import TUI.Terminal.TerminalInput;
+import tui.TUI;
+import tui.terminal.TerminalLock;
+import tui.terminal.TerminalHelper;
+import tui.terminal.TerminalPosition;
+import tui.terminal.TerminalInput;
 
 public class MenuManager {
     private final SongMenu songMenu;

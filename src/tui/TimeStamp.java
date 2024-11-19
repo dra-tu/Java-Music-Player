@@ -1,4 +1,4 @@
-package TUI;
+package tui;
 
 public class TimeStamp {
     public static long toMicroseconds(long minutes, long seconds) {

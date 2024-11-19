@@ -1,4 +1,4 @@
-package TUI.Terminal;
+package tui.terminal;
 
 // NOTE: This Class does not implement TerminalLock functions
 //       Because some code needs to run multiple of these methods in one Lock

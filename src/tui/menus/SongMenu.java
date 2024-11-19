@@ -1,12 +1,12 @@
-package TUI.Menus;
+package tui.menus;
 
-import MusicPlayer.MusicPlayer;
+import musicPlayer.MusicPlayer;
 
-import TUI.Terminal.TerminalInput;
-import TUI.Menus.Options.SongOption;
-import TUI.Terminal.TerminalHelper;
-import TUI.Terminal.TerminalLock;
-import TUI.Terminal.TerminalPosition;
+import tui.terminal.TerminalInput;
+import tui.menus.options.SongOption;
+import tui.terminal.TerminalHelper;
+import tui.terminal.TerminalLock;
+import tui.terminal.TerminalPosition;
 
 import java.io.IOException;
 

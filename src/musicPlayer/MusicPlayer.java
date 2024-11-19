@@ -1,7 +1,7 @@
-package MusicPlayer;
+package musicPlayer;
 
-import MusicPlayer.Types.LoadedSong;
-import MusicPlayer.Types.Song;
+import musicPlayer.types.LoadedSong;
+import musicPlayer.types.Song;
 
 import java.io.File;
 

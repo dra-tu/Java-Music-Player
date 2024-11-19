@@ -1,7 +1,7 @@
-package TUI.Menus;
+package tui.menus;
 
-import MusicPlayer.MusicPlayer;
-import TUI.Terminal.*;
+import musicPlayer.MusicPlayer;
+import tui.terminal.*;
 
 public abstract class MenuBase {
     // default Strings

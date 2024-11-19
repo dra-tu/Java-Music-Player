@@ -1,4 +1,4 @@
-package TUI.Menus.Options;
+package tui.menus.options;
 
 import java.util.HashMap;
 

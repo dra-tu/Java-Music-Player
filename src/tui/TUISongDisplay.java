@@ -1,11 +1,11 @@
-package TUI;
+package tui;
 
-import MusicPlayer.MusicPlayer;
-import MusicPlayer.Types.LoadedSong;
+import musicPlayer.MusicPlayer;
+import musicPlayer.types.LoadedSong;
 
-import TUI.Terminal.TerminalControl;
-import TUI.Terminal.TerminalLock;
-import TUI.Terminal.TerminalPosition;
+import tui.terminal.TerminalControl;
+import tui.terminal.TerminalLock;
+import tui.terminal.TerminalPosition;
 
 public class TUISongDisplay extends Thread {
     private final Thread menuThread;

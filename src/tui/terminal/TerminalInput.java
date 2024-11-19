@@ -1,6 +1,6 @@
-package TUI.Terminal;
+package tui.terminal;
 
-import TUI.TimeStamp;
+import tui.TimeStamp;
 
 import java.io.IOException;
 import java.util.Locale;

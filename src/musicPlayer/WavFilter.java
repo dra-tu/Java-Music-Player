@@ -1,4 +1,4 @@
-package MusicPlayer;
+package musicPlayer;
 
 import java.io.File;
 import java.io.FilenameFilter;

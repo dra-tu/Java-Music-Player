@@ -1,16 +1,16 @@
-package TUI;
+package tui;
 
-import MusicPlayer.MusicPlayer;
+import musicPlayer.MusicPlayer;
 
-import MusicPlayer.Types.Song;
+import musicPlayer.types.Song;
 
-import TUI.Menus.MenuManager;
-import TUI.Menus.SongMenu;
+import tui.menus.MenuManager;
+import tui.menus.SongMenu;
 
-import TUI.Terminal.TerminalColor;
-import TUI.Terminal.TerminalControl;
-import TUI.Terminal.TerminalLock;
-import TUI.Terminal.TerminalPosition;
+import tui.terminal.TerminalColor;
+import tui.terminal.TerminalControl;
+import tui.terminal.TerminalLock;
+import tui.terminal.TerminalPosition;
 
 import java.util.Random;
 
