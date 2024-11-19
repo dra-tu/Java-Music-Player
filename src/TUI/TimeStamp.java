@@ -5,7 +5,7 @@ public class TimeStamp {
         return (minutes * 60L + seconds) * 1_000_000L;
     }
 
-    public static String format(long microseconds) {
+    public static String toString(long microseconds) {
         int minutes = (int) ( microseconds / 1_000_000 ) / 60;
         int seconds = (int) ( microseconds / 1_000_000 ) % 60;
 

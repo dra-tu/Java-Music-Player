@@ -6,9 +6,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class Song {
-    File file;
-    String name;
-    final int SONG_ID;
+    private File file;
+    private String name;
+    public final int SONG_ID;
 
     public Song(int SONG_ID) {
         this.SONG_ID = SONG_ID;
@@ -16,10 +16,6 @@ public class Song {
 
     public String getName() {
         return name;
-    }
-
-    public int getSongId() {
-        return SONG_ID;
     }
 
     public boolean setFile(File file) {
@@ -33,7 +29,6 @@ public class Song {
 
     Clip createClip() {
         try {
-
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);

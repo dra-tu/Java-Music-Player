@@ -7,8 +7,8 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class TerminalInput {
-    Scanner scanner;
-    TerminalHelper terminalHelper;
+    private final Scanner scanner;
+    private final TerminalHelper terminalHelper;
 
     public TerminalInput(TerminalLock termLock) {
         scanner = new Scanner(System.in).useLocale(Locale.ENGLISH);

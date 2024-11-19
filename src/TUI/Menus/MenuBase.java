@@ -44,7 +44,7 @@ public abstract class MenuBase {
         return action();
     }
 
-    void setUp() {
+    private void setUp() {
         termLock.lockTerminal();
         TerminalControl.setCursorPos(startPos);
         termLock.unlockTerminal();

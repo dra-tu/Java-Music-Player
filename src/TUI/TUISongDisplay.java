@@ -8,12 +8,12 @@ import TUI.Terminal.TerminalLock;
 import TUI.Terminal.TerminalPosition;
 
 public class TUISongDisplay extends Thread {
-    final Thread menuThread;
-    final MusicPlayer musicPlayer;
-    final TerminalLock termLock;
-    final TerminalPosition END_POS = new TerminalPosition(500, 2);
+    private final Thread menuThread;
+    private final MusicPlayer musicPlayer;
+    private final TerminalLock termLock;
+    private final TerminalPosition END_POS = new TerminalPosition(500, 2);
 
-    public TUISongDisplay(Thread menuThread, MusicPlayer musicPlayer, TerminalLock termLock) {
+    TUISongDisplay(Thread menuThread, MusicPlayer musicPlayer, TerminalLock termLock) {
         this.menuThread = menuThread;
         this.musicPlayer = musicPlayer;
         this.termLock = termLock;
@@ -38,8 +38,8 @@ public class TUISongDisplay extends Thread {
                 currentTime = currentSong.getCurrentTime();
 
                 printSongInfo(
-                        TimeStamp.format(currentTime),
-                        TimeStamp.format(songLength),
+                        TimeStamp.toString(currentTime),
+                        TimeStamp.toString(songLength),
                         songName
                 );
 

@@ -57,7 +57,7 @@ public class TUI {
         songUiUpdater.interrupt(); // exit the Program
     }
 
-    public boolean setDir(String dirPath) {
+    private boolean setDir(String dirPath) {
         if (musicPlayer.useDir(dirPath)) {
             System.out.println(dirPath + "Directory Loaded!");
             return true;
@@ -67,7 +67,7 @@ public class TUI {
         }
     }
 
-    public boolean playSong() {
+    private boolean playSong() {
         System.out.println("Start playing Song ...");
 
         if (!musicPlayer.continueSong()) {
@@ -99,7 +99,7 @@ public class TUI {
         return playSong();
     }
 
-    public void startMixPlay() {
+    public void mixPlay() {
         Song[] songs = musicPlayer.getSongs();
         SongMenu songMenu = menuMgr.getSongMenu();
 

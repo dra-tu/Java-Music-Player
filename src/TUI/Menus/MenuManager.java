@@ -9,14 +9,10 @@ import TUI.Terminal.TerminalPosition;
 import TUI.Terminal.TerminalInput;
 
 public class MenuManager {
-    MusicPlayer musicPlayer;
-
-    SongMenu songMenu;
-    HomeMenu homeMenu;
+    private final SongMenu songMenu;
+    private final HomeMenu homeMenu;
 
     public MenuManager(TerminalPosition startPos, MusicPlayer musicPlayer, TerminalLock termLock, TUI tui) {
-        this.musicPlayer = musicPlayer;
-
         TerminalHelper terminalHelper = new TerminalHelper(termLock);
         TerminalInput inFunc = new TerminalInput(termLock);
 

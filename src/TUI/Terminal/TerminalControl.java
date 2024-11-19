@@ -17,14 +17,6 @@ public class TerminalControl {
         printCommand(pos.y + ";" + pos.x + "H");
     }
 
-    public static void moveCursorLeft(int n) {
-        printCommand(n + "D");
-    }
-
-    public static void clearLine() {
-        printCommand("K");
-    }
-
     public static void saveCursorPos() {
         printCommand("s");
     }

@@ -49,7 +49,7 @@ public class HomeMenu extends MenuBase {
 
         for(Song song: songs) {
             out.append(" - (")
-                    .append( String.format("%3d", song.getSongId())) // format of SONG_ID whit lIst in HomeMenu
+                    .append( String.format("%3d", song.SONG_ID)) // format of SONG_ID whit lIst in HomeMenu
                     .append(") ")
                     .append(song.getName())
                     .append("\n");
@@ -93,7 +93,7 @@ public class HomeMenu extends MenuBase {
                     }
                     break;
                 case HomeOption.MIX:
-                    tui.startMixPlay();
+                    tui.mixPlay();
                     break;
                 case HomeOption.RELOAD:
                     terminalHelper.savePrintln("Reloading Songs ...");

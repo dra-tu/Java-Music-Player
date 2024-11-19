@@ -1,7 +1,7 @@
 package TUI.Terminal;
 
 public class TerminalHelper {
-    final private TerminalLock termLock;
+    private final TerminalLock termLock;
 
     public TerminalHelper(TerminalLock termLock) {
         this.termLock = termLock;
