@@ -162,9 +162,6 @@ public class MusicPlayer {
         if(currentSong == null) return;
 
         currentSong.exit();
-//        currentSong.stop();
-//        currentSong.setTimeToStart();
-
         currentSong = null;
     }
 }
