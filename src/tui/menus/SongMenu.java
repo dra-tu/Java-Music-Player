@@ -2,7 +2,6 @@ package tui.menus;
 
 import musicPlayer.MusicPlayer;
 
-import tui.menus.options.HomeOption;
 import tui.menus.options.MixOption;
 import tui.terminal.TerminalInput;
 import tui.menus.options.SongOption;
