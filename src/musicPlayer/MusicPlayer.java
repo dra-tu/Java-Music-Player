@@ -90,6 +90,10 @@ public class MusicPlayer {
         return songs;
     }
 
+    public Song getSong(int songId) {
+        return songs[songId];
+    }
+
     /**
      * Get the Song (as a LoadedSong) which is currently playing
      *

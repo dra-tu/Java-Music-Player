@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public enum HomeOption {
     LIST("l", "List"),
+    SHOW_HISTORY("h", "show History"),
     PLAY("p", "Play"),
     MIX("m", "Mix"),
     RELOAD("r", "Reload"),

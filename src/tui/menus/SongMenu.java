@@ -2,6 +2,7 @@ package tui.menus;
 
 import musicPlayer.MusicPlayer;
 
+import tui.menus.options.HomeOption;
 import tui.menus.options.MixOption;
 import tui.terminal.TerminalInput;
 import tui.menus.options.SongOption;
@@ -57,6 +58,15 @@ public class SongMenu extends MenuBase {
             terminalHelper.savePrintln(inputMsg + in);
 
             switch (SongOption.getByKey(in)) {
+
+                case SongOption.SHOW_HISTORY:
+                    Integer[] history = musicPlayer.getHistory();
+                    String songName;
+                    for(int i = 0; i < history.length; i++) {
+                        songName = musicPlayer.getSong(history[i]).getName();
+                        System.out.println(i + ": (" + history[i] + ") " + songName);
+                    }
+                    break;
 
                 // MusicPlayer Controls
                 case SongOption.PAUSE: // Pause
