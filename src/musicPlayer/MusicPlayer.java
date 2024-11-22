@@ -31,6 +31,8 @@ public class MusicPlayer {
     private int historyPointer;
     private ArrayList<Integer> history;
 
+    private final int HISTORY_MAX_SIZE = 50;
+
     /**
      * Creates a new MusicPlayer
      */
@@ -134,6 +136,9 @@ public class MusicPlayer {
 
     public void historyAdd(int songId) {
         history.addFirst(songId);
+        if(history.size() > HISTORY_MAX_SIZE) {
+            history.removeLast();
+        }
     }
 
     public void historyGoNewest() {
