@@ -38,7 +38,6 @@ public abstract class MenuBase {
     }
 
     // 0: normal exit (user)
-    // 1: Exception
     public int start() {
         setUp();
         return action();

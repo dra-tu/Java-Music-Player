@@ -3,8 +3,8 @@ package tui.menus.options;
 import java.util.HashMap;
 
 public enum MixOption {
-    NEXT("next", "Play next"),
-    PREVIOUS("last", "play last song");
+    NEXT("n", "Play next in History"),
+    PREVIOUS("b", "go Back in History");
 
     // this part is the same in all Option Enums
     // EXCEPTIONS: Name of constructor, Type in HasMap, in static for loop, return Type of getByKey
