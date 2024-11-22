@@ -10,8 +10,6 @@ import tui.terminal.TerminalControl;
 import tui.terminal.TerminalLock;
 import tui.terminal.TerminalPosition;
 
-import java.util.Random;
-
 public class TUI {
     volatile MusicPlayer musicPlayer;
     TerminalLock termLock;
@@ -76,12 +74,15 @@ public class TUI {
         return true;
     }
 
-    private boolean loadSong(int songId, boolean addToHistory) {
+    private boolean loadSong(int songId) {
         System.out.println("Loading Song ID " + songId + " ...");
 
         // des hier kann normal nicht gesehen werden
         // ist dafür da fals was schif geht
-        int loadResold = musicPlayer.loadSong(songId, addToHistory);
+        if(songId != -1) musicPlayer.historyAddAndJump(songId);
+
+        int loadResold = musicPlayer.historyLoadSong();
+
         if (loadResold == -1) {
             System.out.println(TerminalColor.RED + "cannot load Song  :(" + TerminalColor.RESET);
             return false;
@@ -92,40 +93,26 @@ public class TUI {
         return true;
     }
 
-    public boolean loadAndPlaySong(int songId, boolean addToHistory) {
-        if(!loadSong(songId, addToHistory)) return false;
+    public boolean loadAndPlaySong(int songId) {
+        if(!loadSong(songId)) return false;
         return playSong();
     }
 
     public void mixPlay() {
-        final int SONG_COUNT = musicPlayer.getSongs().length;
         SongMenu songMenu = menuMgr.getSongMenu();
         songMenu.setMixPlay(true);
 
-        Random rng = new Random();
-
-        int historyPos = -1;
+        musicPlayer.historyNext(1);
         int status;
-        int maxIndex;
-        Integer[] history;
         do {
-            if(historyPos == -1) {
-                loadSong(rng.nextInt(0, SONG_COUNT), true);
-                historyPos = 0;
-            }
-
-            history = musicPlayer.getHistory();
-
-            loadAndPlaySong(history[historyPos], false);
-
-            maxIndex = musicPlayer.getHistory().length - 1;
+            loadAndPlaySong(-1);
 
             songMenu.clear();
             status = songMenu.start();
             if (status == 1) { // go one back in History
-                historyPos = Math.min(historyPos + 1, maxIndex);
+                musicPlayer.historyBack(1);
             } else { // go one forward in history
-                historyPos = Math.max(historyPos - 1, -1);
+                musicPlayer.historyNext(1);
             }
         } while(status != 0);
 

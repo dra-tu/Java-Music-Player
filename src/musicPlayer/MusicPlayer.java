@@ -5,11 +5,16 @@ import musicPlayer.types.Song;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * A wrapper for javax.sound.sampled.Clip, whit more functionality. Examples: jump Methods, supports multiple Songs/Clips.
  */
 public class MusicPlayer {
+    Random rng;
+
+    int SONG_COUNT;
+
     /**
      * the directory with all the Song files
      */
@@ -23,47 +28,53 @@ public class MusicPlayer {
      */
     private LoadedSong currentSong;
 
+    private int historyPointer;
     private ArrayList<Integer> history;
 
     /**
      * Creates a new MusicPlayer
      */
     public MusicPlayer() {
-        history = new ArrayList<>();
+        rng = new Random();
     }
 
     /**
      * sets rootDir to dirPath and overwrites the songs list with the Song in dirPath.
      * All loaded Songs get unloaded.
+     *
      * @param dirPath A Path to a Directory containing the songs in the .wav format
      * @return boolean: true if the dirPath is loaded,
-     *         false if dirPath can not be loaded
+     * false if dirPath can not be loaded
      */
     public boolean useDir(String dirPath) {
         File dir = new File(dirPath);
-        if(!dir.isDirectory()) return false; // not a dir
+        if (!dir.isDirectory()) return false; // not a dir
         rootDir = dir;
 
         File[] files = rootDir.listFiles(new WavFilter());
-        if(files == null) return false; // no wav files
+        if (files == null) return false; // no wav files
 
         songs = new Song[files.length];
-        for(int i = 0; i < files.length; i++) {
+        for (int i = 0; i < files.length; i++) {
             songs[i] = new Song(i);
             boolean fileSetWorked = songs[i].setFile(files[i]);
-            if(!fileSetWorked) return false; // dir contains dir with the ending ".wav"
+            if (!fileSetWorked) return false; // dir contains dir with the ending ".wav"
         }
 
         // reset values
         rootDir = dir;
+        SONG_COUNT = songs.length;
+        historyPointer = -1;
+        history = new ArrayList<>();
 
         return true;
     }
 
     /**
      * Same as useDir(rootDir)
+     *
      * @return boolean: true if dir is reloaded,
-     *         false if dir can not be reloaded
+     * false if dir can not be reloaded
      */
     public boolean reloadDir() {
         return useDir(rootDir.getPath());
@@ -72,6 +83,7 @@ public class MusicPlayer {
     /**
      * Get all songs the MusicPlayer knows.
      * A Song has a name, SONG_ID and file
+     *
      * @return Song[]: Alias to songs
      */
     public Song[] getSongs() {
@@ -80,6 +92,7 @@ public class MusicPlayer {
 
     /**
      * Get the Song (as a LoadedSong) which is currently playing
+     *
      * @return LoadedSong: currentSong
      */
     public LoadedSong getCurrentSong() {
@@ -91,24 +104,62 @@ public class MusicPlayer {
         return history.toArray(intArray);
     }
 
+    // history Functions
+
+    public void historyBack(int count) {
+        for (int i = 0; i < count; i++) {
+            historyPointer = Math.min(historyPointer + 1, history.size() - 1);
+        }
+    }
+
+    public void historyNext(int count) {
+        for (int i = 0; i < count; i++) {
+            historyPointer = Math.max(historyPointer - 1, -1);
+
+            if (historyPointer == -1) {
+                historyAdd(rng.nextInt(0, SONG_COUNT));
+                historyPointer = 0;
+            }
+        }
+    }
+
+    public void historyAddAndJump(int songId) {
+        historyAdd(songId);
+        historyGoNewest();
+    }
+
+    public void historyAdd(int songId) {
+        history.addFirst(songId);
+    }
+
+    public void historyGoNewest() {
+        historyPointer = 0;
+    }
+
+    public int historyLoadSong() {
+        return loadSong(history.get(historyPointer));
+    }
+
+    // Playback functions
+
     /**
      * loading a Song is required before playing it
+     *
      * @param songId int: the songId of the song to load
      * @return int: -2 if the song can not be loaded, -1 if the songId is invalid,
      * 1 if the song is already loaded or 0 if the song is now loaded
      */
-    public int loadSong(int songId, boolean addToHistory) {
-        if(songId > songs.length || songId < 0) return -1; // can not load Song
-        if(currentSong != null) {
+    private int loadSong(int songId) {
+        if (songId > songs.length || songId < 0) return -1; // can not load Song
+        if (currentSong != null) {
             if (currentSong.getSongId() == songId) return 1; // will not load same Song two times
         }
 
         LoadedSong song = new LoadedSong();
         boolean loadWorked = song.loadSong(songs[songId]);
-        if(!loadWorked) return -1; // can not load Song
+        if (!loadWorked) return -1; // can not load Song
 
         currentSong = song;
-        if(addToHistory) history.addFirst(songId);
 
         return 0;
     }
@@ -116,6 +167,7 @@ public class MusicPlayer {
     /**
      * Pauses the currently playing Song
      * If the currentSong is stopped noting happens.
+     *
      * @throws NullPointerException if there is no currentSong
      */
     public void stopSong() throws NullPointerException {
@@ -125,10 +177,11 @@ public class MusicPlayer {
     /**
      * continues playing after a Song got stopped from stopSong().
      * If the currentSong is not stopped noting happens.
+     *
      * @return FALSE if there is no song to continue else TRUE
      */
     public boolean continueSong() {
-        if(currentSong == null) return false; // no song to continue
+        if (currentSong == null) return false; // no song to continue
 
         currentSong.start();
         return true;
@@ -136,6 +189,7 @@ public class MusicPlayer {
 
     /**
      * Sets the time position of the current Song to jumpTime
+     *
      * @param jumpTime the time to jump to in microseconds
      * @throws NullPointerException if there is no currentSong
      */
@@ -145,6 +199,7 @@ public class MusicPlayer {
 
     /**
      * Lets you jump forward in the Song. This works by adding the skipTime to the currentTime and then jump to the new time.
+     *
      * @param skipTime time to skip forward in microseconds
      * @throws NullPointerException if there is no currentSong
      */
@@ -156,10 +211,11 @@ public class MusicPlayer {
 
     /**
      * Lets you jump backwards in the Song. This works by subtracting the rewindTime from the currentTime and then jump to the new time.
+     *
      * @param rewindTime time to rewind in microseconds
      */
-    public void rewindTime(long rewindTime){
-        if(currentSong == null) return;
+    public void rewindTime(long rewindTime) {
+        if (currentSong == null) return;
 
         currentSong.setTime(
                 currentSong.getCurrentTime() - rewindTime
@@ -169,8 +225,8 @@ public class MusicPlayer {
     /**
      * Stops the currentSong and then sets the currentSong to null.
      */
-    public void exitSong(){
-        if(currentSong == null) return;
+    public void exitSong() {
+        if (currentSong == null) return;
 
         currentSong.exit();
         currentSong = null;

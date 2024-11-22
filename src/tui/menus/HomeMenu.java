@@ -87,7 +87,7 @@ public class HomeMenu extends MenuBase {
                     }
                     clear();
 
-                    if (tui.loadAndPlaySong(songId, false)) {
+                    if (tui.loadAndPlaySong(songId)) {
                         clear();
                         songMenu.start();
                     }
