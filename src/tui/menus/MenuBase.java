@@ -50,6 +50,27 @@ public abstract class MenuBase {
         termLock.unlockTerminal();
     }
 
+    void printHistory() {
+        Integer[] history = musicPlayer.getHistory();
+        int historyPos = musicPlayer.getHistoryPos();
+
+        int length = (MusicPlayer.HISTORY_MAX_SIZE+"").length();
+        int b = (history.length + "").length();
+
+        String historyNumber = " %" + length + "d: ";
+        String songId = "(%" + b + "d) ";
+        String songNameS = "%s";
+        String historyItem = historyNumber + songId + songNameS + "%n";
+
+        String songName;
+        for(int i = 0; i < history.length; i++) {
+            songName = musicPlayer.getSong(history[i]).getName();
+
+            if(i == historyPos) System.out.print(">");
+            System.out.printf(historyItem, i, history[i], songName);
+        }
+    }
+
     abstract int action();
     abstract void quid();
 }

@@ -59,12 +59,7 @@ public class SongMenu extends MenuBase {
             switch (SongOption.getByKey(in)) {
 
                 case SongOption.SHOW_HISTORY:
-                    Integer[] history = musicPlayer.getHistory();
-                    String songName;
-                    for(int i = 0; i < history.length; i++) {
-                        songName = musicPlayer.getSong(history[i]).getName();
-                        System.out.println(i + ": (" + history[i] + ") " + songName);
-                    }
+                    printHistory();
                     break;
 
                 // MusicPlayer Controls

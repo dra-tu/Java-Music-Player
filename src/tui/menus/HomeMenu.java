@@ -77,12 +77,7 @@ public class HomeMenu extends MenuBase {
                     terminalHelper.savePrint(songList);
                     break;
                 case HomeOption.SHOW_HISTORY:
-                    Integer[] history = musicPlayer.getHistory();
-                    String songName;
-                    for(int i = 0; i < history.length; i++) {
-                        songName = musicPlayer.getSong(history[i]).getName();
-                        System.out.println(i + ": (" + history[i] + ") " + songName);
-                    }
+                    printHistory();
                     break;
 
                 case HomeOption.PLAY:
