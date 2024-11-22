@@ -120,6 +120,7 @@ public class TUI {
 
             maxIndex = musicPlayer.getHistory().length - 1;
 
+            songMenu.clear();
             status = songMenu.start();
             if (status == 1) { // go one back in History
                 historyPos = Math.min(historyPos + 1, maxIndex);
