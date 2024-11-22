@@ -31,7 +31,7 @@ public class MusicPlayer {
     private int historyPointer;
     private ArrayList<Integer> history;
 
-    private final int HISTORY_MAX_SIZE = 50;
+    private static final int HISTORY_MAX_SIZE = 50;
 
     /**
      * Creates a new MusicPlayer
