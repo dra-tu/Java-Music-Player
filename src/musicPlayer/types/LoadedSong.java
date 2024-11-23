@@ -34,10 +34,6 @@ public class LoadedSong {
         clip.setMicrosecondPosition(timeMicroseconds);
     }
 
-    public void setTimeToStart() {
-        setTime(0L);
-    }
-
     public long getCurrentTime() {
         return clip.getMicrosecondPosition();
     }
