@@ -116,6 +116,17 @@ public class MusicPlayer {
         return historyPointer;
     }
 
+    public void historyGoTo(int historyPos) {
+        if (historyPos >= history.size() || historyPos < 0) {
+            return;
+        }
+        historyPointer = historyPos;
+    }
+
+    public void historyGoNewest() {
+        historyPointer = 0;
+    }
+
     public void historyBack(int count) {
         for (int i = 0; i < count; i++) {
             historyPointer = Math.min(historyPointer + 1, history.size() - 1);
@@ -143,10 +154,6 @@ public class MusicPlayer {
         if(history.size() > HISTORY_MAX_SIZE) {
             history.removeLast();
         }
-    }
-
-    public void historyGoNewest() {
-        historyPointer = 0;
     }
 
     public int historyLoadSong() {
