@@ -3,7 +3,7 @@ package tui.menus.options;
 import java.util.HashMap;
 
 public enum SongOption {
-    SHOW_HISTORY("h", "show History"),
+    LIST_HISTORY("lh", "show History"),
     PAUSE("p", "Pause"),
     CONTINUE("o", "Continue"),
     JUMP("j", "Jump"),
