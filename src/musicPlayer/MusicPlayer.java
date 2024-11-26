@@ -116,11 +116,12 @@ public class MusicPlayer {
         return historyPointer;
     }
 
-    public void historyGoTo(int historyPos) {
+    public boolean historyGoTo(int historyPos) {
         if (historyPos >= history.size() || historyPos < 0) {
-            return;
+            return false;
         }
         historyPointer = historyPos;
+        return true;
     }
 
     public void historyGoNewest() {
