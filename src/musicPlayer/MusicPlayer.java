@@ -116,6 +116,10 @@ public class MusicPlayer {
         return historyPointer;
     }
 
+    public int getHistorySongId() {
+        return history.get(historyPointer);
+    }
+
     public boolean historyGoTo(int historyPos) {
         if (historyPos >= history.size() || historyPos < 0) {
             return false;
@@ -150,11 +154,16 @@ public class MusicPlayer {
         historyGoNewest();
     }
 
-    public void historyAdd(int songId) {
+    public boolean historyAdd(int songId) {
+        if(songId >= songs.length || songId < 0)
+            return false;
+
         history.addFirst(songId);
         if(history.size() > HISTORY_MAX_SIZE) {
             history.removeLast();
         }
+
+        return true;
     }
 
     public int historyLoadSong() {

@@ -2,11 +2,11 @@ package tui;
 
 import musicPlayer.MusicPlayer;
 
+import tui.menus.MenuExit;
 import tui.menus.MenuManager;
 import tui.menus.SongMenu;
 
 import tui.terminal.TerminalColor;
-import tui.terminal.TerminalControl;
 import tui.terminal.TerminalLock;
 import tui.terminal.TerminalPosition;
 
@@ -14,6 +14,7 @@ public class TUI {
     volatile MusicPlayer musicPlayer;
     TerminalLock termLock;
     MenuManager menuMgr;
+    SongMenu songMenu;
 
     public TUI() {
         musicPlayer = new MusicPlayer();
@@ -23,10 +24,6 @@ public class TUI {
     public void start(String dirPath) {
 
         if (!setDir(dirPath)) return;
-
-        // prepare Terminal
-        TerminalControl.clear();
-
         // Create the Menu Manager
         // The Menu Manager will create the Menus(Home and Song)
         menuMgr = new MenuManager(
@@ -42,6 +39,10 @@ public class TUI {
                 musicPlayer,
                 termLock
         );
+
+        songMenu = menuMgr.getSongMenu();
+
+        songMenu.clear();
 
         // start the Menus and the song Info ui
         songUiUpdater.start();
@@ -63,23 +64,10 @@ public class TUI {
         }
     }
 
-    private boolean playSong() {
-        System.out.println("Start playing Song ...");
-
-        if (!musicPlayer.continueSong()) {
-            System.out.println("cannot play Song  :(");
-            return false;
-        }
-
-        return true;
-    }
-
     private boolean loadSong(int songId) {
-        System.out.println("Loading Song ID " + songId + " ...");
-
-        // des hier kann normal nicht gesehen werden
-        // ist dafür da fals was schif geht
         if (songId != -1) musicPlayer.historyAddAndJump(songId);
+        songId = musicPlayer.getHistorySongId();
+        System.out.println("Loading Song ID " + songId + " ...");
 
         int loadResold = musicPlayer.historyLoadSong();
 
@@ -93,37 +81,55 @@ public class TUI {
         return true;
     }
 
+    private boolean playSong() {
+        System.out.println("Start playing Song ...");
+
+        if (!musicPlayer.continueSong()) {
+            System.out.println("cannot play Song  :(");
+            return false;
+        }
+
+        return true;
+    }
+
     public boolean loadAndPlaySong(int songId) {
         if (!loadSong(songId)) return false;
         return playSong();
     }
 
-    public boolean loadAndPlaySongByHistory(int historyPos) {
-        if (!musicPlayer.historyGoTo(historyPos))
-            return false;
+    public void mixPlay(boolean newSong) {
+        if (newSong)
+            musicPlayer.historyNext(1);
 
-        return loadAndPlaySong(-1);
-    }
-
-    public void mixPlay() {
-        SongMenu songMenu = menuMgr.getSongMenu();
-        songMenu.setMixPlay(true);
-
-        musicPlayer.historyNext(1);
-        int status = 0;
+        MenuExit status = MenuExit.NORMAL;
         do {
             if (!loadAndPlaySong(-1))
                 continue;
 
             songMenu.clear();
             status = songMenu.start();
-            if (status == 1) { // go one back in History
+            if (status == MenuExit.SONG_BACK) { // go one back in History
                 musicPlayer.historyBack(1);
             } else { // go one forward in history
                 musicPlayer.historyNext(1);
             }
-        } while (status != 0);
+        } while (status != MenuExit.USER_EXIT);
+    }
 
-        songMenu.setMixPlay(false);
+    public boolean mixPlayFromId(int songId) {
+        if (!musicPlayer.historyAdd(songId))
+            return false;
+        musicPlayer.historyGoNewest();
+        mixPlay(false);
+        return true;
+    }
+
+    public boolean mixPlayFromHistory(int historyPose) {
+        if (!musicPlayer.historyGoTo(historyPose)) {
+
+            return false;
+        }
+        mixPlay(false);
+        return true;
     }
 }

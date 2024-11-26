@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/jmp_jar</output-path>
     <root id="archive" name="jmp.jar">
       <element id="module-output" name="jmp" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/gui/images" />
     </root>
   </artifact>
 </component>

@@ -43,13 +43,13 @@ public class HomeMenu extends MenuBase {
         terminalHelper.savePrintln(exitMsg);
     }
 
-    private String  genSongList() {
+    private String genSongList() {
         StringBuilder out = new StringBuilder();
         Song[] songs = musicPlayer.getSongs();
 
-        for(Song song: songs) {
+        for (Song song : songs) {
             out.append(" - (")
-                    .append( String.format("%3d", song.SONG_ID)) // format of SONG_ID whit lIst in HomeMenu
+                    .append(String.format("%3d", song.SONG_ID)) // format of SONG_ID whit lIst in HomeMenu
                     .append(") ")
                     .append(song.getName())
                     .append("\n");
@@ -59,14 +59,14 @@ public class HomeMenu extends MenuBase {
     }
 
     @Override
-    int action() {
+    MenuExit action() {
         String in;
         while (true) {
             try {
                 in = terminalInput.getString(prompt);
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException | InterruptedException _) {
                 quid();
-                return 1;
+                return MenuExit.ERROR;
             }
             terminalHelper.savePrintln(inputMsg + in);
 
@@ -81,41 +81,38 @@ public class HomeMenu extends MenuBase {
                     printHistory();
                     break;
 
-                case PLAY:
+                case PLAY_FROM_SONG_ID:
                     int songId;
                     try {
-                         songId = terminalInput.getInt("Song id: ");
-                    } catch (IOException | InterruptedException e) {
+                        songId = terminalInput.getInt("Song id: ");
+                    } catch (IOException | InterruptedException _) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
-                        return 1;
+                        return MenuExit.ERROR;
                     }
-                    clear();
 
-                    if (tui.loadAndPlaySong(songId)) {
-                        clear();
-                        songMenu.start();
+                    if(!tui.mixPlayFromId(songId)) {
+                        terminalHelper.savePrintln("No Song whit SongID " + songId);
                     }
                     break;
-                case PLAY_HISTORY:
+                case PLAY_FROM_HISTORY:
                     int historyPos;
                     try {
                         historyPos = terminalInput.getInt("History Number: ");
                     } catch (IOException | InterruptedException e) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
-                        return 1;
+                        return MenuExit.ERROR;
                     }
-                    clear();
 
-                    if (tui.loadAndPlaySongByHistory(historyPos)) {
-                        clear();
-                        songMenu.start();
+                    if(!tui.mixPlayFromHistory(historyPos)) {
+                        terminalHelper.savePrintln("No History point: " + historyPos);
                     }
                     break;
-                case MIX:
-                    tui.mixPlay();
+                case PLAY:
+                    tui.mixPlay(true);
                     break;
+
                 case RELOAD:
                     terminalHelper.savePrintln("Reloading Songs ...");
                     String out = musicPlayer.reloadDir() ? "Done!" : "can not load Songs";
@@ -126,7 +123,7 @@ public class HomeMenu extends MenuBase {
                 // TUI Controls
                 case QUIT: // Quit
                     quid();
-                    return 0;
+                    return MenuExit.USER_EXIT;
                 case CLEAR: // cLear
                     clear();
                     break;

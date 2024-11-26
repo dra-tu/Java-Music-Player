@@ -6,6 +6,10 @@ public enum SongOption {
     LIST_HISTORY("lh", "show History"),
     PAUSE("p", "Pause"),
     CONTINUE("o", "Continue"),
+
+    NEXT("n", "Play next in History"),
+    BACK("b", "go Back in History"),
+
     JUMP("j", "Jump"),
     SKIP("s", "Skips"),
     REWIND("r", "Rewind"),

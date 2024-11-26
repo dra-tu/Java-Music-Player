@@ -2,7 +2,6 @@ package tui.menus;
 
 import musicPlayer.MusicPlayer;
 
-import tui.menus.options.MixOption;
 import tui.menus.options.SongOption;
 
 import tui.terminal.TerminalInput;
@@ -13,9 +12,6 @@ import tui.terminal.TerminalPosition;
 import java.io.IOException;
 
 public class SongMenu extends MenuBase {
-
-    private boolean mixPlay;
-
     // set Menu specific Strings in here
     public SongMenu(
             TerminalPosition startPos,
@@ -26,14 +22,8 @@ public class SongMenu extends MenuBase {
     ) {
         super(startPos, musicPlayer, termLock, terminalHelper, terminalInput);
 
-        mixPlay = false;
-
         prompt = "Select option [p/o/q/.../? shows all options]: ";
         exitMsg = "Song done";
-    }
-
-    public void setMixPlay(boolean mixPlay) {
-        this.mixPlay = mixPlay;
     }
 
     void quid() {
@@ -43,7 +33,7 @@ public class SongMenu extends MenuBase {
     }
 
     @Override
-    int action() {
+    MenuExit action() {
         String in;
         long jumpTime;
 
@@ -51,15 +41,16 @@ public class SongMenu extends MenuBase {
 
             try {
                 in = terminalInput.getString(prompt);
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException | InterruptedException _) {
+                terminalHelper.savePrintln("an error has curd");
                 quid();
-                return -1;
+                return MenuExit.ERROR;
             }
             terminalHelper.savePrintln(inputMsg + in);
 
             switch (SongOption.getByKey(in)) {
 
-                case SHOW_HISTORY:
+                case LIST_HISTORY:
                     printHistory();
                     break;
 
@@ -73,30 +64,30 @@ public class SongMenu extends MenuBase {
                 case JUMP: // Jump
                     try {
                         jumpTime = terminalInput.getTimeStamp();
-                    } catch (IOException | InterruptedException e) {
+                    } catch (IOException | InterruptedException _) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
-                        return -1;
+                        return MenuExit.ERROR;
                     }
                     musicPlayer.jumpTo(jumpTime);
                     break;
                 case SKIP: // sKips
                     try {
                         jumpTime = terminalInput.getTimeStamp();
-                    } catch (IOException | InterruptedException e) {
+                    } catch (IOException | InterruptedException _) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
-                        return -1;
+                        return MenuExit.ERROR;
                     }
                     musicPlayer.skipTime(jumpTime);
                     break;
                 case REWIND: // Rewind
                     try {
                         jumpTime = terminalInput.getTimeStamp();
-                    } catch (IOException | InterruptedException e) {
+                    } catch (IOException | InterruptedException _) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
-                        return -1;
+                        return MenuExit.ERROR;
                     }
                     musicPlayer.rewindTime(jumpTime);
                     break;
@@ -104,29 +95,23 @@ public class SongMenu extends MenuBase {
                 // TUI Controls
                 case QUIT: // Quit
                     quid();
-                    return 0;
+                    return MenuExit.USER_EXIT;
                 case CLEAR: // cLear
                     clear();
                     break;
                 case HELP: // show options
-                    terminalHelper.savePrintln(
-                            (mixPlay ? MixOption.getHelpString() : "") +
-                                    SongOption.getHelpString()
-                    );
+                    terminalHelper.savePrintln(SongOption.getHelpString());
                     break;
+
+                case NEXT:
+                    quid();
+                    return MenuExit.SONG_Next;
+                case BACK:
+                    quid();
+                    return MenuExit.SONG_BACK;
+
                 case null:
                 default:
-                    if (mixPlay) {
-                        int sw = switch (MixOption.getByKey(in)) {
-                            case NEXT -> 2;
-                            case PREVIOUS -> 1;
-                            case null -> 0;
-                        };
-                        if (sw != 0) {
-                            quid();
-                            return sw;
-                        }
-                    }
                     terminalHelper.savePrintln(unknownMsg);
                     break;
             }
