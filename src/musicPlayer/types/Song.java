@@ -31,7 +31,13 @@ public class Song {
         try {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
             Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
+
+            try {
+                clip.open(audioStream);
+            }catch (IllegalArgumentException _) {
+                return null;
+            }
+
 
             audioStream.close();
 

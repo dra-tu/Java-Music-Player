@@ -79,7 +79,7 @@ public class TUI {
 
         // des hier kann normal nicht gesehen werden
         // ist dafür da fals was schif geht
-        if(songId != -1) musicPlayer.historyAddAndJump(songId);
+        if (songId != -1) musicPlayer.historyAddAndJump(songId);
 
         int loadResold = musicPlayer.historyLoadSong();
 
@@ -94,7 +94,7 @@ public class TUI {
     }
 
     public boolean loadAndPlaySong(int songId) {
-        if(!loadSong(songId)) return false;
+        if (!loadSong(songId)) return false;
         return playSong();
     }
 
@@ -103,9 +103,10 @@ public class TUI {
         songMenu.setMixPlay(true);
 
         musicPlayer.historyNext(1);
-        int status;
+        int status = 0;
         do {
-            loadAndPlaySong(-1);
+            if (!loadAndPlaySong(-1))
+                continue;
 
             songMenu.clear();
             status = songMenu.start();
@@ -114,7 +115,7 @@ public class TUI {
             } else { // go one forward in history
                 musicPlayer.historyNext(1);
             }
-        } while(status != 0);
+        } while (status != 0);
 
         songMenu.setMixPlay(false);
     }
