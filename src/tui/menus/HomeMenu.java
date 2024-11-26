@@ -73,14 +73,14 @@ public class HomeMenu extends MenuBase {
             switch (HomeOption.getByKey(in)) {
 
                 // MusicPlayer Controls
-                case HomeOption.LIST:
+                case LIST:
                     terminalHelper.savePrint(songList);
                     break;
-                case HomeOption.SHOW_HISTORY:
+                case LIST_HISTORY:
                     printHistory();
                     break;
 
-                case HomeOption.PLAY:
+                case PLAY:
                     int songId;
                     try {
                          songId = terminalInput.getInt("Song id: ");
@@ -99,7 +99,7 @@ public class HomeMenu extends MenuBase {
                 case HomeOption.MIX:
                     tui.mixPlay();
                     break;
-                case HomeOption.RELOAD:
+                case RELOAD:
                     terminalHelper.savePrintln("Reloading Songs ...");
                     String out = musicPlayer.reloadDir() ? "Done!" : "can not load Songs";
                     songList = genSongList();
@@ -107,13 +107,13 @@ public class HomeMenu extends MenuBase {
                     break;
 
                 // TUI Controls
-                case HomeOption.QUIT: // Quit
+                case QUIT: // Quit
                     quid();
                     return 0;
-                case HomeOption.CLEAR: // cLear
+                case CLEAR: // cLear
                     clear();
                     break;
-                case HomeOption.HELP: // show options
+                case HELP: // show options
                     terminalHelper.savePrintln(HomeOption.getHelpString());
                     break;
                 case null:
