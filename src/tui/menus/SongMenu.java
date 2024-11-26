@@ -10,6 +10,7 @@ import tui.terminal.TerminalLock;
 import tui.terminal.TerminalPosition;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 
 public class SongMenu extends MenuBase {
     // set Menu specific Strings in here
@@ -68,6 +69,9 @@ public class SongMenu extends MenuBase {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
                         return MenuExit.ERROR;
+                    } catch (InputMismatchException _) {
+                        terminalHelper.savePrintln("This is not a Time");
+                        break;
                     }
                     musicPlayer.jumpTo(jumpTime);
                     break;
@@ -78,6 +82,9 @@ public class SongMenu extends MenuBase {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
                         return MenuExit.ERROR;
+                    } catch (InputMismatchException _) {
+                        terminalHelper.savePrintln("This is not a Time");
+                        break;
                     }
                     musicPlayer.skipTime(jumpTime);
                     break;
@@ -88,6 +95,9 @@ public class SongMenu extends MenuBase {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
                         return MenuExit.ERROR;
+                    } catch (InputMismatchException _) {
+                        terminalHelper.savePrintln("This is not a Time");
+                        break;
                     }
                     musicPlayer.rewindTime(jumpTime);
                     break;

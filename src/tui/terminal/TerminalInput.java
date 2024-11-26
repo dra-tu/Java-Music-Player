@@ -3,6 +3,8 @@ package tui.terminal;
 import tui.TimeStamp;
 
 import java.io.IOException;
+
+import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -21,13 +23,13 @@ public class TerminalInput {
         return scanner.next();
     }
 
-    public int getInt(String prompt) throws IOException, InterruptedException {
+    public int getInt(String prompt) throws IOException, InterruptedException, InputMismatchException {
         terminalHelper.savePrint(prompt);
         waitForStuff();
         return scanner.nextInt();
     }
 
-    public long getTimeStamp() throws IOException, InterruptedException {
+    public long getTimeStamp() throws IOException, InterruptedException, InputMismatchException {
         int minute = getInt("minute? ");
         int second = getInt("second? ");
 

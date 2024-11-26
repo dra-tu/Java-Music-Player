@@ -12,6 +12,7 @@ import tui.terminal.TerminalLock;
 import tui.terminal.TerminalPosition;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 
 public class HomeMenu extends MenuBase {
     TUI tui;
@@ -89,20 +90,26 @@ public class HomeMenu extends MenuBase {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
                         return MenuExit.ERROR;
+                    } catch (InputMismatchException _) {
+                        terminalHelper.savePrintln("No Song whit this SongID");
+                        break;
                     }
 
                     if(!tui.mixPlayFromId(songId)) {
-                        terminalHelper.savePrintln("No Song whit SongID " + songId);
+                        terminalHelper.savePrintln("No Song whit SongID: " + songId);
                     }
                     break;
                 case PLAY_FROM_HISTORY:
                     int historyPos;
                     try {
                         historyPos = terminalInput.getInt("History Number: ");
-                    } catch (IOException | InterruptedException e) {
+                    } catch (IOException | InterruptedException _) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
                         return MenuExit.ERROR;
+                    } catch (InputMismatchException _) {
+                        terminalHelper.savePrintln("No Song at this history point");
+                        break;
                     }
 
                     if(!tui.mixPlayFromHistory(historyPos)) {
