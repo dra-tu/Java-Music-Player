@@ -98,6 +98,13 @@ public class TUI {
         return playSong();
     }
 
+    public boolean loadAndPlaySongByHistory(int historyPos) {
+        if (!musicPlayer.historyGoTo(historyPos))
+            return false;
+
+        return loadAndPlaySong(-1);
+    }
+
     public void mixPlay() {
         SongMenu songMenu = menuMgr.getSongMenu();
         songMenu.setMixPlay(true);
