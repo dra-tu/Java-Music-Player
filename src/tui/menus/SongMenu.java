@@ -3,8 +3,9 @@ package tui.menus;
 import musicPlayer.MusicPlayer;
 
 import tui.menus.options.MixOption;
-import tui.terminal.TerminalInput;
 import tui.menus.options.SongOption;
+
+import tui.terminal.TerminalInput;
 import tui.terminal.TerminalHelper;
 import tui.terminal.TerminalLock;
 import tui.terminal.TerminalPosition;
@@ -58,18 +59,18 @@ public class SongMenu extends MenuBase {
 
             switch (SongOption.getByKey(in)) {
 
-                case SongOption.SHOW_HISTORY:
+                case SHOW_HISTORY:
                     printHistory();
                     break;
 
                 // MusicPlayer Controls
-                case SongOption.PAUSE: // Pause
+                case PAUSE: // Pause
                     musicPlayer.stopSong();
                     break;
-                case SongOption.CONTINUE: // Continue
+                case CONTINUE: // Continue
                     musicPlayer.continueSong();
                     break;
-                case SongOption.JUMP: // Jump
+                case JUMP: // Jump
                     try {
                         jumpTime = terminalInput.getTimeStamp();
                     } catch (IOException | InterruptedException e) {
@@ -79,7 +80,7 @@ public class SongMenu extends MenuBase {
                     }
                     musicPlayer.jumpTo(jumpTime);
                     break;
-                case SongOption.SKIP: // sKips
+                case SKIP: // sKips
                     try {
                         jumpTime = terminalInput.getTimeStamp();
                     } catch (IOException | InterruptedException e) {
@@ -89,7 +90,7 @@ public class SongMenu extends MenuBase {
                     }
                     musicPlayer.skipTime(jumpTime);
                     break;
-                case SongOption.REWIND: // Rewind
+                case REWIND: // Rewind
                     try {
                         jumpTime = terminalInput.getTimeStamp();
                     } catch (IOException | InterruptedException e) {
@@ -101,24 +102,24 @@ public class SongMenu extends MenuBase {
                     break;
 
                 // TUI Controls
-                case SongOption.QUIT: // Quit
+                case QUIT: // Quit
                     quid();
                     return 0;
-                case SongOption.CLEAR: // cLear
+                case CLEAR: // cLear
                     clear();
                     break;
-                case SongOption.HELP: // show options
+                case HELP: // show options
                     terminalHelper.savePrintln(
-                            (mixPlay ? MixOption.getHelpString() : "" ) +
-                        SongOption.getHelpString()
+                            (mixPlay ? MixOption.getHelpString() : "") +
+                                    SongOption.getHelpString()
                     );
                     break;
                 case null:
                 default:
                     if (mixPlay) {
                         int sw = switch (MixOption.getByKey(in)) {
-                            case MixOption.NEXT -> 2;
-                            case MixOption.PREVIOUS -> 1;
+                            case NEXT -> 2;
+                            case PREVIOUS -> 1;
                             case null -> 0;
                         };
                         if (sw != 0) {
