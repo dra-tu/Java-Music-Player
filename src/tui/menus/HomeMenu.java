@@ -70,6 +70,7 @@ public class HomeMenu extends MenuBase {
             }
             terminalHelper.savePrintln(inputMsg + in);
 
+
             switch (HomeOption.getByKey(in)) {
 
                 // MusicPlayer Controls
@@ -96,7 +97,23 @@ public class HomeMenu extends MenuBase {
                         songMenu.start();
                     }
                     break;
-                case HomeOption.MIX:
+                case PLAY_HISTORY:
+                    int historyPos;
+                    try {
+                        historyPos = terminalInput.getInt("History Number: ");
+                    } catch (IOException | InterruptedException e) {
+                        terminalHelper.savePrintln("an error has curd");
+                        quid();
+                        return 1;
+                    }
+                    clear();
+
+                    if (tui.loadAndPlaySongByHistory(historyPos)) {
+                        clear();
+                        songMenu.start();
+                    }
+                    break;
+                case MIX:
                     tui.mixPlay();
                     break;
                 case RELOAD:
