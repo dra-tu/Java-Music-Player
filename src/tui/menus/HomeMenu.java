@@ -120,6 +120,10 @@ public class HomeMenu extends MenuBase {
                     tui.mixPlay(true);
                     break;
 
+                case LIST_ERRORS:
+                    terminalHelper.savePrintln(tui.getErrorLog());
+                    break;
+
                 case RELOAD:
                     terminalHelper.savePrintln("Reloading Songs ...");
                     String out = musicPlayer.reloadDir() ? "Done!" : "can not load Songs";

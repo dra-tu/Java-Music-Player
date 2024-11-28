@@ -8,6 +8,7 @@ public enum HomeOption {
     PLAY("p", "Play"),
     PLAY_FROM_HISTORY("ph", "Start Play from point in history"),
     PLAY_FROM_SONG_ID("ps", "Start play whit specific song"),
+    LIST_ERRORS("E", "lists errors"),
     RELOAD("r", "Reload"),
     CLEAR("c", "Clear"),
     HELP("?", "Help"),

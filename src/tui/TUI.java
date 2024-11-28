@@ -10,15 +10,29 @@ import tui.terminal.TerminalColor;
 import tui.terminal.TerminalLock;
 import tui.terminal.TerminalPosition;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class TUI {
     volatile MusicPlayer musicPlayer;
-    TerminalLock termLock;
-    MenuManager menuMgr;
-    SongMenu songMenu;
+    private final TerminalLock termLock;
+    private SongMenu songMenu;
+
+    private String errorLog = "";
 
     public TUI() {
         musicPlayer = new MusicPlayer();
         termLock = new TerminalLock();
+    }
+
+    public void addToErrorLog(String error) {
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM HH:mm");
+        String date = LocalDateTime.now().format(myFormatObj);
+        errorLog += String.format("[ERROR @ %s] %s%n", date, error);
+    }
+
+    public String getErrorLog() {
+        return errorLog;
     }
 
     public void start(String dirPath) {
@@ -26,7 +40,7 @@ public class TUI {
         if (!setDir(dirPath)) return;
         // Create the Menu Manager
         // The Menu Manager will create the Menus(Home and Song)
-        menuMgr = new MenuManager(
+        MenuManager menuMgr = new MenuManager(
                 new TerminalPosition(1, 3),
                 musicPlayer,
                 termLock,
@@ -103,8 +117,13 @@ public class TUI {
 
         MenuExit status = MenuExit.NORMAL;
         do {
-            if (!loadAndPlaySong(-1))
+            if (!loadAndPlaySong(-1)) {
+                addToErrorLog(
+                        "problem by loading or playing song: " +
+                        musicPlayer.getSong(musicPlayer.getHistorySongId()).getName());
+                musicPlayer.historyNext(1);
                 continue;
+            }
 
             songMenu.clear();
             status = songMenu.start();
