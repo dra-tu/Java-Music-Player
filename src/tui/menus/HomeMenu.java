@@ -6,10 +6,7 @@ import musicPlayer.types.Song;
 import tui.menus.options.HomeOption;
 
 import tui.TUI;
-import tui.terminal.TerminalInput;
-import tui.terminal.TerminalHelper;
-import tui.terminal.TerminalLock;
-import tui.terminal.TerminalPosition;
+import tui.terminal.*;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
@@ -17,8 +14,16 @@ import java.util.InputMismatchException;
 public class HomeMenu extends MenuBase {
     TUI tui;
     SongMenu songMenu;
-
     String songList;
+
+    static final String prompt =
+            "Select option [" +
+                    TerminalColor.GREEN + "p" + TerminalColor.RESET +
+                    "/"+TerminalColor.GREEN+"l"+TerminalColor.RESET+
+                    "/"+TerminalColor.GREEN+"c"+TerminalColor.RESET+
+                    "/..."+
+                    "/"+TerminalColor.GREEN+"?"+TerminalColor.RESET+
+                    " shows all options]: ";
 
     public HomeMenu(
             TerminalPosition startPos,
@@ -36,7 +41,6 @@ public class HomeMenu extends MenuBase {
 
         songList = genSongList();
 
-        prompt = "Select option [l/p/m/.../? shows all options]: ";
         exitMsg = "Have a great day!";
     }
 

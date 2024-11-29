@@ -1,5 +1,7 @@
 package tui.menus.options;
 
+import tui.terminal.TerminalColor;
+
 import java.util.EnumSet;
 import java.util.HashMap;
 
@@ -7,22 +9,34 @@ public class OptionHelper {
 
     public static <E extends Enum<E>> ReturnValue<E> genHelpStringAndKeyMap(Class<E> enumT) {
 
-        StringBuilder strB = new StringBuilder(50);
+        StringBuilder strB = new StringBuilder(300);
         HashMap<String, E> keyMap = new HashMap<>();
 
         for(E option: EnumSet.allOf(enumT) ) {
 
+            // get the values of the KEY and DESCRIPTIONfields
             String key;
             String description;
             try {
                 key = enumT.getDeclaredField("KEY").get(option).toString();
                 description = enumT.getDeclaredField("DESCRIPTION").get(option).toString();
             } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Fuck");
             }
 
+            // add key, option pare to the map
             keyMap.put(key, option);
-            strB.append(key).append(": ").append(description).append(String.format("%n"));
+
+            // add key, description pare to the help string
+            strB
+                    .append(TerminalColor.GREEN)
+                    .append(String.format("%2s", key))
+                    .append(TerminalColor.RESET)
+                    .append(": ")
+                    .append(TerminalColor.BLUE)
+                    .append(description)
+                    .append(TerminalColor.RESET)
+                    .append(String.format("%n"));
 
         }
 

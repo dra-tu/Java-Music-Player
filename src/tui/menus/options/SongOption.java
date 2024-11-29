@@ -2,41 +2,32 @@ package tui.menus.options;
 
 import java.util.HashMap;
 
+import tui.menus.options.OptionHelper.ReturnValue;
+
 public enum SongOption {
-    LIST_HISTORY("lh", "show History"),
     PAUSE("p", "Pause"),
     CONTINUE("o", "Continue"),
-
     NEXT("n", "Play next in History"),
     BACK("b", "go Back in History"),
-
     JUMP("j", "Jump"),
     SKIP("s", "Skips"),
     REWIND("r", "Rewind"),
+    LIST_HISTORY("lh", "show History"),
     CLEAR("c", "Clear"),
     QUIT("q", "Quit"),
     HELP("?", "Help");
 
     // this part is the same in all Option Enums
     // EXCEPTIONS: Name of constructor, Type in HasMap, in static for loop, return Type of getByKey
-    private final String KEY;
-    private final String DESCRIPTION;
+    final String KEY;
+    final String DESCRIPTION;
 
-    private static final HashMap<String, SongOption> KEY_MAP = new HashMap<>();
+    private static final HashMap<String, SongOption> KEY_MAP;
     private static final String HELP_STRING;
 
     SongOption(String KEY, String DESCRIPTION) {
         this.KEY = KEY;
         this.DESCRIPTION = DESCRIPTION;
-    }
-
-    static {
-        StringBuilder strB = new StringBuilder();
-        for(SongOption option: values()) {
-            KEY_MAP.put(option.KEY, option);
-            strB.append(option.KEY).append(": ").append(option.DESCRIPTION).append(String.format("%n"));
-        }
-        HELP_STRING = strB.toString();
     }
 
     public static SongOption getByKey(String key) {
@@ -45,5 +36,11 @@ public enum SongOption {
 
     public static String getHelpString() {
         return HELP_STRING;
+    }
+
+    static {
+        ReturnValue<SongOption> b = OptionHelper.genHelpStringAndKeyMap(SongOption.class);
+        HELP_STRING = b.HELP_STRING;
+        KEY_MAP = b.KEY_MAP;
     }
 }
