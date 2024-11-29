@@ -75,7 +75,7 @@ public class HomeMenu extends MenuBase {
         while (true) {
             try {
                 in = terminalInput.getString(prompt);
-            } catch (IOException | InterruptedException _) {
+            } catch (IOException | InterruptedException e) {
                 quid();
                 return MenuExit.ERROR;
             }
@@ -95,11 +95,11 @@ public class HomeMenu extends MenuBase {
                     int songId;
                     try {
                         songId = terminalInput.getInt("Song id: ");
-                    } catch (IOException | InterruptedException _) {
+                    } catch (IOException | InterruptedException e) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
                         return MenuExit.ERROR;
-                    } catch (InputMismatchException _) {
+                    } catch (InputMismatchException e) {
                         terminalHelper.savePrintln("No Song whit this SongID");
                         break;
                     }
@@ -112,11 +112,11 @@ public class HomeMenu extends MenuBase {
                     int historyPos;
                     try {
                         historyPos = terminalInput.getInt("History Number: ");
-                    } catch (IOException | InterruptedException _) {
+                    } catch (IOException | InterruptedException e) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
                         return MenuExit.ERROR;
-                    } catch (InputMismatchException _) {
+                    } catch (InputMismatchException e) {
                         terminalHelper.savePrintln("No Song at this history point");
                         break;
                     }

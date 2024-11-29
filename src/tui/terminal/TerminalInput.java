@@ -40,7 +40,7 @@ public class TerminalInput {
         while (System.in.available() == 0) {
             try {
                 Thread.sleep(50);
-            } catch (InterruptedException _) {
+            } catch (InterruptedException e) {
                 throw new InterruptedException("Interrupted while reading input");
             }
         }

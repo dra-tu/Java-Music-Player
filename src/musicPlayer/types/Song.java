@@ -34,7 +34,7 @@ public class Song {
 
             try {
                 clip.open(audioStream);
-            } catch (IllegalArgumentException _) {
+            } catch (IllegalArgumentException e) {
                 return null;
             }
 

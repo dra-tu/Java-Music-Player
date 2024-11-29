@@ -49,7 +49,7 @@ public class SongMenu extends MenuBase {
 
             try {
                 in = terminalInput.getString(prompt);
-            } catch (IOException | InterruptedException _) {
+            } catch (IOException | InterruptedException e) {
                 terminalHelper.savePrintln("an error has curd");
                 quid();
                 return MenuExit.ERROR;
@@ -72,11 +72,11 @@ public class SongMenu extends MenuBase {
                 case JUMP: // Jump
                     try {
                         jumpTime = terminalInput.getTimeStamp();
-                    } catch (IOException | InterruptedException _) {
+                    } catch (IOException | InterruptedException e) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
                         return MenuExit.ERROR;
-                    } catch (InputMismatchException _) {
+                    } catch (InputMismatchException e) {
                         terminalHelper.savePrintln("This is not a Time");
                         break;
                     }
@@ -85,11 +85,11 @@ public class SongMenu extends MenuBase {
                 case SKIP: // sKips
                     try {
                         jumpTime = terminalInput.getTimeStamp();
-                    } catch (IOException | InterruptedException _) {
+                    } catch (IOException | InterruptedException e) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
                         return MenuExit.ERROR;
-                    } catch (InputMismatchException _) {
+                    } catch (InputMismatchException e) {
                         terminalHelper.savePrintln("This is not a Time");
                         break;
                     }
@@ -98,11 +98,11 @@ public class SongMenu extends MenuBase {
                 case REWIND: // Rewind
                     try {
                         jumpTime = terminalInput.getTimeStamp();
-                    } catch (IOException | InterruptedException _) {
+                    } catch (IOException | InterruptedException e) {
                         terminalHelper.savePrintln("an error has curd");
                         quid();
                         return MenuExit.ERROR;
-                    } catch (InputMismatchException _) {
+                    } catch (InputMismatchException e) {
                         terminalHelper.savePrintln("This is not a Time");
                         break;
                     }

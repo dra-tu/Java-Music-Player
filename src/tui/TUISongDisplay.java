@@ -54,7 +54,7 @@ public class TUISongDisplay extends Thread {
 
             try {
                 Thread.sleep(1_000);
-            } catch (InterruptedException _) {
+            } catch (InterruptedException e) {
                 runing = false; // the program while now be closed
             }
         } while (runing);
