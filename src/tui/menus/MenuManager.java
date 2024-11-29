@@ -16,7 +16,7 @@ public class MenuManager {
         TerminalHelper terminalHelper = new TerminalHelper(termLock);
         TerminalInput inFunc = new TerminalInput(termLock);
 
-        songMenu = new SongMenu(startPos, musicPlayer, termLock, terminalHelper, inFunc);
+        songMenu = new SongMenu(tui, startPos, musicPlayer, termLock, terminalHelper, inFunc);
         homeMenu = new HomeMenu(startPos, musicPlayer, termLock, terminalHelper, inFunc, tui, songMenu);
     }
 

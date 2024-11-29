@@ -1,7 +1,6 @@
 package tui.menus;
 
 import musicPlayer.MusicPlayer;
-import musicPlayer.types.Song;
 
 import tui.menus.options.HomeOption;
 
@@ -14,9 +13,7 @@ import java.util.InputMismatchException;
 import static tui.terminal.TerminalColor.*;
 
 public class HomeMenu extends MenuBase {
-    TUI tui;
     SongMenu songMenu;
-    String songList;
 
     static {
         prompt = "Select option [" +
@@ -38,35 +35,13 @@ public class HomeMenu extends MenuBase {
             TUI tui,
             SongMenu songMenu
     ) {
-        super(startPos, musicPlayer, termLock, terminalHelper, terminalInput);
+        super(tui, startPos, musicPlayer, termLock, terminalHelper, terminalInput);
 
-        this.tui = tui;
         this.songMenu = songMenu;
-
-        songList = genSongList();
     }
 
     void quid() {
         terminalHelper.savePrintln(exitMsg);
-    }
-
-    private String genSongList() {
-        StringBuilder out = new StringBuilder();
-        Song[] songs = musicPlayer.getSongs();
-        final int indexSize = Integer.toString(songs.length).length();
-        final String formatMask = "%" + indexSize + "d";
-
-        for (Song song : songs) {
-            out.append("(")
-                    .append(BLUE)
-                    .append(String.format(formatMask, song.SONG_ID))
-                    .append(RESET)
-                    .append(") ")
-                    .append(song.getName())
-                    .append(String.format("%n"));
-        }
-
-        return out.toString();
     }
 
     @Override
@@ -89,6 +64,9 @@ public class HomeMenu extends MenuBase {
                     break;
                 case LIST_HISTORY:
                     printHistory();
+                    break;
+                case LIST_ERRORS:
+                    terminalHelper.savePrintln(tui.getErrorLog());
                     break;
 
                 case PLAY_FROM_SONG_ID:
@@ -129,14 +107,10 @@ public class HomeMenu extends MenuBase {
                     tui.mixPlay(true);
                     break;
 
-                case LIST_ERRORS:
-                    terminalHelper.savePrintln(tui.getErrorLog());
-                    break;
-
                 case RELOAD:
                     terminalHelper.savePrintln("Reloading Songs ...");
                     String out = musicPlayer.reloadDir() ? "Done!" : "can not load Songs";
-                    songList = genSongList();
+                    genSongList();
                     terminalHelper.savePrintln(out);
                     break;
 

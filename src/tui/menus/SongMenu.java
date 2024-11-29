@@ -2,6 +2,7 @@ package tui.menus;
 
 import musicPlayer.MusicPlayer;
 
+import tui.TUI;
 import tui.menus.options.SongOption;
 import tui.terminal.*;
 
@@ -25,13 +26,14 @@ public class SongMenu extends MenuBase {
 
     // set Menu specific Strings in here
     public SongMenu(
+            TUI tui,
             TerminalPosition startPos,
             MusicPlayer musicPlayer,
             TerminalLock termLock,
             TerminalHelper terminalHelper,
             TerminalInput terminalInput
     ) {
-        super(startPos, musicPlayer, termLock, terminalHelper, terminalInput);
+        super(tui, startPos, musicPlayer, termLock, terminalHelper, terminalInput);
     }
 
     void quid() {
@@ -58,8 +60,14 @@ public class SongMenu extends MenuBase {
 
             switch (SongOption.getByKey(in)) {
 
+                case LIST_SONGS:
+                    terminalHelper.savePrint(songList);
+                    break;
                 case LIST_HISTORY:
                     printHistory();
+                    break;
+                case LIST_ERRORS:
+                    terminalHelper.savePrintln(tui.getErrorLog());
                     break;
 
                 // MusicPlayer Controls

@@ -1,6 +1,8 @@
 package tui.menus;
 
 import musicPlayer.MusicPlayer;
+import musicPlayer.types.Song;
+import tui.TUI;
 import tui.terminal.*;
 
 import static tui.terminal.TerminalColor.*;
@@ -11,13 +13,18 @@ public abstract class MenuBase {
     static String unknownMsg = RED + "unknown Option" + RESET;
     static String inputMsg = YELLOW + "=> " + RESET;
 
+    String songList;
+
+    TUI tui;
     TerminalPosition startPos;
     TerminalHelper terminalHelper;
     MusicPlayer musicPlayer;
     TerminalLock termLock;
     TerminalInput terminalInput;
 
+
     public MenuBase(
+            TUI tui,
             TerminalPosition startPos,
             MusicPlayer musicPlayer,
             TerminalLock termLock,
@@ -29,6 +36,8 @@ public abstract class MenuBase {
         this.termLock = termLock;
         this.terminalHelper = terminalHelper;
         this.terminalInput = terminalInput;
+        this.tui = tui;
+        genSongList();
     }
 
     public void clear() {
@@ -47,6 +56,25 @@ public abstract class MenuBase {
         termLock.lockTerminal();
         TerminalControl.setCursorPos(startPos);
         termLock.unlockTerminal();
+    }
+
+    void genSongList() {
+        StringBuilder out = new StringBuilder();
+        Song[] songs = musicPlayer.getSongs();
+        final int indexSize = Integer.toString(songs.length).length();
+        final String formatMask = "%" + indexSize + "d";
+
+        for (Song song : songs) {
+            out.append("(")
+                    .append(BLUE)
+                    .append(String.format(formatMask, song.SONG_ID))
+                    .append(RESET)
+                    .append(") ")
+                    .append(song.getName())
+                    .append(String.format("%n"));
+        }
+
+        songList = out.toString();
     }
 
     void printHistory() {

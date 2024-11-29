@@ -12,7 +12,9 @@ public enum SongOption {
     JUMP("j", "Jump"),
     SKIP("s", "Skips"),
     REWIND("r", "Rewind"),
-    LIST_HISTORY("lh", "list History"),
+    LIST_SONGS("ls", "List songs"),
+    LIST_HISTORY("lh", "list history"),
+    LIST_ERRORS("le", "list errors"),
     CLEAR("c", "Clear"),
     QUIT("q", "Quit"),
     HELP("?", "Help");
