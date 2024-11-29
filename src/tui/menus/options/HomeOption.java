@@ -6,7 +6,7 @@ public enum HomeOption {
     PLAY("p", "Play"),
     PLAY_FROM_SONG_ID("ps", "Start play whit specific song"),
     PLAY_FROM_HISTORY("ph", "Start Play from point in history"),
-    LIST("l", "List"),
+    LIST_SONGS("ls", "List"),
     LIST_HISTORY("lh", "list History"),
     LIST_ERRORS("le", "list errors"),
     RELOAD("r", "Reload"),

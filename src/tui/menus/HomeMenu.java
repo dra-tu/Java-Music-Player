@@ -84,7 +84,7 @@ public class HomeMenu extends MenuBase {
             switch (HomeOption.getByKey(in)) {
 
                 // MusicPlayer Controls
-                case LIST:
+                case LIST_SONGS:
                     terminalHelper.savePrint(songList);
                     break;
                 case LIST_HISTORY:
