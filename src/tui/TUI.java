@@ -122,7 +122,7 @@ public class TUI {
             if (!loadAndPlaySong(-1)) {
                 addToErrorLog(
                         "problem by loading or playing song: "
-                        + musicPlayer.getSong(musicPlayer.getHistorySongId()).getName()
+                                + musicPlayer.getSong(musicPlayer.getHistorySongId()).getName()
                 );
                 musicPlayer.historyNext(1);
                 continue;

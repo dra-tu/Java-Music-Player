@@ -8,7 +8,7 @@ public class TerminalLock {
     }
 
     public synchronized void lockTerminal() {
-        while(inUse) {
+        while (inUse) {
             try {
                 wait();
             } catch (InterruptedException e) {

@@ -12,6 +12,7 @@ public class TerminalHelper {
         System.out.print(string);
         termLock.unlockTerminal();
     }
+
     public void savePrintln(String string) {
         termLock.lockTerminal();
         System.out.println(string);

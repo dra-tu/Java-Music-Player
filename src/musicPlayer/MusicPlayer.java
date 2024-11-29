@@ -155,11 +155,11 @@ public class MusicPlayer {
     }
 
     public boolean historyAdd(int songId) {
-        if(songId >= songs.length || songId < 0)
+        if (songId >= songs.length || songId < 0)
             return false;
 
         history.addFirst(songId);
-        if(history.size() > HISTORY_MAX_SIZE) {
+        if (history.size() > HISTORY_MAX_SIZE) {
             history.removeLast();
         }
 

@@ -12,7 +12,7 @@ public class OptionHelper {
         StringBuilder strB = new StringBuilder(300);
         HashMap<String, E> keyMap = new HashMap<>();
 
-        for(E option: EnumSet.allOf(enumT) ) {
+        for (E option : EnumSet.allOf(enumT)) {
 
             // get the values of the KEY and DESCRIPTIONfields
             String key;

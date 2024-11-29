@@ -47,7 +47,7 @@ public class TUISongDisplay extends Thread {
                 );
 
                 // Song Menu will clos and go back to Home Menu when song is done playing
-                if(songLength == currentTime) {
+                if (songLength == currentTime) {
                     menuThread.interrupt();
                 }
             }
@@ -57,7 +57,7 @@ public class TUISongDisplay extends Thread {
             } catch (InterruptedException _) {
                 runing = false; // the program while now be closed
             }
-        } while(runing);
+        } while (runing);
     }
 
     private void printSongInfo(String currentTime, String songLength, String songName, int songId) {

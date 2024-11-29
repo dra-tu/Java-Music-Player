@@ -53,7 +53,7 @@ public abstract class MenuBase {
         Integer[] history = musicPlayer.getHistory();
         int historyPos = musicPlayer.getHistoryPos();
 
-        int charLength = (MusicPlayer.HISTORY_MAX_SIZE+"").length();
+        int charLength = (MusicPlayer.HISTORY_MAX_SIZE + "").length();
         int b = (history.length + "").length();
 
         String pointer = YELLOW + ">" + RESET;
@@ -64,14 +64,15 @@ public abstract class MenuBase {
         String historyItem = historyNumber + songId + songNameS + "%n";
 
         String songName;
-        for(int i = 0; i < history.length; i++) {
+        for (int i = 0; i < history.length; i++) {
             songName = musicPlayer.getSong(history[i]).getName();
 
-            if(i == historyPos) System.out.print(pointer);
+            if (i == historyPos) System.out.print(pointer);
             System.out.printf(historyItem, i, history[i], songName);
         }
     }
 
     abstract MenuExit action();
+
     abstract void quid();
 }

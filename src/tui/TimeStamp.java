@@ -6,8 +6,8 @@ public class TimeStamp {
     }
 
     public static String toString(long microseconds) {
-        int minutes = (int) ( microseconds / 1_000_000 ) / 60;
-        int seconds = (int) ( microseconds / 1_000_000 ) % 60;
+        int minutes = (int) (microseconds / 1_000_000) / 60;
+        int seconds = (int) (microseconds / 1_000_000) % 60;
 
         return String.format("%02d:%02d", minutes, seconds);
     }

@@ -19,7 +19,7 @@ public class Song {
     }
 
     public boolean setFile(File file) {
-        if( !file.isFile() || !file.getName().endsWith(".wav") ) return false;
+        if (!file.isFile() || !file.getName().endsWith(".wav")) return false;
 
         this.file = file;
         this.name = file.getName().replaceAll(".wav", "");
@@ -34,7 +34,7 @@ public class Song {
 
             try {
                 clip.open(audioStream);
-            }catch (IllegalArgumentException _) {
+            } catch (IllegalArgumentException _) {
                 return null;
             }
 

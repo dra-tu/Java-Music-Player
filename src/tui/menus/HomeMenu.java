@@ -81,7 +81,6 @@ public class HomeMenu extends MenuBase {
             }
             terminalHelper.savePrintln(inputMsg + in);
 
-
             switch (HomeOption.getByKey(in)) {
 
                 // MusicPlayer Controls
