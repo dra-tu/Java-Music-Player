@@ -6,9 +6,11 @@ import tui.menus.MenuExit;
 import tui.menus.MenuManager;
 import tui.menus.SongMenu;
 
-import tui.terminal.TerminalColor;
 import tui.terminal.TerminalLock;
 import tui.terminal.TerminalPosition;
+
+import static tui.terminal.TerminalColor.RED;
+import static tui.terminal.TerminalColor.RESET;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -86,7 +88,7 @@ public class TUI {
         int loadResold = musicPlayer.historyLoadSong();
 
         if (loadResold == -1) {
-            System.out.println(TerminalColor.RED + "cannot load Song  :(" + TerminalColor.RESET);
+            System.out.println(RED + "cannot load Song  :(" + RESET);
             return false;
         }
 

@@ -3,12 +3,13 @@ package tui.menus;
 import musicPlayer.MusicPlayer;
 import tui.terminal.*;
 
+import static tui.terminal.TerminalColor.*;
+
 public abstract class MenuBase {
-    // default Strings
-    String prompt = "? ";
-    String unknownMsg = "unknown Option";
-    String exitMsg = "BY";
-    String inputMsg = "=> ";
+    static String prompt;
+    static String exitMsg;
+    static String unknownMsg = RED + "unknown Option" + RESET;
+    static String inputMsg = YELLOW + "=> " + RESET;
 
     TerminalPosition startPos;
     TerminalHelper terminalHelper;
@@ -52,19 +53,21 @@ public abstract class MenuBase {
         Integer[] history = musicPlayer.getHistory();
         int historyPos = musicPlayer.getHistoryPos();
 
-        int length = (MusicPlayer.HISTORY_MAX_SIZE+"").length();
+        int charLength = (MusicPlayer.HISTORY_MAX_SIZE+"").length();
         int b = (history.length + "").length();
 
-        String historyNumber = " %" + length + "d: ";
-        String songId = "(%" + b + "d) ";
+        String pointer = YELLOW + ">" + RESET;
+        String historyNumber = GREEN + " %" + charLength + "d" + RESET + ": ";
+        String songId = "(" + BLUE + "%" + b + "d" + RESET + ") ";
         String songNameS = "%s";
+
         String historyItem = historyNumber + songId + songNameS + "%n";
 
         String songName;
         for(int i = 0; i < history.length; i++) {
             songName = musicPlayer.getSong(history[i]).getName();
 
-            if(i == historyPos) System.out.print(">");
+            if(i == historyPos) System.out.print(pointer);
             System.out.printf(historyItem, i, history[i], songName);
         }
     }

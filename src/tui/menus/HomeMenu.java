@@ -11,19 +11,23 @@ import tui.terminal.*;
 import java.io.IOException;
 import java.util.InputMismatchException;
 
+import static tui.terminal.TerminalColor.*;
+
 public class HomeMenu extends MenuBase {
     TUI tui;
     SongMenu songMenu;
     String songList;
 
-    static final String prompt =
-            "Select option [" +
-                    TerminalColor.GREEN + "p" + TerminalColor.RESET +
-                    "/"+TerminalColor.GREEN+"l"+TerminalColor.RESET+
-                    "/"+TerminalColor.GREEN+"c"+TerminalColor.RESET+
-                    "/..."+
-                    "/"+TerminalColor.GREEN+"?"+TerminalColor.RESET+
-                    " shows all options]: ";
+    static {
+        prompt = "Select option [" +
+                GREEN + "p" + RESET +
+                "/" + GREEN + "l" + RESET +
+                "/" + GREEN + "c" + RESET +
+                "/..." +
+                "/" + GREEN + "?" + RESET +
+                " shows all options]: ";
+        exitMsg = "Have a great day!";
+    }
 
     public HomeMenu(
             TerminalPosition startPos,
@@ -40,8 +44,6 @@ public class HomeMenu extends MenuBase {
         this.songMenu = songMenu;
 
         songList = genSongList();
-
-        exitMsg = "Have a great day!";
     }
 
     void quid() {
@@ -51,13 +53,17 @@ public class HomeMenu extends MenuBase {
     private String genSongList() {
         StringBuilder out = new StringBuilder();
         Song[] songs = musicPlayer.getSongs();
+        final int indexSize = Integer.toString(songs.length).length();
+        final String formatMask = "%" + indexSize + "d";
 
         for (Song song : songs) {
-            out.append(" - (")
-                    .append(String.format("%3d", song.SONG_ID)) // format of SONG_ID whit lIst in HomeMenu
+            out.append("(")
+                    .append(BLUE)
+                    .append(String.format(formatMask, song.SONG_ID))
+                    .append(RESET)
                     .append(") ")
                     .append(song.getName())
-                    .append("\n");
+                    .append(String.format("%n"));
         }
 
         return out.toString();
@@ -99,7 +105,7 @@ public class HomeMenu extends MenuBase {
                         break;
                     }
 
-                    if(!tui.mixPlayFromId(songId)) {
+                    if (!tui.mixPlayFromId(songId)) {
                         terminalHelper.savePrintln("No Song whit SongID: " + songId);
                     }
                     break;
@@ -116,7 +122,7 @@ public class HomeMenu extends MenuBase {
                         break;
                     }
 
-                    if(!tui.mixPlayFromHistory(historyPos)) {
+                    if (!tui.mixPlayFromHistory(historyPos)) {
                         terminalHelper.savePrintln("No History point: " + historyPos);
                     }
                     break;

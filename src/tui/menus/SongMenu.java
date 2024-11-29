@@ -3,21 +3,25 @@ package tui.menus;
 import musicPlayer.MusicPlayer;
 
 import tui.menus.options.SongOption;
-
 import tui.terminal.*;
+
+import static tui.terminal.TerminalColor.GREEN;
+import static tui.terminal.TerminalColor.RESET;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
 
 public class SongMenu extends MenuBase {
-    static final String prompt =
-            "Select option [" +
-            TerminalColor.GREEN + "p" + TerminalColor.RESET +
-            "/"+TerminalColor.GREEN+"o"+TerminalColor.RESET+
-            "/"+TerminalColor.GREEN+"c"+TerminalColor.RESET+
-            "/..."+
-            "/"+TerminalColor.GREEN+"?"+TerminalColor.RESET+
-            " shows all options]: ";
+    static {
+        prompt = "Select option [" +
+                GREEN + "p" + RESET +
+                "/" + GREEN + "o" + RESET +
+                "/" + GREEN + "c" + RESET +
+                "/..." +
+                "/" + GREEN + "?" + RESET +
+                " shows all options]: ";
+        exitMsg = "Song done";
+    }
 
     // set Menu specific Strings in here
     public SongMenu(
@@ -28,9 +32,6 @@ public class SongMenu extends MenuBase {
             TerminalInput terminalInput
     ) {
         super(startPos, musicPlayer, termLock, terminalHelper, terminalInput);
-
-        // prompt = "Select option [p/o/q/.../? shows all options]: ";
-        exitMsg = "Song done";
     }
 
     void quid() {
