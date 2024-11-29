@@ -29,5 +29,4 @@ directory with the songs
 - quit whit **q**
 
 ## Future plans
-I consider this music player as done, and so there a no plans for more features.<br>
-However, when I encounter an bug I will fix it.
+- gui
