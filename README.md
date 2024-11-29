@@ -23,7 +23,7 @@ java -jar jmp-v[VERSION].jar [option] [MUSIC DIRECTORY]
 -p: start playing immediately
 ### MUSIC DIRECTORY
 directory with the songs
-### Menus
+## Menus
 - enter an option and press **ENTER**
 - list all options whit **?**
 - quit whit **q**
