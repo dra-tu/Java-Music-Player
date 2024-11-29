@@ -3,7 +3,7 @@
 Music player written in Java for wav files.
 
 ## Why
-I wanted to do something whit java and this was the first somewhat useful thing that came to my mind.<br>
+I wanted to do something whit java and this was the first somewhat useful thing that came to mind.<br>
 _ps: the idea is from a friend_
 
 ## Installation
