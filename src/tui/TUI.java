@@ -37,9 +37,8 @@ public class TUI {
         return errorLog;
     }
 
-    public void start(String dirPath) {
-
-        if (!setDir(dirPath)) return;
+    public boolean start(String dirPath, boolean startSong) {
+        if (!setDir(dirPath)) return false;
         // Create the Menu Manager
         // The Menu Manager will create the Menus(Home and Song)
         MenuManager menuMgr = new MenuManager(
@@ -57,17 +56,21 @@ public class TUI {
         );
 
         songMenu = menuMgr.getSongMenu();
-
         songMenu.clear();
 
         // start the Menus and the song Info ui
         songUiUpdater.start();
+
+        if(startSong)
+            mixPlay(true);
+
         menuMgr.start();
 
         // Menu Manager returning mens that the Home Menu is closed
         // therefor we can now end the program
 
         songUiUpdater.interrupt(); // exit the Program
+        return true;
     }
 
     private boolean setDir(String dirPath) {

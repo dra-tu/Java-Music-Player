@@ -16,8 +16,13 @@ Can be found in Releases
 ## Usage
 ### Start
 ``` shell
-java -jar jmp-v[VERSION].jar [MUSIC DIRECTORY]
+java -jar jmp-v[VERSION].jar [option] [MUSIC DIRECTORY]
 ```
+
+### option:
+-p: start playing immediately
+### MUSIC DIRECTORY
+directory with the songs
 ### Menus
 - enter an option and press **ENTER**
 - list all options whit **?**

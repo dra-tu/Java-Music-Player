@@ -2,20 +2,28 @@ import tui.TUI;
 
 public class Main {
     public static void main(String[] args) {
-        if (args.length != 1) {
+        if (args.length > 2 || args.length < 1) {
             printUsage();
             return;
         }
 
+        boolean directStart = args[0].equals("-p");
+
         TUI tui = new TUI();
-        tui.start(args[0]);
+        boolean worked = tui.start(args[args.length-1],directStart);
+
+        if(!worked)
+            printUsage();
     }
 
     private static void printUsage() {
         System.out.println("""
-                Usage: java -jar jmp.jar [dir]
+                Usage: java -jar jmp.jar [option] [dir]
                 
-                dir: directory whit the songs
+                option:
+                    -p: start playing immediately
+                
+                dir: directory with the songs
                 """);
     }
 }
