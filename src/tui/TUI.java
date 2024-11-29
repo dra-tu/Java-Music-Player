@@ -119,8 +119,9 @@ public class TUI {
         do {
             if (!loadAndPlaySong(-1)) {
                 addToErrorLog(
-                        "problem by loading or playing song: " +
-                        musicPlayer.getSong(musicPlayer.getHistorySongId()).getName());
+                        "problem by loading or playing song: "
+                        + musicPlayer.getSong(musicPlayer.getHistorySongId()).getName()
+                );
                 musicPlayer.historyNext(1);
                 continue;
             }
@@ -144,10 +145,8 @@ public class TUI {
     }
 
     public boolean mixPlayFromHistory(int historyPose) {
-        if (!musicPlayer.historyGoTo(historyPose)) {
-
+        if (!musicPlayer.historyGoTo(historyPose))
             return false;
-        }
         mixPlay(false);
         return true;
     }
