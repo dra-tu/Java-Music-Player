@@ -1,6 +1,7 @@
 package musicPlayer.types;
 
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 public class LoadedSong {
     private Clip clip;
@@ -44,5 +45,18 @@ public class LoadedSong {
 
     public String getName() {
         return name;
+    }
+
+    public boolean setVolumePercent(int percent) {
+        FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+        if (percent > 100f || percent < 0)
+            return false;
+
+        float range = control.getMaximum() - control.getMinimum();
+        float newVolume = (range * ((float) percent / 100)) + control.getMinimum();
+
+        control.setValue(newVolume);
+        return true;
     }
 }
