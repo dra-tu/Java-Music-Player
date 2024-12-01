@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 
+import musicPlayer.types.LoadedSong;
 import tui.menus.OptionHelper.ReturnValue;
 
 public enum SongOption {
@@ -136,6 +137,27 @@ public enum SongOption {
         MenuExit action(SongMenu songMenu) {
             songMenu.quid();
             return MenuExit.USER_EXIT;
+        }
+    },
+
+    VOLUME_PERCENT("vp", "Set the volume by percentile [ % ]") {
+        @Override
+        MenuExit action(SongMenu songMenu) {
+            LoadedSong currentSong = songMenu.musicPlayer.getCurrentSong();
+            int percent;
+            try {
+                percent = songMenu.terminalInput.getInt("% ");
+            } catch (IOException | InterruptedException e) {
+                songMenu.terminalHelper.savePrintln("an error has curd");
+                songMenu.quid();
+                return MenuExit.ERROR;
+            } catch (InputMismatchException e) {
+                songMenu.terminalHelper.savePrintln("This is not a Number");
+                return null;
+            }
+            if (!currentSong.setVolumePercent(percent))
+                songMenu.terminalHelper.savePrintln("Pleas insert a value between 0 and 100");
+            return null;
         }
     },
 
