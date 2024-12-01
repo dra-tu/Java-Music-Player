@@ -73,11 +73,13 @@ public class TUI {
         return true;
     }
 
-    private boolean setDir(String dirPath) {
+    public boolean setDir(String dirPath) {
+        System.out.println("Start loading directory");
         if (musicPlayer.useDir(dirPath)) {
-            System.out.println(dirPath + "Directory Loaded!");
+            System.out.println("Directory Loaded: " + dirPath);
             return true;
         } else {
+            addToErrorLog("cant load Directory: " + dirPath);
             System.out.println("cant load Directory: " + dirPath);
             return false;
         }

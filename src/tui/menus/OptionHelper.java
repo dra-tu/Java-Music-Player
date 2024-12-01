@@ -1,4 +1,4 @@
-package tui.menus.options;
+package tui.menus;
 
 import tui.terminal.TerminalColor;
 
@@ -23,6 +23,10 @@ public class OptionHelper {
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 throw new RuntimeException("Fuck");
             }
+
+            // skip options you cant select
+            if (key.isEmpty())
+                continue;
 
             // add key, option pare to the map
             keyMap.put(key, option);

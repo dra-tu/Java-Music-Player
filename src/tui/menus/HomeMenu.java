@@ -2,13 +2,10 @@ package tui.menus;
 
 import musicPlayer.MusicPlayer;
 
-import tui.menus.options.HomeOption;
-
 import tui.TUI;
 import tui.terminal.*;
 
 import java.io.IOException;
-import java.util.InputMismatchException;
 
 import static tui.terminal.TerminalColor.*;
 
@@ -48,6 +45,7 @@ public class HomeMenu extends MenuBase {
     MenuExit action() {
         String in;
         while (true) {
+            // get input
             try {
                 in = terminalInput.getString(prompt);
             } catch (IOException | InterruptedException e) {
@@ -56,79 +54,13 @@ public class HomeMenu extends MenuBase {
             }
             terminalHelper.savePrintln(inputMsg + in);
 
-            switch (HomeOption.getByKey(in)) {
+            // convert do option
+            HomeOption selectedOption = HomeOption.getByKey(in);
 
-                // MusicPlayer Controls
-                case LIST_SONGS:
-                    terminalHelper.savePrint(songList);
-                    break;
-                case LIST_HISTORY:
-                    printHistory();
-                    break;
-                case LIST_ERRORS:
-                    terminalHelper.savePrintln(tui.getErrorLog());
-                    break;
-
-                case PLAY_FROM_SONG_ID:
-                    int songId;
-                    try {
-                        songId = terminalInput.getInt("Song id: ");
-                    } catch (IOException | InterruptedException e) {
-                        terminalHelper.savePrintln("an error has curd");
-                        quid();
-                        return MenuExit.ERROR;
-                    } catch (InputMismatchException e) {
-                        terminalHelper.savePrintln("No Song whit this SongID");
-                        break;
-                    }
-
-                    if (!tui.mixPlayFromId(songId)) {
-                        terminalHelper.savePrintln("No Song whit SongID: " + songId);
-                    }
-                    break;
-                case PLAY_FROM_HISTORY:
-                    int historyPos;
-                    try {
-                        historyPos = terminalInput.getInt("History Number: ");
-                    } catch (IOException | InterruptedException e) {
-                        terminalHelper.savePrintln("an error has curd");
-                        quid();
-                        return MenuExit.ERROR;
-                    } catch (InputMismatchException e) {
-                        terminalHelper.savePrintln("No Song at this history point");
-                        break;
-                    }
-
-                    if (!tui.mixPlayFromHistory(historyPos)) {
-                        terminalHelper.savePrintln("No History point: " + historyPos);
-                    }
-                    break;
-                case PLAY:
-                    tui.mixPlay(true);
-                    break;
-
-                case RELOAD:
-                    terminalHelper.savePrintln("Reloading Songs ...");
-                    String out = musicPlayer.reloadDir() ? "Done!" : "can not load Songs";
-                    genSongList();
-                    terminalHelper.savePrintln(out);
-                    break;
-
-                // TUI Controls
-                case QUIT: // Quit
-                    quid();
-                    return MenuExit.USER_EXIT;
-                case CLEAR: // cLear
-                    clear();
-                    break;
-                case HELP: // show options
-                    terminalHelper.savePrintln(HomeOption.getHelpString());
-                    break;
-                case null:
-                default:
-                    terminalHelper.savePrintln(unknownMsg);
-                    break;
-            }
+            // execute Option
+            MenuExit exit = selectedOption.action(this);
+            if (exit != null)
+                return exit;
         }
     }
 }

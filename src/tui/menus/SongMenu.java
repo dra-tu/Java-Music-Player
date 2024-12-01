@@ -3,14 +3,12 @@ package tui.menus;
 import musicPlayer.MusicPlayer;
 
 import tui.TUI;
-import tui.menus.options.SongOption;
 import tui.terminal.*;
 
 import static tui.terminal.TerminalColor.GREEN;
 import static tui.terminal.TerminalColor.RESET;
 
 import java.io.IOException;
-import java.util.InputMismatchException;
 
 public class SongMenu extends MenuBase {
     static {
@@ -45,10 +43,8 @@ public class SongMenu extends MenuBase {
     @Override
     MenuExit action() {
         String in;
-        long jumpTime;
-
         while (true) {
-
+            // get input
             try {
                 in = terminalInput.getString(prompt);
             } catch (IOException | InterruptedException e) {
@@ -58,88 +54,13 @@ public class SongMenu extends MenuBase {
             }
             terminalHelper.savePrintln(inputMsg + in);
 
-            switch (SongOption.getByKey(in)) {
+            // convert do option
+            SongOption selectedOption = SongOption.getByKey(in);
 
-                case LIST_SONGS:
-                    terminalHelper.savePrint(songList);
-                    break;
-                case LIST_HISTORY:
-                    printHistory();
-                    break;
-                case LIST_ERRORS:
-                    terminalHelper.savePrintln(tui.getErrorLog());
-                    break;
-
-                // MusicPlayer Controls
-                case PAUSE: // Pause
-                    musicPlayer.stopSong();
-                    break;
-                case CONTINUE: // Continue
-                    musicPlayer.continueSong();
-                    break;
-                case JUMP: // Jump
-                    try {
-                        jumpTime = terminalInput.getTimeStamp();
-                    } catch (IOException | InterruptedException e) {
-                        terminalHelper.savePrintln("an error has curd");
-                        quid();
-                        return MenuExit.ERROR;
-                    } catch (InputMismatchException e) {
-                        terminalHelper.savePrintln("This is not a Time");
-                        break;
-                    }
-                    musicPlayer.jumpTo(jumpTime);
-                    break;
-                case SKIP: // sKips
-                    try {
-                        jumpTime = terminalInput.getTimeStamp();
-                    } catch (IOException | InterruptedException e) {
-                        terminalHelper.savePrintln("an error has curd");
-                        quid();
-                        return MenuExit.ERROR;
-                    } catch (InputMismatchException e) {
-                        terminalHelper.savePrintln("This is not a Time");
-                        break;
-                    }
-                    musicPlayer.skipTime(jumpTime);
-                    break;
-                case REWIND: // Rewind
-                    try {
-                        jumpTime = terminalInput.getTimeStamp();
-                    } catch (IOException | InterruptedException e) {
-                        terminalHelper.savePrintln("an error has curd");
-                        quid();
-                        return MenuExit.ERROR;
-                    } catch (InputMismatchException e) {
-                        terminalHelper.savePrintln("This is not a Time");
-                        break;
-                    }
-                    musicPlayer.rewindTime(jumpTime);
-                    break;
-
-                // TUI Controls
-                case QUIT: // Quit
-                    quid();
-                    return MenuExit.USER_EXIT;
-                case CLEAR: // cLear
-                    clear();
-                    break;
-                case HELP: // show options
-                    terminalHelper.savePrintln(SongOption.getHelpString());
-                    break;
-
-                case NEXT:
-                    quid();
-                    return MenuExit.SONG_Next;
-                case BACK:
-                    quid();
-                    return MenuExit.SONG_BACK;
-
-                case null:
-                default:
-                    terminalHelper.savePrintln(unknownMsg);
-                    break;
-            }
+            // execute Option
+            MenuExit exit = selectedOption.action(this);
+            if (exit != null)
+                return exit;
         }
     }
 }
