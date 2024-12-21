@@ -123,14 +123,14 @@ public class TUI {
         boolean songLoaded = loadSong(songId);
         if (!songLoaded) {
             System.out.println(RED + "cannot load Song: " + songId + "  :(" + RESET);
-            addToErrorLog("problem by loading song: " + musicPlayer.getSong(songId).getName());
+            addToErrorLog("problem by loading song: " + songId);
             return false;
         }
 
         boolean songPlaying = playSong();
         if (!songPlaying) {
             System.out.println(RED + "cannot play Song: " + songId + " :(" + RESET);
-            addToErrorLog("problem by playing song: " + musicPlayer.getSong(songId).getName());
+            addToErrorLog("problem by playing song: " + songId);
             return false;
         }
 

@@ -16,9 +16,12 @@ public class LoadedSong {
     public boolean loadSong(Song song, File confDir) throws IOException {
         this.song = song;
         this.clip = song.createClip();
+
+        if (clip == null) return false;
+
         this.config = new SongConfig(Path.of(confDir.getAbsolutePath(), song.getName()).toFile());
         setRealVolume(config.getVolumePercent());
-        return clip != null;
+        return true;
     }
 
     public void start() {
