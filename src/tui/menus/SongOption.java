@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 
-import musicPlayer.types.LoadedSong;
+import musicPlayer.songTypes.LoadedSong;
 import tui.menus.OptionHelper.ReturnValue;
 
 public enum SongOption {
@@ -31,7 +31,7 @@ public enum SongOption {
             long jumpTime;
             try {
                 jumpTime = songMenu.terminalInput.getTimeStamp();
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 songMenu.terminalHelper.savePrintln("an error has curd");
                 songMenu.quid();
                 return MenuExit.ERROR;
@@ -49,7 +49,7 @@ public enum SongOption {
             long jumpTime;
             try {
                 jumpTime = songMenu.terminalInput.getTimeStamp();
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 songMenu.terminalHelper.savePrintln("an error has curd");
                 songMenu.quid();
                 return MenuExit.ERROR;
@@ -68,7 +68,7 @@ public enum SongOption {
             long jumpTime;
             try {
                 jumpTime = songMenu.terminalInput.getTimeStamp();
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 songMenu.terminalHelper.savePrintln("an error has curd");
                 songMenu.quid();
                 return MenuExit.ERROR;
@@ -99,6 +99,28 @@ public enum SongOption {
         @Override
         MenuExit action(SongMenu songMenu) {
             songMenu.terminalHelper.savePrint(songMenu.tui.getErrorLog());
+            return null;
+        }
+    },
+
+    VOLUME_SONG("vs", "Set the volume by percentile [ % ]") {
+        @Override
+        MenuExit action(SongMenu songMenu) throws IOException {
+            LoadedSong currentSong = songMenu.musicPlayer.getCurrentSong();
+            int percent;
+            try {
+                percent = songMenu.terminalInput.getInt("% ");
+            } catch (IOException e) {
+                songMenu.terminalHelper.savePrintln("an error has curd");
+                songMenu.quid();
+                return MenuExit.ERROR;
+            } catch (InputMismatchException e) {
+                songMenu.terminalHelper.savePrintln("This is not a Number");
+                return null;
+            }
+
+            if (!currentSong.setVolumePercent(percent))
+                songMenu.terminalHelper.savePrintln("Pleas insert a value between 0 and 100");
             return null;
         }
     },
@@ -140,27 +162,6 @@ public enum SongOption {
         }
     },
 
-    VOLUME_PERCENT("vp", "Set the volume by percentile [ % ]") {
-        @Override
-        MenuExit action(SongMenu songMenu) {
-            LoadedSong currentSong = songMenu.musicPlayer.getCurrentSong();
-            int percent;
-            try {
-                percent = songMenu.terminalInput.getInt("% ");
-            } catch (IOException | InterruptedException e) {
-                songMenu.terminalHelper.savePrintln("an error has curd");
-                songMenu.quid();
-                return MenuExit.ERROR;
-            } catch (InputMismatchException e) {
-                songMenu.terminalHelper.savePrintln("This is not a Number");
-                return null;
-            }
-            if (!currentSong.setVolumePercent(percent))
-                songMenu.terminalHelper.savePrintln("Pleas insert a value between 0 and 100");
-            return null;
-        }
-    },
-
     NOT_AN_OPTION("", "") {
         @Override
         MenuExit action(SongMenu songMenu) {
@@ -174,7 +175,7 @@ public enum SongOption {
     final String KEY;
     final String DESCRIPTION;
 
-    abstract MenuExit action(SongMenu songMenu);
+    abstract MenuExit action(SongMenu songMenu) throws IOException;
 
     private static final HashMap<String, SongOption> KEY_MAP;
     static final String HELP_STRING;

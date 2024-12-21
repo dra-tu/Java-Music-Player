@@ -1,7 +1,7 @@
 package tui.menus;
 
 import musicPlayer.MusicPlayer;
-import musicPlayer.types.Song;
+import musicPlayer.songTypes.Song;
 import tui.TUI;
 import tui.terminal.*;
 

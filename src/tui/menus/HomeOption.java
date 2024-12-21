@@ -22,7 +22,7 @@ public enum HomeOption {
             int songId;
             try {
                 songId = homeMenu.terminalInput.getInt("Song id: ");
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 homeMenu.terminalHelper.savePrintln("an error has curd");
                 homeMenu.quid();
                 return MenuExit.ERROR;
@@ -43,7 +43,7 @@ public enum HomeOption {
             int historyPos;
             try {
                 historyPos = homeMenu.terminalInput.getInt("History Number: ");
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 homeMenu.terminalHelper.savePrintln("an error has curd");
                 homeMenu.quid();
                 return MenuExit.ERROR;
@@ -81,6 +81,30 @@ public enum HomeOption {
         }
     },
 
+    VOLUME_DEFAULT("vd", "Set the default Volume [ Volume for Songs where the volume isn't set ]") {
+        @Override
+        MenuExit action(HomeMenu homeMenu) {
+            int percent;
+            try {
+                percent = homeMenu.terminalInput.getInt("% ");
+
+                if (!homeMenu.musicPlayer.setDefaultVolumePercent(percent)) {
+                    homeMenu.terminalHelper.savePrintln("Pleas insert a value between 0 and 100");
+                }
+
+                return null;
+            } catch (IOException e) {
+                homeMenu.terminalHelper.savePrintln("an error has curd");
+                homeMenu.tui.addToErrorLog("IOException @ SongOption @ VolumeDefault");
+                homeMenu.quid();
+                return MenuExit.ERROR;
+            } catch (InputMismatchException e) {
+                homeMenu.terminalHelper.savePrintln("This is not a Number");
+                return null;
+            }
+        }
+    },
+
     CHANGE_DIR("cd", "Change directory") {
         @Override
         MenuExit action(HomeMenu homeMenu) {
@@ -88,7 +112,7 @@ public enum HomeOption {
             String workingDir = System.getProperty("user.dir")+"/";
             try {
                 newDir = homeMenu.terminalInput.getString("Directory? " + workingDir);
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 homeMenu.terminalHelper.savePrintln(RED + "ERROR" + RESET);
                 homeMenu.tui.addToErrorLog("getting input didn't work");
                 return null;
@@ -100,11 +124,17 @@ public enum HomeOption {
     },
     RELOAD_DIR("rd", "Reload directory") {
         @Override
-        MenuExit action(HomeMenu homeMenu) {
-            homeMenu.terminalHelper.savePrintln("Reloading Songs ...");
-            String out = homeMenu.musicPlayer.reloadDir() ? "Done!" : "can not load Songs";
-            homeMenu.genSongList();
-            homeMenu.terminalHelper.savePrintln(out);
+        MenuExit action(HomeMenu homeMenu){
+            try {
+                homeMenu.terminalHelper.savePrintln("Reloading Songs ...");
+                String out = homeMenu.musicPlayer.reloadDir() ? "Done!" : "can not load Songs";
+                homeMenu.genSongList();
+                homeMenu.terminalHelper.savePrintln(out);
+            } catch (IOException e) {
+                homeMenu.terminalHelper.savePrintln(RED + "cant reload Directory" + RESET);
+                homeMenu.tui.addToErrorLog("cant reload Directory");
+                return MenuExit.ERROR;
+            }
             return null;
         }
     },

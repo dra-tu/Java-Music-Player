@@ -12,6 +12,7 @@ import tui.terminal.TerminalPosition;
 import static tui.terminal.TerminalColor.RED;
 import static tui.terminal.TerminalColor.RESET;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -42,7 +43,7 @@ public class TUI {
         // Create the Menu Manager
         // The Menu Manager will create the Menus(Home and Song)
         MenuManager menuMgr = new MenuManager(
-                new TerminalPosition(1, 3),
+                new TerminalPosition(1, 4),
                 musicPlayer,
                 termLock,
                 this
@@ -74,13 +75,19 @@ public class TUI {
     }
 
     public boolean setDir(String dirPath) {
-        System.out.println("Start loading directory");
-        if (musicPlayer.useDir(dirPath)) {
-            System.out.println("Directory Loaded: " + dirPath);
-            return true;
-        } else {
+        try {
+            System.out.println("Start loading directory");
+            if (musicPlayer.useDir(dirPath)) {
+                System.out.println("Directory Loaded: " + dirPath);
+                return true;
+            } else {
+                System.out.println(RED + "cant load Directory: " + dirPath + RESET);
+                addToErrorLog("cant load Directory: " + dirPath);
+                return false;
+            }
+        } catch (IOException e) {
+            System.out.println(RED + "cant load Directory: " + dirPath + RESET);
             addToErrorLog("cant load Directory: " + dirPath);
-            System.out.println("cant load Directory: " + dirPath);
             return false;
         }
     }
@@ -90,10 +97,14 @@ public class TUI {
         songId = musicPlayer.getHistorySongId();
         System.out.println("Loading Song ID " + songId + " ...");
 
-        int loadResold = musicPlayer.historyLoadSong();
+        int loadResold;
+        try {
+            loadResold = musicPlayer.historyLoadSong();
+        } catch (IOException e) {
+            return false;
+        }
 
         if (loadResold == -1) {
-            System.out.println(RED + "cannot load Song  :(" + RESET);
             return false;
         }
 
@@ -105,17 +116,25 @@ public class TUI {
     private boolean playSong() {
         System.out.println("Start playing Song ...");
 
-        if (!musicPlayer.continueSong()) {
-            System.out.println("cannot play Song  :(");
+        return musicPlayer.continueSong();
+    }
+
+    public boolean loadAndPlaySong(int songId) {
+        boolean songLoaded = loadSong(songId);
+        if (!songLoaded) {
+            System.out.println(RED + "cannot load Song: " + songId + "  :(" + RESET);
+            addToErrorLog("problem by loading song: " + musicPlayer.getSong(songId).getName());
+            return false;
+        }
+
+        boolean songPlaying = playSong();
+        if (!songPlaying) {
+            System.out.println(RED + "cannot play Song: " + songId + " :(" + RESET);
+            addToErrorLog("problem by playing song: " + musicPlayer.getSong(songId).getName());
             return false;
         }
 
         return true;
-    }
-
-    public boolean loadAndPlaySong(int songId) {
-        if (!loadSong(songId)) return false;
-        return playSong();
     }
 
     public void mixPlay(boolean newSong) {
@@ -125,10 +144,6 @@ public class TUI {
         MenuExit status = MenuExit.NORMAL;
         do {
             if (!loadAndPlaySong(-1)) {
-                addToErrorLog(
-                        "problem by loading or playing song: "
-                                + musicPlayer.getSong(musicPlayer.getHistorySongId()).getName()
-                );
                 musicPlayer.historyNext(1);
                 continue;
             }

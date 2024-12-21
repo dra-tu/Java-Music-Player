@@ -1,9 +1,13 @@
 package musicPlayer;
 
-import musicPlayer.types.LoadedSong;
-import musicPlayer.types.Song;
+import musicPlayer.configTypes.Config;
+import musicPlayer.configTypes.SongConfig;
+import musicPlayer.songTypes.LoadedSong;
+import musicPlayer.songTypes.Song;
 
-import java.io.File;
+import java.io.*;
+
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -31,7 +35,14 @@ public class MusicPlayer {
     private int historyPointer;
     private ArrayList<Integer> history;
 
-    public static final int HISTORY_MAX_SIZE = 50;
+    public static final int HISTORY_MAX_SIZE = 500;
+
+    // config stuff
+    private static final String confDirName = ".jmpConf";
+    private static final String globalConfName = ".global";
+    private Config config;
+
+    private File confDir;
 
     /**
      * Creates a new MusicPlayer
@@ -48,11 +59,12 @@ public class MusicPlayer {
      * @return boolean: true if the dirPath is loaded,
      * false if dirPath can not be loaded
      */
-    public boolean useDir(String dirPath) {
+    public boolean useDir(String dirPath) throws IOException {
         File dir = new File(dirPath);
         if (!dir.isDirectory()) return false; // not a dir
         rootDir = dir;
 
+        // get wav files
         File[] files = rootDir.listFiles(new WavFilter());
         if (files == null) return false; // no wav files
 
@@ -63,13 +75,22 @@ public class MusicPlayer {
             if (!fileSetWorked) return false; // dir contains dir with the ending ".wav"
         }
 
-        // reset values
+        // set values
         rootDir = dir;
+        confDir = Path.of(rootDir.getAbsolutePath(), confDirName).toFile();
+        confDir.mkdir();
+        config = new Config(Path.of(rootDir.getAbsolutePath(), globalConfName).toFile());
         SONG_COUNT = songs.length;
         historyPointer = -1;
         history = new ArrayList<>();
 
+        SongConfig.setGlobalConfig(config);
+
         return true;
+    }
+
+    public boolean setDefaultVolumePercent(int volume) throws IOException {
+        return config.setDefaultVolumePercent(volume);
     }
 
     /**
@@ -78,7 +99,7 @@ public class MusicPlayer {
      * @return boolean: true if dir is reloaded,
      * false if dir can not be reloaded
      */
-    public boolean reloadDir() {
+    public boolean reloadDir() throws IOException {
         return useDir(rootDir.getPath());
     }
 
@@ -166,7 +187,7 @@ public class MusicPlayer {
         return true;
     }
 
-    public int historyLoadSong() {
+    public int historyLoadSong() throws IOException {
         return loadSong(history.get(historyPointer));
     }
 
@@ -179,14 +200,13 @@ public class MusicPlayer {
      * @return int: -2 if the song can not be loaded, -1 if the songId is invalid,
      * 1 if the song is already loaded or 0 if the song is now loaded
      */
-    private int loadSong(int songId) {
+    private int loadSong(int songId) throws IOException {
         if (songId > songs.length || songId < 0) return -1; // can not load Song
-        if (currentSong != null) {
-            if (currentSong.getSongId() == songId) return 1; // will not load same Song two times
-        }
+        if (currentSong != null && currentSong.getSongId() == songId)
+            return 1; // will not load same Song two times
 
         LoadedSong song = new LoadedSong();
-        boolean loadWorked = song.loadSong(songs[songId]);
+        boolean loadWorked = song.loadSong(songs[songId], confDir);
         if (!loadWorked) return -1; // can not load Song
 
         currentSong = song;

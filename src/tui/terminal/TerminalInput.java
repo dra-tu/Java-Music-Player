@@ -17,31 +17,30 @@ public class TerminalInput {
         terminalHelper = new TerminalHelper(termLock);
     }
 
-    public String getString(String prompt) throws IOException, InterruptedException {
+    public String getString(String prompt) throws IOException {
         terminalHelper.savePrint(prompt);
         waitForStuff();
         return scanner.next();
     }
 
-    public int getInt(String prompt) throws IOException, InterruptedException, InputMismatchException {
+    public int getInt(String prompt) throws IOException, InputMismatchException {
         terminalHelper.savePrint(prompt);
         waitForStuff();
         return scanner.nextInt();
     }
 
-    public long getTimeStamp() throws IOException, InterruptedException, InputMismatchException {
+    public long getTimeStamp() throws IOException, InputMismatchException {
         int minute = getInt("minute? ");
         int second = getInt("second? ");
 
         return TimeStamp.toMicroseconds(minute, second);
     }
 
-    private void waitForStuff() throws IOException, InterruptedException {
+    private void waitForStuff() throws IOException {
         while (System.in.available() == 0) {
             try {
                 Thread.sleep(50);
-            } catch (InterruptedException e) {
-                throw new InterruptedException("Interrupted while reading input");
+            } catch (InterruptedException ignored) {
             }
         }
     }

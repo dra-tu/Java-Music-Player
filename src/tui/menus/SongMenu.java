@@ -5,10 +5,9 @@ import musicPlayer.MusicPlayer;
 import tui.TUI;
 import tui.terminal.*;
 
-import static tui.terminal.TerminalColor.GREEN;
-import static tui.terminal.TerminalColor.RESET;
-
 import java.io.IOException;
+
+import static tui.terminal.TerminalColor.*;
 
 public class SongMenu extends MenuBase {
     static {
@@ -47,8 +46,9 @@ public class SongMenu extends MenuBase {
             // get input
             try {
                 in = terminalInput.getString(prompt);
-            } catch (IOException | InterruptedException e) {
-                terminalHelper.savePrintln("an error has curd");
+            } catch (IOException e) {
+                tui.addToErrorLog("an IO error has curd @ SongMenu.action() @ terminalInput.getString: " + e);
+                terminalHelper.savePrintln(RED + "an IO error has curd" + RESET);
                 quid();
                 return MenuExit.ERROR;
             }
@@ -58,9 +58,19 @@ public class SongMenu extends MenuBase {
             SongOption selectedOption = SongOption.getByKey(in);
 
             // execute Option
-            MenuExit exit = selectedOption.action(this);
-            if (exit != null)
+            MenuExit exit;
+            try {
+                exit = selectedOption.action(this);
+            } catch (IOException e) {
+                tui.addToErrorLog("an IO error has curd @ SongMenu.action() @ SongOption." + selectedOption + ".action: " + e);
+                terminalHelper.savePrintln(RED + "an IO error has curd" + RESET);
+                quid();
+                return MenuExit.ERROR;
+            }
+            if (exit != null) {
+                quid();
                 return exit;
+            }
         }
     }
 }
