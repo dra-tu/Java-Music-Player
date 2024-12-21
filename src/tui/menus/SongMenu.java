@@ -46,6 +46,10 @@ public class SongMenu extends MenuBase {
             // get input
             try {
                 in = terminalInput.getString(prompt);
+            } catch (InterruptedException e) {
+                // interrupt to start next son
+                quid();
+                return MenuExit.SONG_Next;
             } catch (IOException e) {
                 tui.addToErrorLog("an IO error has curd @ SongMenu.action() @ terminalInput.getString: " + e);
                 terminalHelper.savePrintln(RED + "an IO error has curd" + RESET);

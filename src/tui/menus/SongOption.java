@@ -31,7 +31,7 @@ public enum SongOption {
             long jumpTime;
             try {
                 jumpTime = songMenu.terminalInput.getTimeStamp();
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 songMenu.terminalHelper.savePrintln("an error has curd");
                 songMenu.quid();
                 return MenuExit.ERROR;
@@ -49,7 +49,7 @@ public enum SongOption {
             long jumpTime;
             try {
                 jumpTime = songMenu.terminalInput.getTimeStamp();
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 songMenu.terminalHelper.savePrintln("an error has curd");
                 songMenu.quid();
                 return MenuExit.ERROR;
@@ -68,7 +68,7 @@ public enum SongOption {
             long jumpTime;
             try {
                 jumpTime = songMenu.terminalInput.getTimeStamp();
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 songMenu.terminalHelper.savePrintln("an error has curd");
                 songMenu.quid();
                 return MenuExit.ERROR;
@@ -110,7 +110,7 @@ public enum SongOption {
             int percent;
             try {
                 percent = songMenu.terminalInput.getInt("% ");
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 songMenu.terminalHelper.savePrintln("an error has curd");
                 songMenu.quid();
                 return MenuExit.ERROR;

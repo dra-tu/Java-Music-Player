@@ -22,7 +22,7 @@ public enum HomeOption {
             int songId;
             try {
                 songId = homeMenu.terminalInput.getInt("Song id: ");
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 homeMenu.terminalHelper.savePrintln("an error has curd");
                 homeMenu.quid();
                 return MenuExit.ERROR;
@@ -43,7 +43,7 @@ public enum HomeOption {
             int historyPos;
             try {
                 historyPos = homeMenu.terminalInput.getInt("History Number: ");
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 homeMenu.terminalHelper.savePrintln("an error has curd");
                 homeMenu.quid();
                 return MenuExit.ERROR;
@@ -93,7 +93,7 @@ public enum HomeOption {
                 }
 
                 return null;
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 homeMenu.terminalHelper.savePrintln("an error has curd");
                 homeMenu.tui.addToErrorLog("IOException @ SongOption @ VolumeDefault");
                 homeMenu.quid();
@@ -112,7 +112,7 @@ public enum HomeOption {
             String workingDir = System.getProperty("user.dir")+"/";
             try {
                 newDir = homeMenu.terminalInput.getString("Directory? " + workingDir);
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 homeMenu.terminalHelper.savePrintln(RED + "ERROR" + RESET);
                 homeMenu.tui.addToErrorLog("getting input didn't work");
                 return null;

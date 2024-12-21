@@ -48,7 +48,7 @@ public class HomeMenu extends MenuBase {
             // get input
             try {
                 in = terminalInput.getString(prompt);
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 quid();
                 return MenuExit.ERROR;
             }
