@@ -9,6 +9,7 @@ public class TypeChanger {
     private static final Map<String, Function<String, Object>> TYPE_MAP = Map.of(
             "byte", Byte::valueOf,
             "int", Integer::valueOf,
+            "Integer", Integer::valueOf,
             "String", (str) -> str,
             "File", File::new
     );
