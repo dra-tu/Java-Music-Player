@@ -124,6 +124,26 @@ public enum SongOption {
             return null;
         }
     },
+    VOLUME_DEFAULT("vd", "Set Default Volume") {
+        @Override
+        MenuExit action(SongMenu songMenu) throws IOException {
+            int percent;
+            try {
+                percent = songMenu.terminalInput.getInt("% ");
+            } catch (IOException | InterruptedException e) {
+                songMenu.terminalHelper.savePrintln("an error has curd");
+                songMenu.quid();
+                return MenuExit.ERROR;
+            } catch (InputMismatchException e) {
+                songMenu.terminalHelper.savePrintln("This is not a Number");
+                return null;
+            }
+
+            if (songMenu.musicPlayer.setDefaultVolumePercent(percent))
+                songMenu.terminalHelper.savePrintln("Pleas insert a value between 0 and 100");
+            return null;
+        }
+    },
 
     NEXT("n", "Play next in History") {
         @Override
