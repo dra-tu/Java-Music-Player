@@ -3,6 +3,8 @@ package tui.menus;
 import musicPlayer.MusicPlayer;
 
 import tui.TUI;
+import tui.menus.home.HomeMenu;
+import tui.menus.song.SongMenu;
 import tui.terminal.TerminalLock;
 import tui.terminal.TerminalHelper;
 import tui.terminal.TerminalPosition;

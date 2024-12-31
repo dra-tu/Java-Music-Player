@@ -1,4 +1,9 @@
-package tui.menus;
+package tui.menus.home;
+
+import tui.menus.MenuBase;
+import tui.menus.MenuExit;
+import tui.menus.OptionHelper;
+import tui.menus.ReturnValue;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,7 +17,7 @@ public enum HomeOption {
     PLAY("p", "Play") {
         @Override
         MenuExit action(HomeMenu homeMenu) {
-            homeMenu.tui.mixPlay(true);
+            homeMenu.getTui().mixPlay(true);
             return null;
         }
     },
@@ -21,18 +26,18 @@ public enum HomeOption {
         MenuExit action(HomeMenu homeMenu) {
             int songId;
             try {
-                songId = homeMenu.terminalInput.getInt("Song id: ");
+                songId = homeMenu.getTerminalInput().getInt("Song id: ");
             } catch (IOException | InterruptedException e) {
-                homeMenu.terminalHelper.savePrintln("an error has curd");
+                homeMenu.getTerminalHelper().savePrintln("an error has curd");
                 homeMenu.quid();
                 return MenuExit.ERROR;
             } catch (InputMismatchException e) {
-                homeMenu.terminalHelper.savePrintln("No Song whit this SongID");
+                homeMenu.getTerminalHelper().savePrintln("No Song whit this SongID");
                 return null;
             }
 
-            if (!homeMenu.tui.mixPlayFromId(songId)) {
-                homeMenu.terminalHelper.savePrintln("No Song whit SongID: " + songId);
+            if (!homeMenu.getTui().mixPlayFromId(songId)) {
+                homeMenu.getTerminalHelper().savePrintln("No Song whit SongID: " + songId);
             }
             return null;
         }
@@ -42,18 +47,18 @@ public enum HomeOption {
         MenuExit action(HomeMenu homeMenu) {
             int historyPos;
             try {
-                historyPos = homeMenu.terminalInput.getInt("History Number: ");
+                historyPos = homeMenu.getTerminalInput().getInt("History Number: ");
             } catch (IOException | InterruptedException e) {
-                homeMenu.terminalHelper.savePrintln("an error has curd");
+                homeMenu.getTerminalHelper().savePrintln("an error has curd");
                 homeMenu.quid();
                 return MenuExit.ERROR;
             } catch (InputMismatchException e) {
-                homeMenu.terminalHelper.savePrintln("No Song at this history point");
+                homeMenu.getTerminalHelper().savePrintln("No Song at this history point");
                 return null;
             }
 
-            if (!homeMenu.tui.mixPlayFromHistory(historyPos)) {
-                homeMenu.terminalHelper.savePrintln("No History point: " + historyPos);
+            if (!homeMenu.getTui().mixPlayFromHistory(historyPos)) {
+                homeMenu.getTerminalHelper().savePrintln("No History point: " + historyPos);
             }
             return null;
         }
@@ -62,7 +67,7 @@ public enum HomeOption {
     LIST_SONGS("ls", "List song") {
         @Override
         MenuExit action(HomeMenu homeMenu) {
-            homeMenu.terminalHelper.savePrint(homeMenu.songList);
+            homeMenu.getTerminalHelper().savePrint(homeMenu.getSongList());
             return null;
         }
     },
@@ -76,7 +81,7 @@ public enum HomeOption {
     LIST_ERRORS("le", "list errors") {
         @Override
         MenuExit action(HomeMenu homeMenu) {
-            homeMenu.terminalHelper.savePrint(homeMenu.tui.getErrorLog());
+            homeMenu.getTerminalHelper().savePrint(homeMenu.getTui().getErrorLog());
             return null;
         }
     },
@@ -86,20 +91,20 @@ public enum HomeOption {
         MenuExit action(HomeMenu homeMenu) {
             int percent;
             try {
-                percent = homeMenu.terminalInput.getInt("% ");
+                percent = homeMenu.getTerminalInput().getInt("% ");
 
-                if (!homeMenu.musicPlayer.setDefaultVolumePercent(percent)) {
-                    homeMenu.terminalHelper.savePrintln("Pleas insert a value between 0 and 100");
+                if (!homeMenu.getMusicPlayer().setDefaultVolumePercent(percent)) {
+                    homeMenu.getTerminalHelper().savePrintln("Pleas insert a value between 0 and 100");
                 }
 
                 return null;
             } catch (IOException | InterruptedException e) {
-                homeMenu.terminalHelper.savePrintln("an error has curd");
-                homeMenu.tui.addToErrorLog("IOException @ SongOption @ VolumeDefault");
+                homeMenu.getTerminalHelper().savePrintln("an error has curd");
+                homeMenu.getTui().addToErrorLog("IOException @ SongOption @ VolumeDefault");
                 homeMenu.quid();
                 return MenuExit.ERROR;
             } catch (InputMismatchException e) {
-                homeMenu.terminalHelper.savePrintln("This is not a Number");
+                homeMenu.getTerminalHelper().savePrintln("This is not a Number");
                 return null;
             }
         }
@@ -111,13 +116,13 @@ public enum HomeOption {
             String newDir;
             String workingDir = System.getProperty("user.dir")+"/";
             try {
-                newDir = homeMenu.terminalInput.getString("Directory? " + workingDir);
+                newDir = homeMenu.getTerminalInput().getString("Directory? " + workingDir);
             } catch (IOException | InterruptedException e) {
-                homeMenu.terminalHelper.savePrintln(RED + "ERROR" + RESET);
-                homeMenu.tui.addToErrorLog("getting input didn't work");
+                homeMenu.getTerminalHelper().savePrintln(RED + "ERROR" + RESET);
+                homeMenu.getTui().addToErrorLog("getting input didn't work");
                 return null;
             }
-            if (homeMenu.tui.setDir(workingDir + newDir))
+            if (homeMenu.getTui().setDir(workingDir + newDir))
                 homeMenu.genSongList();
             return null;
         }
@@ -126,13 +131,13 @@ public enum HomeOption {
         @Override
         MenuExit action(HomeMenu homeMenu){
             try {
-                homeMenu.terminalHelper.savePrintln("Reloading Songs ...");
-                String out = homeMenu.musicPlayer.reloadDir() ? "Done!" : "can not load Songs";
+                homeMenu.getTerminalHelper().savePrintln("Reloading Songs ...");
+                String out = homeMenu.getMusicPlayer().reloadDir() ? "Done!" : "can not load Songs";
                 homeMenu.genSongList();
-                homeMenu.terminalHelper.savePrintln(out);
+                homeMenu.getTerminalHelper().savePrintln(out);
             } catch (IOException e) {
-                homeMenu.terminalHelper.savePrintln(RED + "cant reload Directory" + RESET);
-                homeMenu.tui.addToErrorLog("cant reload Directory");
+                homeMenu.getTerminalHelper().savePrintln(RED + "cant reload Directory" + RESET);
+                homeMenu.getTui().addToErrorLog("cant reload Directory");
                 return MenuExit.ERROR;
             }
             return null;
@@ -149,7 +154,7 @@ public enum HomeOption {
     HELP("?", "Help") {
         @Override
         MenuExit action(HomeMenu homeMenu) {
-            homeMenu.terminalHelper.savePrintln(HELP_STRING);
+            homeMenu.getTerminalHelper().savePrintln(HELP_STRING);
             return null;
         }
     },
@@ -164,7 +169,7 @@ public enum HomeOption {
     NOT_AN_OPTION("", "") {
         @Override
         MenuExit action(HomeMenu homeMenu) {
-            homeMenu.terminalHelper.savePrintln(MenuBase.unknownMsg);
+            homeMenu.getTerminalHelper().savePrintln(MenuBase.getUnknownMsg());
             return null;
         }
     };
@@ -192,7 +197,7 @@ public enum HomeOption {
     }
 
     static {
-        OptionHelper.ReturnValue<HomeOption> b = OptionHelper.genHelpStringAndKeyMap(HomeOption.class);
+        ReturnValue<HomeOption> b = OptionHelper.genHelpStringAndKeyMap(HomeOption.class);
         HELP_STRING = b.HELP_STRING;
         KEY_MAP = b.KEY_MAP;
     }

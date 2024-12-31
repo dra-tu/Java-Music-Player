@@ -1,4 +1,4 @@
-package parser;
+package musicPlayer.parser;
 
 import java.util.HashMap;
 

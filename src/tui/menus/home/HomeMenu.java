@@ -1,8 +1,11 @@
-package tui.menus;
+package tui.menus.home;
 
 import musicPlayer.MusicPlayer;
 
 import tui.TUI;
+import tui.menus.MenuBase;
+import tui.menus.MenuExit;
+import tui.menus.song.SongMenu;
 import tui.terminal.*;
 
 import java.io.IOException;
@@ -37,12 +40,12 @@ public class HomeMenu extends MenuBase {
         this.songMenu = songMenu;
     }
 
-    void quid() {
+    protected void quid() {
         terminalHelper.savePrintln(exitMsg);
     }
 
     @Override
-    MenuExit action() {
+    protected MenuExit action() {
         String in;
         while (true) {
             // get input

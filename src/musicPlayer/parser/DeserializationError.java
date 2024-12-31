@@ -1,4 +1,4 @@
-package parser;
+package musicPlayer.parser;
 
 public enum DeserializationError {
     ILLEGAL_FIELD_ACCESS,

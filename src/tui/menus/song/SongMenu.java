@@ -1,8 +1,10 @@
-package tui.menus;
+package tui.menus.song;
 
 import musicPlayer.MusicPlayer;
 
 import tui.TUI;
+import tui.menus.MenuBase;
+import tui.menus.MenuExit;
 import tui.terminal.*;
 
 import java.io.IOException;
@@ -33,14 +35,14 @@ public class SongMenu extends MenuBase {
         super(tui, startPos, musicPlayer, termLock, terminalHelper, terminalInput);
     }
 
-    void quid() {
+    protected void quid() {
         terminalHelper.savePrintln(exitMsg);
         musicPlayer.exitSong();
         clear();
     }
 
     @Override
-    MenuExit action() {
+    protected MenuExit action() {
         String in;
         while (true) {
             // get input

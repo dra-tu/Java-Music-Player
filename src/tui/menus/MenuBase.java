@@ -8,19 +8,19 @@ import tui.terminal.*;
 import static tui.terminal.TerminalColor.*;
 
 public abstract class MenuBase {
-    static String prompt;
-    static String exitMsg;
-    static String unknownMsg = RED + "unknown Option" + RESET;
-    static String inputMsg = YELLOW + "=> " + RESET;
+    protected static String prompt;
+    protected static String exitMsg;
+    protected static String unknownMsg = RED + "unknown Option" + RESET;
+    protected static String inputMsg = YELLOW + "=> " + RESET;
 
-    String songList;
+    protected String songList;
 
-    TUI tui;
-    TerminalPosition startPos;
-    TerminalHelper terminalHelper;
-    MusicPlayer musicPlayer;
-    TerminalLock termLock;
-    TerminalInput terminalInput;
+    protected TUI tui;
+    protected TerminalPosition startPos;
+    protected TerminalHelper terminalHelper;
+    protected MusicPlayer musicPlayer;
+    protected TerminalLock termLock;
+    protected TerminalInput terminalInput;
 
 
     public MenuBase(
@@ -58,7 +58,7 @@ public abstract class MenuBase {
         termLock.unlockTerminal();
     }
 
-    void genSongList() {
+    public void genSongList() {
         StringBuilder out = new StringBuilder();
         Song[] songs = musicPlayer.getSongs();
         final int indexSize = Integer.toString(songs.length).length();
@@ -77,7 +77,7 @@ public abstract class MenuBase {
         songList = out.toString();
     }
 
-    void printHistory() {
+    public void printHistory() {
         Integer[] history = musicPlayer.getHistory();
         int historyPos = musicPlayer.getHistoryPos();
 
@@ -100,7 +100,41 @@ public abstract class MenuBase {
         }
     }
 
-    abstract MenuExit action();
+    protected abstract MenuExit action();
 
-    abstract void quid();
+    protected abstract void quid();
+
+    // GETTER
+
+    public MusicPlayer getMusicPlayer() {
+        return musicPlayer;
+    }
+
+    public String getSongList() {
+        return songList;
+    }
+
+    public TerminalPosition getStartPos() {
+        return startPos;
+    }
+
+    public TerminalHelper getTerminalHelper() {
+        return terminalHelper;
+    }
+
+    public TerminalInput getTerminalInput() {
+        return terminalInput;
+    }
+
+    public TerminalLock getTermLock() {
+        return termLock;
+    }
+
+    public TUI getTui() {
+        return tui;
+    }
+
+    public static String getUnknownMsg() {
+        return unknownMsg;
+    }
 }

@@ -1,6 +1,6 @@
-package parser;
+package musicPlayer.parser;
 
-import static helper.FieldFinder.findField;
+import static musicPlayer.FieldFinder.findField;
 
 import java.io.*;
 import java.lang.reflect.Field;

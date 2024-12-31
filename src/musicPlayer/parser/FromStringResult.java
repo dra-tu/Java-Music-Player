@@ -1,4 +1,4 @@
-package parser;
+package musicPlayer.parser;
 
 public class FromStringResult<U> {
     boolean worked;

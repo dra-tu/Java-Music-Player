@@ -1,25 +1,28 @@
-package tui.menus;
+package tui.menus.song;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 
 import musicPlayer.songTypes.LoadedSong;
-import tui.menus.OptionHelper.ReturnValue;
+import tui.menus.MenuBase;
+import tui.menus.MenuExit;
+import tui.menus.OptionHelper;
+import tui.menus.ReturnValue;
 
 public enum SongOption {
     // they are used but not directly
     PAUSE("p", "Pause") {
         @Override
         MenuExit action(SongMenu songMenu) {
-            songMenu.musicPlayer.stopSong();
+            songMenu.getMusicPlayer().stopSong();
             return null;
         }
     },
     CONTINUE("o", "Continue") {
         @Override
         MenuExit action(SongMenu songMenu) {
-            songMenu.musicPlayer.continueSong();
+            songMenu.getMusicPlayer().continueSong();
             return null;
         }
     },
@@ -30,16 +33,16 @@ public enum SongOption {
             // TODO: THIS try/catch is as in in SKIP and JUMP => put it in a Methode
             long jumpTime;
             try {
-                jumpTime = songMenu.terminalInput.getTimeStamp();
+                jumpTime = songMenu.getTerminalInput().getTimeStamp();
             } catch (IOException | InterruptedException e) {
-                songMenu.terminalHelper.savePrintln("an error has curd");
+                songMenu.getTerminalHelper().savePrintln("an error has curd");
                 songMenu.quid();
                 return MenuExit.ERROR;
             } catch (InputMismatchException e) {
-                songMenu.terminalHelper.savePrintln("This is not a Time");
+                songMenu.getTerminalHelper().savePrintln("This is not a Time");
                 return null;
             }
-            songMenu.musicPlayer.rewindTime(jumpTime);
+            songMenu.getMusicPlayer().rewindTime(jumpTime);
             return null;
         }
     },
@@ -48,16 +51,16 @@ public enum SongOption {
         MenuExit action(SongMenu songMenu) {
             long jumpTime;
             try {
-                jumpTime = songMenu.terminalInput.getTimeStamp();
+                jumpTime = songMenu.getTerminalInput().getTimeStamp();
             } catch (IOException | InterruptedException e) {
-                songMenu.terminalHelper.savePrintln("an error has curd");
+                songMenu.getTerminalHelper().savePrintln("an error has curd");
                 songMenu.quid();
                 return MenuExit.ERROR;
             } catch (InputMismatchException e) {
-                songMenu.terminalHelper.savePrintln("This is not a Time");
+                songMenu.getTerminalHelper().savePrintln("This is not a Time");
                 return null;
             }
-            songMenu.musicPlayer.skipTime(jumpTime);
+            songMenu.getMusicPlayer().skipTime(jumpTime);
             return null;
         }
     },
@@ -67,16 +70,16 @@ public enum SongOption {
         MenuExit action(SongMenu songMenu) {
             long jumpTime;
             try {
-                jumpTime = songMenu.terminalInput.getTimeStamp();
+                jumpTime = songMenu.getTerminalInput().getTimeStamp();
             } catch (IOException | InterruptedException e) {
-                songMenu.terminalHelper.savePrintln("an error has curd");
+                songMenu.getTerminalHelper().savePrintln("an error has curd");
                 songMenu.quid();
                 return MenuExit.ERROR;
             } catch (InputMismatchException e) {
-                songMenu.terminalHelper.savePrintln("This is not a Time");
+                songMenu.getTerminalHelper().savePrintln("This is not a Time");
                 return null;
             }
-            songMenu.musicPlayer.jumpTo(jumpTime);
+            songMenu.getMusicPlayer().jumpTo(jumpTime);
             return null;
         }
     },
@@ -84,7 +87,7 @@ public enum SongOption {
     LIST_SONGS("ls", "List songs") {
         @Override
         MenuExit action(SongMenu songMenu) {
-            songMenu.terminalHelper.savePrint(songMenu.songList);
+            songMenu.getTerminalHelper().savePrint(songMenu.getSongList());
             return null;
         }
     },
@@ -98,7 +101,7 @@ public enum SongOption {
     LIST_ERRORS("le", "list errors") {
         @Override
         MenuExit action(SongMenu songMenu) {
-            songMenu.terminalHelper.savePrint(songMenu.tui.getErrorLog());
+            songMenu.getTerminalHelper().savePrint(songMenu.getTui().getErrorLog());
             return null;
         }
     },
@@ -106,21 +109,21 @@ public enum SongOption {
     VOLUME_SONG("vs", "Set the volume by percentile [ % ]") {
         @Override
         MenuExit action(SongMenu songMenu) throws IOException {
-            LoadedSong currentSong = songMenu.musicPlayer.getCurrentSong();
+            LoadedSong currentSong = songMenu.getMusicPlayer().getCurrentSong();
             int percent;
             try {
-                percent = songMenu.terminalInput.getInt("% ");
+                percent = songMenu.getTerminalInput().getInt("% ");
             } catch (IOException | InterruptedException e) {
-                songMenu.terminalHelper.savePrintln("an error has curd");
+                songMenu.getTerminalHelper().savePrintln("an error has curd");
                 songMenu.quid();
                 return MenuExit.ERROR;
             } catch (InputMismatchException e) {
-                songMenu.terminalHelper.savePrintln("This is not a Number");
+                songMenu.getTerminalHelper().savePrintln("This is not a Number");
                 return null;
             }
 
             if (!currentSong.setVolumePercent(percent))
-                songMenu.terminalHelper.savePrintln("Pleas insert a value between 0 and 100");
+                songMenu.getTerminalHelper().savePrintln("Pleas insert a value between 0 and 100");
             return null;
         }
     },
@@ -129,18 +132,18 @@ public enum SongOption {
         MenuExit action(SongMenu songMenu) throws IOException {
             int percent;
             try {
-                percent = songMenu.terminalInput.getInt("% ");
+                percent = songMenu.getTerminalInput().getInt("% ");
             } catch (IOException | InterruptedException e) {
-                songMenu.terminalHelper.savePrintln("an error has curd");
+                songMenu.getTerminalHelper().savePrintln("an error has curd");
                 songMenu.quid();
                 return MenuExit.ERROR;
             } catch (InputMismatchException e) {
-                songMenu.terminalHelper.savePrintln("This is not a Number");
+                songMenu.getTerminalHelper().savePrintln("This is not a Number");
                 return null;
             }
 
-            if (songMenu.musicPlayer.setDefaultVolumePercent(percent))
-                songMenu.terminalHelper.savePrintln("Pleas insert a value between 0 and 100");
+            if (songMenu.getMusicPlayer().setDefaultVolumePercent(percent))
+                songMenu.getTerminalHelper().savePrintln("Pleas insert a value between 0 and 100");
             return null;
         }
     },
@@ -170,7 +173,7 @@ public enum SongOption {
     HELP("?", "Help") {
         @Override
         MenuExit action(SongMenu songMenu) {
-            songMenu.terminalHelper.savePrintln(HELP_STRING);
+            songMenu.getTerminalHelper().savePrintln(HELP_STRING);
             return null;
         }
     },
@@ -185,7 +188,7 @@ public enum SongOption {
     NOT_AN_OPTION("", "") {
         @Override
         MenuExit action(SongMenu songMenu) {
-            songMenu.terminalHelper.savePrintln(MenuBase.unknownMsg);
+            songMenu.getTerminalHelper().savePrintln(MenuBase.getUnknownMsg());
             return null;
         }
     };

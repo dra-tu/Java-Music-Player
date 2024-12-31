@@ -1,4 +1,4 @@
-package parser;
+package musicPlayer.parser;
 
 import java.io.File;
 import java.util.Map;

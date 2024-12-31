@@ -4,7 +4,7 @@ import musicPlayer.MusicPlayer;
 
 import tui.menus.MenuExit;
 import tui.menus.MenuManager;
-import tui.menus.SongMenu;
+import tui.menus.song.SongMenu;
 
 import tui.terminal.TerminalLock;
 import tui.terminal.TerminalPosition;
