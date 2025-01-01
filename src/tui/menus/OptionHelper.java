@@ -2,6 +2,7 @@ package tui.menus;
 
 import tui.terminal.TerminalColor;
 
+import java.lang.reflect.Field;
 import java.util.EnumSet;
 import java.util.HashMap;
 
@@ -13,19 +14,17 @@ public class OptionHelper {
 
         for (E option : EnumSet.allOf(enumT)) {
 
-            // get the values of the KEY and DESCRIPTIONfields
-            String key;
-            String description;
-            try {
-                key = enumT.getDeclaredField("KEY").get(option).toString();
-                description = enumT.getDeclaredField("DESCRIPTION").get(option).toString();
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new RuntimeException("Fuck");
-            }
+            // get the values of the KEY and DESCRIPTION fields
+            String key = getFieldValue(enumT, "KEY", option);
+            String description = getFieldValue(enumT, "DESCRIPTION", option);
 
             // skip options you cant select
             if (key.isEmpty())
                 continue;
+            // add description to options whit empty desc
+            if (description.isEmpty())
+                description = "[ NO DESCRIPTION ]";
+
 
             // add key, option pare to the map
             keyMap.put(key, option);
@@ -44,5 +43,15 @@ public class OptionHelper {
         }
 
         return new ReturnValue<>(strB.toString(), keyMap);
+    }
+
+    private static <T extends Enum<T>> String getFieldValue(Class<T> enumT, String name, Object obj) {
+        try {
+            Field field = enumT.getDeclaredField(name);
+            field.setAccessible(true);
+            return field.get(obj).toString();
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            return "";
+        }
     }
 }
