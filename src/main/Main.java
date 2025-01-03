@@ -3,13 +3,9 @@ package main;
 import musicPlayer.PlayerStarter;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws InstantiationException, IllegalAccessException {
-
-        System.out.println( Arrays.toString(args) );
-
         try {
             CliOptions options = new CliOptions(args);
 
