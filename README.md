@@ -20,12 +20,14 @@ java -jar jmp-v[VERSION].jar [option] [MUSIC DIRECTORY]
 ```
 
 ### option:
--p: start playing immediately
+-p: start playing immediately<br>
+-g: use GUI<br>
+-t: use TUI
 ### MUSIC DIRECTORY
 directory with the songs
 ## Menus
 - enter an option and press **ENTER**
-- list all options whit **?**
+- list all main.CliOptions whit **?**
 - quit whit **q**
 
 ## Future plans
