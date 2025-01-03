@@ -27,7 +27,7 @@ java -jar jmp-v[VERSION].jar [option] [MUSIC DIRECTORY]
 directory with the songs
 ## Menus
 - enter an option and press **ENTER**
-- list all main.CliOptions whit **?**
+- list all options whit **?**
 - quit whit **q**
 
 ## Future plans
