@@ -30,6 +30,6 @@ public class CliOptions {
         }
 
         if (!starterIsSet)
-            throw new RuntimeException();
+            throw new UnknownCliOption("");
     }
 }
