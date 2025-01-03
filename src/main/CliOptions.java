@@ -10,8 +10,6 @@ public class CliOptions {
     public CliOptions(String[] args) throws UnknownCliOption {
         for (int i = 0; i <= args.length - 2; i++) {
 
-            System.out.println(i + ": " + args[i]);
-
             if (args[i].equals("-p")) {
                 directStart = true;
             }else if (!starterIsSet) {
