@@ -2,6 +2,7 @@ package tui;
 
 import musicPlayer.MusicPlayer;
 
+import musicPlayer.PlayerStarter;
 import tui.menus.MenuExit;
 import tui.menus.MenuManager;
 import tui.menus.song.SongMenu;
@@ -16,7 +17,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class TUI {
+public class TUI extends PlayerStarter {
     volatile MusicPlayer musicPlayer;
     private final TerminalLock termLock;
     private SongMenu songMenu;
