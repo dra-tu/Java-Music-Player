@@ -1,4 +1,4 @@
-package tui;
+package musicPlayer;
 
 public class TimeStamp {
     public static long toMicroseconds(long minutes, long seconds) {

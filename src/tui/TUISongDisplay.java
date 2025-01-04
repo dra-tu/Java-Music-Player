@@ -1,6 +1,7 @@
 package tui;
 
 import musicPlayer.MusicPlayer;
+import musicPlayer.TimeStamp;
 import musicPlayer.songTypes.LoadedSong;
 
 import tui.terminal.TerminalColor;

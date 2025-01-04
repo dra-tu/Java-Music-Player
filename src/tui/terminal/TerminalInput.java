@@ -1,6 +1,6 @@
 package tui.terminal;
 
-import tui.TimeStamp;
+import musicPlayer.TimeStamp;
 
 import java.io.IOException;
 
