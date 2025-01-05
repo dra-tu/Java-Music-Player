@@ -218,10 +218,13 @@ public class MusicPlayer {
      * Pauses the currently playing Song
      * If the currentSong is stopped noting happens.
      *
-     * @throws NullPointerException if there is no currentSong
+     * @return FALSE if there is no current song else TRUE
      */
-    public void stopSong() throws NullPointerException {
+    public boolean stopSong() {
+        if (currentSong == null) return false; // no song to continue
+
         currentSong.stop();
+        return true;
     }
 
     /**
