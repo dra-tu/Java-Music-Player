@@ -5,8 +5,6 @@ import musicPlayer.event.SongIsDoneEvent;
 import musicPlayer.event.jmpEvent.JmpEvent;
 import musicPlayer.event.jmpEvent.JmpEventListener;
 
-import java.io.IOException;
-
 public class AutoPlay implements JmpEventListener {
     private MusicPlayer musicPlayer;
     private boolean active;
