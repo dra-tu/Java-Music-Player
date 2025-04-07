@@ -1,8 +1,8 @@
-package musicPlayer.configTypes;
+package musicPlayer.parser.configTypes;
 
 import musicPlayer.parser.Parser;
 
-import static musicPlayer.FieldFinder.findField;
+import static musicPlayer.parser.FieldFinder.findField;
 
 import java.io.*;
 import java.lang.reflect.Array;

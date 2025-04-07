@@ -1,6 +1,6 @@
 package musicPlayer.songTypes;
 
-import musicPlayer.configTypes.SongConfig;
+import musicPlayer.parser.configTypes.SongConfig;
 
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
@@ -33,6 +33,7 @@ public class LoadedSong {
     }
 
     public void exit() {
+        stop();
         clip.close();
     }
 

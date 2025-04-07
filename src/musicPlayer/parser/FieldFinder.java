@@ -1,4 +1,4 @@
-package musicPlayer;
+package musicPlayer.parser;
 
 import java.lang.reflect.Field;
 

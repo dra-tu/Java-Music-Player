@@ -1,4 +1,4 @@
-package musicPlayer.configTypes;
+package musicPlayer.parser.configTypes;
 
 import java.io.File;
 import java.io.IOException;

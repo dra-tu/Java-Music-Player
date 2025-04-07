@@ -1,15 +1,21 @@
 package musicPlayer;
 
-import musicPlayer.configTypes.Config;
-import musicPlayer.configTypes.SongConfig;
+import musicPlayer.event.HistoryPointerChangedEvent;
+import musicPlayer.event.SongIsDoneEvent;
+import musicPlayer.event.SongLoadedEvent;
+import musicPlayer.event.jmpEvent.JmpEvent;
+import musicPlayer.parser.configTypes.Config;
+import musicPlayer.parser.configTypes.SongConfig;
+import musicPlayer.event.NewHistoryEntryEvent;
+import musicPlayer.event.jmpEvent.JmpEventListener;
 import musicPlayer.songTypes.LoadedSong;
 import musicPlayer.songTypes.Song;
+import musicPlayer.timerTask.TimerTaskSongCheck;
 
 import java.io.*;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 /**
  * A wrapper for javax.sound.sampled.Clip, whit more functionality. Examples: jump Methods, supports multiple Songs/Clips.
@@ -44,11 +50,33 @@ public class MusicPlayer {
 
     private File confDir;
 
+    // Events
+    private HashMap<Class<?>, JmpEvent> events;
+
     /**
      * Creates a new MusicPlayer
      */
     public MusicPlayer() {
         rng = new Random();
+
+        // Events
+        events = new HashMap<>();
+        events.put(NewHistoryEntryEvent.class, new NewHistoryEntryEvent());
+        events.put(SongLoadedEvent.class, new SongLoadedEvent());
+        events.put(SongIsDoneEvent.class, new SongIsDoneEvent());
+        events.put(HistoryPointerChangedEvent.class, new HistoryPointerChangedEvent());
+
+        timerSetUp();
+    }
+
+    /**
+     * Timer to check for Song Events
+     */
+    private void timerSetUp() {
+        TimerTask timeUpdater = new TimerTaskSongCheck(this, (SongIsDoneEvent) getEvent(SongIsDoneEvent.class));
+
+        Timer timer = new Timer(true);
+        timer.scheduleAtFixedRate(timeUpdater, 0, 1_000);
     }
 
     /**
@@ -81,13 +109,35 @@ public class MusicPlayer {
         confDir.mkdir();
         config = new Config(Path.of(rootDir.getAbsolutePath(), globalConfName).toFile());
         SONG_COUNT = songs.length;
-        historyPointer = -1;
         history = new ArrayList<>();
+        setHistoryPointer(-1);
+        exitSong();
 
         SongConfig.setGlobalConfig(config);
 
         return true;
     }
+
+    public <E extends JmpEvent> void addEventListener(Class<E> eventClass, JmpEventListener newListener) {
+        JmpEvent event = getEvent(eventClass);
+        event.addListener(newListener);
+    }
+
+    public <E extends JmpEvent> void removeEventListener(Class<E> eventClass, JmpEventListener newListener) {
+        JmpEvent event = getEvent(eventClass);
+        event.removeListener(newListener);
+    }
+
+    private <E extends JmpEvent> JmpEvent getEvent(Class<E> eventClass) {
+        JmpEvent event = events.get(eventClass);
+
+        if (event == null || event.getClass() != eventClass){
+            throw new IllegalArgumentException("The MusicPlayer has no " + eventClass.getSimpleName());
+        }
+
+        return event;
+    }
+
 
     public boolean setDefaultVolumePercent(int volume) throws IOException {
         return config.setDefaultVolumePercent(volume);
@@ -133,6 +183,15 @@ public class MusicPlayer {
 
     // history Functions
 
+    private void setHistoryPointer(int newPos) {
+        if (history.size() < newPos || -1 > newPos) return;
+
+        historyPointer = newPos;
+
+        HistoryPointerChangedEvent event = (HistoryPointerChangedEvent) getEvent(HistoryPointerChangedEvent.class);
+        event.callListeners(newPos);
+    }
+
     public int getHistoryPos() {
         return historyPointer;
     }
@@ -145,27 +204,27 @@ public class MusicPlayer {
         if (historyPos >= history.size() || historyPos < 0) {
             return false;
         }
-        historyPointer = historyPos;
+        setHistoryPointer(historyPos);
         return true;
     }
 
     public void historyGoNewest() {
-        historyPointer = 0;
+        setHistoryPointer(0);
     }
 
     public void historyBack(int count) {
         for (int i = 0; i < count; i++) {
-            historyPointer = Math.min(historyPointer + 1, history.size() - 1);
+            setHistoryPointer(Math.min(historyPointer + 1, history.size() - 1));
         }
     }
 
     public void historyNext(int count) {
         for (int i = 0; i < count; i++) {
-            historyPointer = Math.max(historyPointer - 1, -1);
+            setHistoryPointer(Math.max(historyPointer - 1, -1));
 
             if (historyPointer == -1) {
                 historyAdd(rng.nextInt(0, SONG_COUNT));
-                historyPointer = 0;
+                setHistoryPointer(0);
             }
         }
     }
@@ -184,11 +243,34 @@ public class MusicPlayer {
             history.removeLast();
         }
 
+        NewHistoryEntryEvent event = (NewHistoryEntryEvent) getEvent(NewHistoryEntryEvent.class);
+        event.callListeners(songs[history.getFirst()]);
+
         return true;
     }
 
     public int historyLoadSong() throws IOException {
         return loadSong(history.get(historyPointer));
+    }
+
+    public boolean startSong(int songID) {
+        try {
+            exitSong();
+            if (loadSong(songID) != 0) {
+                return false;
+            }
+            historyAddAndJump(songID);
+            continueSong();
+        } catch (IOException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean startRandomSong() {
+        int songID = rng.nextInt(0, SONG_COUNT);
+        return startSong(songID);
     }
 
     // Playback functions
@@ -201,6 +283,7 @@ public class MusicPlayer {
      * 1 if the song is already loaded or 0 if the song is now loaded
      */
     private int loadSong(int songId) throws IOException {
+        if (currentSong != null) return -1; // can not load Song
         if (songId > songs.length || songId < 0) return -1; // can not load Song
         if (currentSong != null && currentSong.getSongId() == songId)
             return 1; // will not load same Song two times
@@ -210,6 +293,9 @@ public class MusicPlayer {
         if (!loadWorked) return -1; // can not load Song
 
         currentSong = song;
+
+        SongLoadedEvent event = (SongLoadedEvent) getEvent(SongLoadedEvent.class);
+        event.callListeners(song);
 
         return 0;
     }

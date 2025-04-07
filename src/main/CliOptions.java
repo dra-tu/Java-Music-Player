@@ -1,5 +1,6 @@
 package main;
 
+import gui.Gui;
 import musicPlayer.PlayerStarter;
 
 public class CliOptions {
@@ -18,7 +19,7 @@ public class CliOptions {
                     playerStarer = tui.TUI.class;
                 }else if (args[i].equals("-g")) {
                     starterIsSet = true;
-                    playerStarer = gui.GUI.class;
+                    playerStarer = Gui.class;
                 }else {
                     throw new UnknownCliOption(args[i]);
                 }
