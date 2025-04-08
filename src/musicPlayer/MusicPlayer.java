@@ -18,7 +18,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 /**
- * A wrapper for javax.sound.sampled.Clip, whit more functionality. Examples: jump Methods, supports multiple Songs/Clips.
+ * A wrapper for javax.sound.sampled.Clip, whit more functionality. Examples: jump Methods
  */
 public class MusicPlayer {
     Random rng;
