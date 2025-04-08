@@ -107,8 +107,8 @@ public class GuiFrame extends JFrame implements JmpColored {
         bottomBar.add(new NextButton(musicPlayer));
         bottomBar.add(new BackButton(musicPlayer));
 
-        mainArea.add(new AllSongList(musicPlayer));
-        mainArea.add(new HistoryList(musicPlayer));
+        mainArea.add(new AllSongList(colorMgr, musicPlayer));
+        mainArea.add(new HistoryList(colorMgr, musicPlayer));
         mainArea.add(new VolumeSlider("Song", VolumeSliderType.SONG_VOLUME, musicPlayer));
         mainArea.add(new VolumeSlider("Default", VolumeSliderType.DEFAULT_VOLUME, musicPlayer));
 

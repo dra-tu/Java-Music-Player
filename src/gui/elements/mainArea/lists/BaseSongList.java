@@ -1,6 +1,8 @@
 package gui.elements.mainArea.lists;
 
+import gui.color.ColorMgr;
 import gui.elements.mainArea.lists.SongButton.SongButton;
+import gui.elements.mainArea.lists.SongButton.style.SelectedStyle;
 import musicPlayer.MusicPlayer;
 import musicPlayer.songTypes.Song;
 
@@ -36,8 +38,9 @@ public class BaseSongList extends JPanel {
         add(scrollList);
     }
 
-    public BaseSongList(String headlineText, MusicPlayer musicPlayer) {
+    public BaseSongList(String headlineText, ColorMgr colorMgr, MusicPlayer musicPlayer) {
         this(musicPlayer);
+        colorMgr.add(new SelectedStyle());
         setHeadline(headlineText);
     }
 

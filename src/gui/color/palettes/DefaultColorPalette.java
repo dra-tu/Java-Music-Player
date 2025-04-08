@@ -24,4 +24,14 @@ public class DefaultColorPalette implements JmpGuiColorPalette {
     public Color getMainArea() {
         return new Color(15, 15, 35);
     }
+
+    @Override
+    public Color getButtonSelected() {
+        return Color.BLUE;
+    }
+
+    @Override
+    public Color getButtonNormal() {
+        return Color.WHITE;
+    }
 }

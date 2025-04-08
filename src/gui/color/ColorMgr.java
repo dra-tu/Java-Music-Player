@@ -14,27 +14,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ColorMgr {
-    private ArrayList<JComponent> components;
-    private ArrayList<JFrame> frames;
+    private ArrayList<JmpColored> elements;
 
     public static final String[] COLOR_PALETTE_NAMES;
     private static final Map<String, Class<JmpGuiColorPalette>> MAP;
 
     public ColorMgr() {
-        components = new ArrayList<>();
-        frames = new ArrayList<>();
+        elements = new ArrayList<>();
     }
 
-    public <C extends JComponent> void add(C comp) {
-        if (comp instanceof JmpColored) {
-            components.add(comp);
-        }
-    }
-
-    public void add(JFrame frame) {
-        if (frame instanceof JmpColored) {
-            frames.add(frame);
-        }
+    public void add(JmpColored element) {
+        elements.add(element);
     }
 
     public void changeColor(String str) {
@@ -54,16 +44,8 @@ public class ColorMgr {
     }
 
     public <CP extends JmpGuiColorPalette> void changeColor(CP colorPalette) {
-        for (JComponent comp : components) {
-            if (comp instanceof JmpColored) {
-                ((JmpColored) comp).updateColors(colorPalette);
-            }
-        }
-
-        for (JFrame frame : frames) {
-            if (frame instanceof JmpColored) {
-                ((JmpColored) frame).updateColors(colorPalette);
-            }
+        for (JmpColored element : elements) {
+            element.updateColors(colorPalette);
         }
     }
 

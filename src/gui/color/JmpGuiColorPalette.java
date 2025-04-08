@@ -8,4 +8,7 @@ public interface JmpGuiColorPalette {
     Color getSideBar();
     Color getBottomBar();
     Color getMainArea();
+
+    Color getButtonSelected();
+    Color getButtonNormal();
 }

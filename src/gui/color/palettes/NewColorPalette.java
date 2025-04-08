@@ -24,4 +24,14 @@ public class NewColorPalette implements JmpGuiColorPalette {
     public Color getMainArea() {
         return null;
     }
+
+    @Override
+    public Color getButtonSelected() {
+        return null;
+    }
+
+    @Override
+    public Color getButtonNormal() {
+        return null;
+    }
 }

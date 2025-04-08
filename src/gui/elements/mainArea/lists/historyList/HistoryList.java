@@ -1,5 +1,6 @@
 package gui.elements.mainArea.lists.historyList;
 
+import gui.color.ColorMgr;
 import gui.elements.mainArea.lists.BaseSongList;
 import gui.elements.mainArea.lists.SongButton.style.SelectedStyle;
 import musicPlayer.MusicPlayer;
@@ -15,8 +16,8 @@ public class HistoryList extends BaseSongList implements JmpEventListener {
 
     private JComponent lastStyle;
 
-    public HistoryList(MusicPlayer musicPlayer) {
-        super("History list", musicPlayer);
+    public HistoryList(ColorMgr colorMgr, MusicPlayer musicPlayer) {
+        super("History list", colorMgr, musicPlayer);
         this.musicPlayer = musicPlayer;
         reload();
         musicPlayer.addEventListener(NewHistoryEntryEvent.class, this);
