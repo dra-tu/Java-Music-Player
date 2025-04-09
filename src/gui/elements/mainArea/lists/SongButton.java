@@ -20,7 +20,7 @@ public class SongButton extends JButton implements ActionListener, JmpColored {
     private static Color[] colors = new Color[COLORS_LENGTH];
 
     public SongButton(Song song, ColorMgr colorMgr, MusicPlayer musicPlayer) {
-        super(String.format("%3d: %s", song.SONG_ID + 1, song.getName()));
+        super(String.format("%d: %s", song.SONG_ID + 1, song.getName()));
         this.musicPlayer = musicPlayer;
         this.SONG_ID = song.SONG_ID;
 
