@@ -27,7 +27,7 @@ public class DefaultColorPalette implements JmpGuiColorPalette {
 
     @Override
     public Color getButtonSelected() {
-        return Color.BLUE;
+        return Color.RED;
     }
 
     @Override

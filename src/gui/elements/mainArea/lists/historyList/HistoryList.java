@@ -2,19 +2,17 @@ package gui.elements.mainArea.lists.historyList;
 
 import gui.color.ColorMgr;
 import gui.elements.mainArea.lists.BaseSongList;
-import gui.elements.mainArea.lists.SongButton.style.SelectedStyle;
+import gui.elements.mainArea.lists.SongButton.SongButton;
 import musicPlayer.MusicPlayer;
 import musicPlayer.event.HistoryPointerChangedEvent;
 import musicPlayer.event.NewHistoryEntryEvent;
 import musicPlayer.event.jmpEvent.JmpEvent;
 import musicPlayer.event.jmpEvent.JmpEventListener;
 
-import javax.swing.*;
-
 public class HistoryList extends BaseSongList implements JmpEventListener {
     private final MusicPlayer musicPlayer;
 
-    private JComponent lastStyle;
+    private SongButton lastStyle;
 
     public HistoryList(ColorMgr colorMgr, MusicPlayer musicPlayer) {
         super("History list", colorMgr, musicPlayer);
@@ -41,7 +39,8 @@ public class HistoryList extends BaseSongList implements JmpEventListener {
         } else if (event instanceof HistoryPointerChangedEvent) {
             HistoryPointerChangedEvent historyEvent = (HistoryPointerChangedEvent) event;
 
-            if (lastStyle != null) SelectedStyle.removeStyle(lastStyle);
+            if (lastStyle != null) lastStyle.unSelect();
+//                SelectedStyle.removeStyle(lastStyle);
 
             int pointer = historyEvent.pointerPosition();
 
@@ -51,7 +50,8 @@ public class HistoryList extends BaseSongList implements JmpEventListener {
             }
 
             lastStyle = getSongButton(pointer);
-            SelectedStyle.applyStyle(lastStyle);
+//            SelectedStyle.applyStyle(lastStyle);
+            lastStyle.select();
         }
 
     }

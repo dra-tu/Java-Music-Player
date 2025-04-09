@@ -2,7 +2,6 @@ package gui.elements.mainArea.lists;
 
 import gui.color.ColorMgr;
 import gui.elements.mainArea.lists.SongButton.SongButton;
-import gui.elements.mainArea.lists.SongButton.style.SelectedStyle;
 import musicPlayer.MusicPlayer;
 import musicPlayer.songTypes.Song;
 
@@ -12,10 +11,12 @@ import java.awt.*;
 public class BaseSongList extends JPanel {
     private final JLabel headlineLabel;
     private final JPanel scrollContent;
+    private final ColorMgr colorMgr;
     private final MusicPlayer musicPlayer;
     private final static int SCROLL_SPEED = 16;
 
-    private BaseSongList(MusicPlayer musicPlayer) {
+    public BaseSongList(String headlineText, ColorMgr colorMgr, MusicPlayer musicPlayer) {
+        this.colorMgr = colorMgr;
         this.musicPlayer = musicPlayer;
 
         // create empty scroll list
@@ -29,19 +30,13 @@ public class BaseSongList extends JPanel {
         scrollList.getVerticalScrollBar().setUnitIncrement(SCROLL_SPEED);
         scrollList.getHorizontalScrollBar().setUnitIncrement(SCROLL_SPEED);
 
-        headlineLabel = new JLabel("[HEADLINE HEAR]");
+        headlineLabel = new JLabel(headlineText);
 
         setSize(200, 500);
         setPreferredSize(new Dimension(200, 500));
 
         add(headlineLabel);
         add(scrollList);
-    }
-
-    public BaseSongList(String headlineText, ColorMgr colorMgr, MusicPlayer musicPlayer) {
-        this(musicPlayer);
-        colorMgr.add(new SelectedStyle());
-        setHeadline(headlineText);
     }
 
     public void setHeadline(String text) {
@@ -69,10 +64,10 @@ public class BaseSongList extends JPanel {
     }
 
     private void addSongAt(int index, Song song) {
-        scrollContent.add(new SongButton(song, musicPlayer), index);
+        scrollContent.add(new SongButton(song, colorMgr, musicPlayer), index);
     }
 
-    public JComponent getSongButton(int id) {
-        return (JComponent) scrollContent.getComponent(id);
+    public SongButton getSongButton(int id) {
+        return (SongButton) scrollContent.getComponent(id);
     }
 }

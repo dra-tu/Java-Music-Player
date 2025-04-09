@@ -1,18 +1,16 @@
 package gui.elements.mainArea.lists.allSongList;
 
-import gui.elements.mainArea.lists.SongButton.style.SelectedStyle;
+import gui.elements.mainArea.lists.SongButton.SongButton;
 import musicPlayer.MusicPlayer;
 import musicPlayer.event.SongLoadedEvent;
 import musicPlayer.event.jmpEvent.JmpEvent;
 import musicPlayer.event.jmpEvent.JmpEventListener;
 import musicPlayer.songTypes.Song;
 
-import javax.swing.*;
-
 class AllSongListController implements JmpEventListener {
     private final MusicPlayer musicPlayer;
     private final AllSongList list;
-    private JComponent styledButton;
+    private SongButton styledButton;
 
     AllSongListController(MusicPlayer musicPlayer, AllSongList list) {
         this.musicPlayer = musicPlayer;
@@ -36,11 +34,13 @@ class AllSongListController implements JmpEventListener {
         SongLoadedEvent loadedEvent = (SongLoadedEvent) event;
 
         if (styledButton != null) {
-            SelectedStyle.removeStyle(styledButton);
+            styledButton.unSelect();
+//            SelectedStyle.removeStyle(styledButton);
         }
 
-        styledButton = (JComponent) list.getSongButton(loadedEvent.getNewSong().getSongId());
+        styledButton = list.getSongButton(loadedEvent.getNewSong().getSongId());
 
-        SelectedStyle.applyStyle(styledButton);
+        styledButton.select();
+//   JComponent     SelectedStyle.applyStyle(styledButton);
     }
 }
