@@ -1,7 +1,6 @@
 package gui.elements.mainArea.lists;
 
 import gui.color.ColorMgr;
-import gui.elements.mainArea.lists.SongButton.SongButton;
 import musicPlayer.MusicPlayer;
 import musicPlayer.songTypes.Song;
 

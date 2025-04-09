@@ -2,7 +2,7 @@ package gui.elements.mainArea.lists.historyList;
 
 import gui.color.ColorMgr;
 import gui.elements.mainArea.lists.BaseSongList;
-import gui.elements.mainArea.lists.SongButton.SongButton;
+import gui.elements.mainArea.lists.SongButton;
 import musicPlayer.MusicPlayer;
 import musicPlayer.event.HistoryPointerChangedEvent;
 import musicPlayer.event.NewHistoryEntryEvent;

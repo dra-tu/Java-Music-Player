@@ -1,4 +1,4 @@
-package gui.elements.mainArea.lists.SongButton;
+package gui.elements.mainArea.lists;
 
 import gui.color.ColorMgr;
 import gui.color.JmpColored;

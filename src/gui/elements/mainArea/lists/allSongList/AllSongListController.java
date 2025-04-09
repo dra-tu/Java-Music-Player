@@ -1,6 +1,6 @@
 package gui.elements.mainArea.lists.allSongList;
 
-import gui.elements.mainArea.lists.SongButton.SongButton;
+import gui.elements.mainArea.lists.SongButton;
 import musicPlayer.MusicPlayer;
 import musicPlayer.event.SongLoadedEvent;
 import musicPlayer.event.jmpEvent.JmpEvent;
