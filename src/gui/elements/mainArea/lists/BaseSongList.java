@@ -14,6 +14,8 @@ public class BaseSongList extends JPanel {
     private final ColorMgr colorMgr;
     private final MusicPlayer musicPlayer;
     private final static int SCROLL_SPEED = 16;
+    private final static Dimension SIZE = new Dimension(200, 500);
+    private final static Dimension SCROLL_SIZE = new Dimension(200, 475);
 
     public BaseSongList(String headlineText, ColorMgr colorMgr, MusicPlayer musicPlayer) {
         this.colorMgr = colorMgr;
@@ -25,15 +27,15 @@ public class BaseSongList extends JPanel {
         JScrollPane scrollList = new JScrollPane(scrollContent);
         scrollList.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollList.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollList.setPreferredSize(new Dimension(200, 475));
+        scrollList.setPreferredSize(SCROLL_SIZE);
 
         scrollList.getVerticalScrollBar().setUnitIncrement(SCROLL_SPEED);
         scrollList.getHorizontalScrollBar().setUnitIncrement(SCROLL_SPEED);
 
         headlineLabel = new JLabel(headlineText);
 
-        setSize(200, 500);
-        setPreferredSize(new Dimension(200, 500));
+        setSize(SIZE);
+        setPreferredSize(SIZE);
 
         add(headlineLabel);
         add(scrollList);
