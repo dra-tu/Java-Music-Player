@@ -13,8 +13,8 @@ public class BaseSongList extends JPanel {
     private final ColorMgr colorMgr;
     private final MusicPlayer musicPlayer;
     private final static int SCROLL_SPEED = 16;
-    private final static Dimension SIZE = new Dimension(200, 500);
-    private final static Dimension SCROLL_SIZE = new Dimension(200, 475);
+    private final static Dimension SIZE = new Dimension(200, 470);
+    private final static Dimension SCROLL_SIZE = new Dimension(200, 445);
 
     public BaseSongList(String headlineText, ColorMgr colorMgr, MusicPlayer musicPlayer) {
         this.colorMgr = colorMgr;
