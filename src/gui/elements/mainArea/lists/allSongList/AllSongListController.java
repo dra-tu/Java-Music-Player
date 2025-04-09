@@ -35,12 +35,10 @@ class AllSongListController implements JmpEventListener {
 
         if (styledButton != null) {
             styledButton.unSelect();
-//            SelectedStyle.removeStyle(styledButton);
         }
 
         styledButton = list.getSongButton(loadedEvent.getNewSong().getSongId());
 
         styledButton.select();
-//   JComponent     SelectedStyle.applyStyle(styledButton);
     }
 }
