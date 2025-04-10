@@ -11,7 +11,5 @@ public class JmpButtonConstant {
         public static final int BACKGROUND = 0;
         public static final int BORDER = 1;
         public static final int HIGHLIGHT = 2;
-
-        public static final int MAX = 2;
     }
 }

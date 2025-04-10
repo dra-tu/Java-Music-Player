@@ -9,12 +9,13 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class JmpButton extends JButton implements MouseListener, JmpColored {
     private static final Border HOVER_BORDER = BorderFactory.createEmptyBorder();
+    private static final ArrayList<WeakReference<JmpButton>> buttons = new ArrayList<>();
     private static Color[][] colors;
-    private static ArrayList<JmpButton> buttons = new ArrayList<>();
 
     private Border NORMAL_BORDER;
     private int state;
@@ -32,7 +33,7 @@ public class JmpButton extends JButton implements MouseListener, JmpColored {
 
     public JmpButton() {
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        buttons.add(this);
+        buttons.add(new WeakReference<>(this));
         addMouseListener(this);
 
         state = State.NORMAL;
@@ -45,7 +46,13 @@ public class JmpButton extends JButton implements MouseListener, JmpColored {
     }
 
     private void updateColors() {
-        for (JmpButton button : buttons) {
+        for (WeakReference<JmpButton> buttonReference : buttons) {
+            if(buttonReference.get() == null) {
+                buttons.remove(buttonReference);
+                System.out.println("Button is gone");
+                continue;
+            }
+            JmpButton button = buttonReference.get();
             button.NORMAL_BORDER = createNormalBorder(colors[button.state][Field.HIGHLIGHT], colors[button.state][Field.BORDER]);
             button.setBorder(button.NORMAL_BORDER);
             button.setBackground(colors[button.state][0]);
