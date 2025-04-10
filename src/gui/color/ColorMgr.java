@@ -1,8 +1,8 @@
 package gui.color;
 
 import gui.color.palettes.DefaultColorPalette;
+import gui.elements.jmp.JmpButton;
 
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,12 +15,16 @@ import java.util.stream.Stream;
 
 public class ColorMgr {
     private ArrayList<JmpColored> elements;
+    private JmpColored[] staticElements;
 
     public static final String[] COLOR_PALETTE_NAMES;
     private static final Map<String, Class<JmpGuiColorPalette>> MAP;
 
     public ColorMgr() {
         elements = new ArrayList<>();
+        staticElements = new JmpColored[]{
+                new JmpButton()
+        };
     }
 
     public void add(JmpColored element) {
@@ -45,6 +49,9 @@ public class ColorMgr {
 
     public <CP extends JmpGuiColorPalette> void changeColor(CP colorPalette) {
         for (JmpColored element : elements) {
+            element.updateColors(colorPalette);
+        }
+        for (JmpColored element : staticElements) {
             element.updateColors(colorPalette);
         }
     }
