@@ -1,12 +1,12 @@
 package gui.elements.sideBar.reloadButton;
 
 import gui.elements.GuiFrame;
+import gui.elements.jmp.JmpButton;
 import musicPlayer.MusicPlayer;
 
-import javax.swing.*;
 import java.io.IOException;
 
-public class ReloadButton extends JButton {
+public class ReloadButton extends JmpButton {
     public ReloadButton(MusicPlayer musicPlayer, GuiFrame frame) {
 
         setText("Reload");

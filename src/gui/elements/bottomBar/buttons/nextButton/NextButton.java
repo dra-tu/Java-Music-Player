@@ -1,11 +1,10 @@
 package gui.elements.bottomBar.buttons.nextButton;
 
+import gui.elements.jmp.JmpButton;
 import gui.elements.bottomBar.buttons.ButtonStyle;
 import musicPlayer.MusicPlayer;
 
-import javax.swing.*;
-
-public class NextButton extends JButton {
+public class NextButton extends JmpButton {
     public NextButton(MusicPlayer musicPlayer) {
         super();
 
