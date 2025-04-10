@@ -9,6 +9,14 @@ public interface JmpGuiColorPalette {
     Color getBottomBar();
     Color getMainArea();
 
-    Color getButtonSelected();
-    Color getButtonNormal();
+    /**
+     * BaseButton
+     * Array structure
+     * [state of the button][element]
+     * element:
+     * - 0 - Background
+     * - 1 - Border Color
+     * - 2 - Border Highlight
+     */
+    Color[][] getBaseButtonColors();
 }

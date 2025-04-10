@@ -25,13 +25,14 @@ public class NewColorPalette implements JmpGuiColorPalette {
         return null;
     }
 
+    // Array structure
+    // [state of the button][element]
+    // element:
+    //    - 0 - Background
+    //    - 1 - Border Color
+    //    - 2 - Border Highlight
     @Override
-    public Color getButtonSelected() {
-        return null;
-    }
-
-    @Override
-    public Color getButtonNormal() {
-        return null;
+    public Color[][] getBaseButtonColors() {
+        return new Color[0][];
     }
 }
