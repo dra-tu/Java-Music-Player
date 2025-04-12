@@ -13,15 +13,21 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class JmpButton extends JButton implements MouseListener, JmpColored {
-    private static final Border HOVER_BORDER = BorderFactory.createEmptyBorder();
     private static final ArrayList<WeakReference<JmpButton>> buttons = new ArrayList<>();
     private static Color[][] colors;
 
+    private Border HOVER_BORDER;
     private Border NORMAL_BORDER;
+    private int padding;
     private int state;
 
     public int getState() {
         return state;
+    }
+
+    public void setPadding(int padding) {
+        this.padding = padding;
+        createHoverBorder();
     }
 
     public void setState(int state) {
@@ -37,6 +43,7 @@ public class JmpButton extends JButton implements MouseListener, JmpColored {
         addMouseListener(this);
 
         state = State.NORMAL;
+        padding = 3;
     }
 
     @Override
@@ -53,16 +60,34 @@ public class JmpButton extends JButton implements MouseListener, JmpColored {
                 continue;
             }
             JmpButton button = buttonReference.get();
-            button.NORMAL_BORDER = createNormalBorder(colors[button.state][Field.HIGHLIGHT], colors[button.state][Field.BORDER]);
+
+            button.updateNormalBorder();
+            button.createHoverBorder();
             button.setBorder(button.NORMAL_BORDER);
             button.setBackground(colors[button.state][0]);
         }
     }
 
-    private static Border createNormalBorder(Color highlightColor, Color borderColor) {
-        return BorderFactory.createCompoundBorder(
-                BorderFactory.createMatteBorder(0, 3, 0, 0, highlightColor),
-                BorderFactory.createMatteBorder(2, 0, 2, 2, borderColor)
+    private void updateNormalBorder() {
+        Border tempBorder = BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(0, 3, 0, 0, colors[state][Field.HIGHLIGHT]),
+                BorderFactory.createMatteBorder(2, 0, 2, 2, colors[state][Field.BORDER])
+        );
+
+        NORMAL_BORDER = BorderFactory.createCompoundBorder(
+                tempBorder,
+                BorderFactory.createEmptyBorder(padding, padding, padding, padding)
+        );
+    }
+
+    private void createHoverBorder() {
+        Border tempBorder = BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(0, 3, 0, 0, colors[state][Field.BORDER]),
+                BorderFactory.createMatteBorder(2, 0, 2, 2, colors[state][Field.BACKGROUND])
+        );
+        HOVER_BORDER = BorderFactory.createCompoundBorder(
+                tempBorder,
+                BorderFactory.createEmptyBorder(padding, padding+3, padding, padding)
         );
     }
 
@@ -85,11 +110,11 @@ public class JmpButton extends JButton implements MouseListener, JmpColored {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // dont care
+        System.out.println("PRESSED");
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // dont care
+        System.out.println("RELEADS");
     }
 }
