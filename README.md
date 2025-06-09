@@ -25,7 +25,7 @@ java -jar jmp-v[VERSION].jar [option] [MUSIC DIRECTORY]
 -t: use TUI
 ### MUSIC DIRECTORY
 directory with the songs
-## Menus
+## Menus (in TUI)
 - enter an option and press **ENTER**
 - list all options whit **?**
 - quit whit **q**
