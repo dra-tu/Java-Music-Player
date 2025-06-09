@@ -39,7 +39,7 @@ public class TUI extends PlayerStarter {
         return errorLog;
     }
 
-    public boolean start(String dirPath, boolean startSong) {
+    public boolean start(String dirPath) {
         if (!setDir(dirPath)) return false;
         // Create the Menu Manager
         // The Menu Manager will create the Menus(Home and Song)
@@ -63,8 +63,7 @@ public class TUI extends PlayerStarter {
         // start the Menus and the song Info ui
         songUiUpdater.start();
 
-        if(startSong)
-            mixPlay(true);
+        mixPlay(true);
 
         menuMgr.start();
 

@@ -16,7 +16,7 @@ public class Gui extends PlayerStarter {
     private GuiFrame frame;
 
     @Override
-    public boolean start(String dirPath, boolean startSong) {
+    public boolean start(String dirPath) {
         MusicPlayer musicPlayer = new MusicPlayer();
         try {
             musicPlayer.useDir(dirPath);
