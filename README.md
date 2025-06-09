@@ -31,4 +31,4 @@ directory with the songs
 - quit whit **q**
 
 ## Future plans
-- gui
+- improve GUI and add more functions to it
