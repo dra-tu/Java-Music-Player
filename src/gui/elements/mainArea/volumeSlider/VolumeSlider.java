@@ -1,17 +1,19 @@
 package gui.elements.mainArea.volumeSlider;
 
+import gui.color.ColorMgr;
+import gui.elements.jmp.JmpSlider;
 import musicPlayer.MusicPlayer;
 import musicPlayer.event.SongLoadedEvent;
 
 import javax.swing.*;
 
 public class VolumeSlider extends JPanel {
-    public VolumeSlider(String headline, VolumeSliderType volType, MusicPlayer musicPlayer) {
+    public VolumeSlider(String headline, VolumeSliderType volType,ColorMgr colorMgr, MusicPlayer musicPlayer) {
         super();
 
         JLabel headlineLabel = createHeadline(headline);
         JLabel label = createLabel();
-        JSlider slider = createSlider();
+        JmpSlider slider = createSlider(colorMgr);
 
         add(headlineLabel);
         add(label);
@@ -34,12 +36,10 @@ public class VolumeSlider extends JPanel {
         return label;
     }
 
-    private JSlider createSlider() {
-        JSlider slider = new JSlider();
+    private JmpSlider createSlider(ColorMgr colorMgr) {
+        JmpSlider slider = new JmpSlider(colorMgr, 0, 100);
 
         slider.setOrientation(JSlider.VERTICAL);
-        slider.setMaximum(100);
-        slider.setMinimum(0);
 
         // slider "painting"
         slider.setMajorTickSpacing(20);

@@ -25,6 +25,21 @@ public class NewColorPalette implements JmpGuiColorPalette {
         return null;
     }
 
+    @Override
+    public Color thumbColor() {
+        return null;
+    }
+
+    @Override
+    public Color trackFilledColor() {
+        return null;
+    }
+
+    @Override
+    public Color trackNotFilledColor() {
+        return null;
+    }
+
     // Array structure
     // [state of the button][element]
     // element:

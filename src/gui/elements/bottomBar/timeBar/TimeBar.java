@@ -1,19 +1,24 @@
 package gui.elements.bottomBar.timeBar;
 
+import gui.color.ColorMgr;
+import gui.elements.jmp.JmpSlider;
 import musicPlayer.MusicPlayer;
 
 import javax.swing.*;
 import java.util.Timer;
 
 public class TimeBar extends JPanel {
-    public TimeBar(MusicPlayer musicPlayer) {
-        JLabel label = new JLabel("00:00 / XX:XX");
-        JSlider bar = new JSlider(0, 0);
+    private JLabel label;
+    private JmpSlider slider;
+
+    public TimeBar(ColorMgr colorMgr, MusicPlayer musicPlayer) {
+        label = new JLabel("00:00 / XX:XX");
+        slider = new JmpSlider(colorMgr, 0, 0);
 
         add(label);
-        add(bar);
+        add(slider);
 
-        startUpdating(musicPlayer, label, bar);
+        startUpdating(musicPlayer, label, slider);
     }
 
     private void startUpdating(MusicPlayer musicPlayer, JLabel label, JSlider bar) {
@@ -21,9 +26,5 @@ public class TimeBar extends JPanel {
 
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(controller, 0, 1_000);
-    }
-
-    private void addStyle() {
-
     }
 }

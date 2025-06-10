@@ -26,6 +26,21 @@ public class DefaultColorPalette implements JmpGuiColorPalette {
     }
 
     @Override
+    public Color thumbColor() {
+        return Color.BLUE;
+    }
+
+    @Override
+    public Color trackFilledColor() {
+        return Color.MAGENTA;
+    }
+
+    @Override
+    public Color trackNotFilledColor() {
+        return Color.GRAY;
+    }
+
+    @Override
     public Color[][] getBaseButtonColors() {
         return BASE_BUTTON_COLORS;
     }

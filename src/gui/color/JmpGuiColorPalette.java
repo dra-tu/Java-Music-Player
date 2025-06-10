@@ -9,6 +9,10 @@ public interface JmpGuiColorPalette {
     Color getBottomBar();
     Color getMainArea();
 
+    Color thumbColor();
+    Color trackFilledColor();
+    Color trackNotFilledColor();
+
     /**
      * BaseButton
      * Array structure
