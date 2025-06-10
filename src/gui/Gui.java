@@ -27,10 +27,11 @@ public class Gui extends PlayerStarter {
         ColorMgr colMgr = new ColorMgr();
 
         frame = new GuiFrame(colMgr);
-        frame.createGuiElements(musicPlayer);
 
-        colMgr.add(frame);
         colMgr.changeColor(new DefaultColorPalette());
+        colMgr.add(frame);
+
+        frame.createGuiElements(musicPlayer);
 
         new AutoPlay(musicPlayer, true);
         musicPlayer.startRandomSong();
