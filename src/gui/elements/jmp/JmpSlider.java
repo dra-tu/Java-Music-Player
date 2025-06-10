@@ -19,6 +19,7 @@ public class JmpSlider extends JSlider {
     }
 
     private static class JmpSliderUI extends BasicSliderUI implements JmpColored {
+        private Color decoColor;
         private Color thumbColor;
         private Color trackFilledColor;
         private Color trackNotFilledColor;
@@ -57,8 +58,41 @@ public class JmpSlider extends JSlider {
             }
         }
 
+        /**
+         * this is supposed to be empty
+         */
+        @Override
+        public void paintFocus(Graphics g) {
+        }
+
+        @Override
+        public void paintTicks(Graphics g) {
+            g.setColor(decoColor);
+
+            int x = tickRect.x;
+            int y = trackRect.y;
+
+            if (slider.getMajorTickSpacing() != 0) {
+                int size = slider.getFont().getSize();
+                for (int i = slider.getMinimum(); i <= slider.getMaximum(); i += slider.getMajorTickSpacing()) {
+                    int offset = trackRect.height * i / slider.getMaximum();
+                    g.drawArc(x, y + offset - (size/2), size, size, 90, 180);
+                }
+            }
+
+            if (slider.getMinorTickSpacing() != 0) {
+                for (int i = slider.getMinimum(); i <= slider.getMaximum(); i += slider.getMinorTickSpacing()) {
+                    if (i % slider.getMajorTickSpacing() != 0) {
+                        int offset = trackRect.height * i / slider.getMaximum();
+                        g.drawLine(x, y + offset, x + (trackRect.width/3), y + offset);
+                    }
+                }
+            }
+        }
+
         @Override
         public <CP extends JmpGuiColorPalette> void updateColors(CP cp) {
+            decoColor = cp.sliderDecoColor();
             thumbColor = cp.thumbColor();
             trackFilledColor = cp.trackFilledColor();
             trackNotFilledColor = cp.trackNotFilledColor();

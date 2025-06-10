@@ -43,7 +43,6 @@ public class VolumeSlider extends JPanel {
 
         // slider "painting"
         slider.setMajorTickSpacing(20);
-        slider.setMinorTickSpacing(5);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
 
