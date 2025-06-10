@@ -8,6 +8,8 @@ public class ColorChangeButton extends JComboBox<String> {
     public ColorChangeButton(ColorMgr mgr) {
         super(ColorMgr.getColorPaletteNames());
 
+        setSelectedItem(mgr.getSelectedPaletteName());
+
         Dimension size = new Dimension(100, 25);
         // setMinimumSize(size);
         setMaximumSize(size);

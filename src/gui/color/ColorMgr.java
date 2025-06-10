@@ -36,6 +36,10 @@ public class ColorMgr {
         element.updateColors(curedPallet);
     }
 
+    public Object getSelectedPaletteName() {
+        return curedPallet.getPaletteName();
+    }
+
     public void changeColor(String str) {
         Class<JmpGuiColorPalette> clazz = MAP.get(str);
         if (clazz == null) return;
