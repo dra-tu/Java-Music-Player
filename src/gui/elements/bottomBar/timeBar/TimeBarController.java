@@ -59,6 +59,6 @@ public class TimeBarController extends TimerTask implements ChangeListener {
             return;
         }
 
-        throw new RuntimeException("It is working");
+        musicPlayer.jumpTo(bar.getValue());
     }
 }
