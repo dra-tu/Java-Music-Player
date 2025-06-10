@@ -4,13 +4,11 @@ import musicPlayer.MusicPlayer;
 
 import javax.swing.*;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class TimeBar extends JPanel {
     public TimeBar(MusicPlayer musicPlayer) {
-
         JLabel label = new JLabel("00:00 / XX:XX");
-        JProgressBar bar = new JProgressBar(0, 0);
+        JSlider bar = new JSlider(0, 0);
 
         add(label);
         add(bar);
@@ -18,11 +16,11 @@ public class TimeBar extends JPanel {
         startUpdating(musicPlayer, label, bar);
     }
 
-    private void startUpdating(MusicPlayer musicPlayer, JLabel label, JProgressBar bar) {
-        TimerTask timeUpdater = new TimeBarController(label, bar, musicPlayer);
+    private void startUpdating(MusicPlayer musicPlayer, JLabel label, JSlider bar) {
+        TimeBarController controller = new TimeBarController(label, bar, musicPlayer);
 
         Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(timeUpdater, 0, 1_000);
+        timer.scheduleAtFixedRate(controller, 0, 1_000);
     }
 
     private void addStyle() {

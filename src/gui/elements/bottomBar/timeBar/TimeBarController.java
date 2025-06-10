@@ -5,17 +5,23 @@ import musicPlayer.songTypes.LoadedSong;
 import musicPlayer.TimeStamp;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.util.TimerTask;
 
-public class TimeBarController extends TimerTask {
+public class TimeBarController extends TimerTask implements ChangeListener {
     private final MusicPlayer musicPlayer;
     private final JLabel label;
-    private final JProgressBar bar;
+    private final JSlider bar;
+    private boolean selfChange;
 
-    TimeBarController(JLabel label, JProgressBar bar, MusicPlayer player) {
+    TimeBarController(JLabel label, JSlider bar, MusicPlayer player) {
         this.label = label;
         this.bar = bar;
         this.musicPlayer = player;
+        selfChange = true;
+
+        this.bar.addChangeListener(this);
     }
 
     @Override
@@ -37,8 +43,22 @@ public class TimeBarController extends TimerTask {
 
             label.setText(TimeStamp.toString(currentTime) + " / " + TimeStamp.toString(songLength));
 
-            bar.setMaximum((int) songLength);
+            if (bar.getMaximum() != songLength) {
+                selfChange = true;
+                bar.setMaximum((int) songLength);
+            }
+            selfChange = true;
             bar.setValue((int) currentTime);
         });
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        if (selfChange) {
+            selfChange = false;
+            return;
+        }
+
+        throw new RuntimeException("It is working");
     }
 }
