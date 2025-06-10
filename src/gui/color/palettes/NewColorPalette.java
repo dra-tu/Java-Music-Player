@@ -33,6 +33,6 @@ public class NewColorPalette implements JmpGuiColorPalette {
     //    - 2 - Border Highlight
     @Override
     public Color[][] getBaseButtonColors() {
-        return new Color[0][];
+        return new Color[2][3];
     }
 }
