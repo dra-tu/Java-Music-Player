@@ -9,6 +9,7 @@ public interface JmpGuiColorPalette {
     Color getBottomBar();
     Color getMainArea();
 
+    Color sliderDecoColor();
     Color thumbColor();
     Color trackFilledColor();
     Color trackNotFilledColor();

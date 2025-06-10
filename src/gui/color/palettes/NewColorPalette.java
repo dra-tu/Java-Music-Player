@@ -26,6 +26,11 @@ public class NewColorPalette implements JmpGuiColorPalette {
     }
 
     @Override
+    public Color sliderDecoColor() {
+        return null;
+    }
+
+    @Override
     public Color thumbColor() {
         return null;
     }

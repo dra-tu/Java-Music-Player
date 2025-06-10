@@ -26,6 +26,11 @@ public class DefaultColorPalette implements JmpGuiColorPalette {
     }
 
     @Override
+    public Color sliderDecoColor() {
+        return Color.BLACK;
+    }
+
+    @Override
     public Color thumbColor() {
         return Color.BLUE;
     }
