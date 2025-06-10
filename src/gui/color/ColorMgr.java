@@ -15,16 +15,16 @@ import java.util.stream.Stream;
 
 public class ColorMgr {
     private ArrayList<JmpColored> elements;
-    private JmpColored[] staticElements;
 
     public static final String[] COLOR_PALETTE_NAMES;
     private static final Map<String, Class<JmpGuiColorPalette>> MAP;
 
     public ColorMgr() {
         elements = new ArrayList<>();
-        staticElements = new JmpColored[]{
-                new JmpButton()
-        };
+    }
+
+    public void removeAll() {
+        elements = new ArrayList<>();
     }
 
     public void add(JmpColored element) {
@@ -49,9 +49,6 @@ public class ColorMgr {
 
     public <CP extends JmpGuiColorPalette> void changeColor(CP colorPalette) {
         for (JmpColored element : elements) {
-            element.updateColors(colorPalette);
-        }
-        for (JmpColored element : staticElements) {
             element.updateColors(colorPalette);
         }
     }
