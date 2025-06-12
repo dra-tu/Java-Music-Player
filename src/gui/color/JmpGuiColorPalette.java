@@ -2,30 +2,25 @@ package gui.color;
 
 import java.awt.*;
 
-public abstract class JmpGuiColorPalette {
-    public JmpGuiColorPalette() {
-        System.out.println("Moin from + " + getPaletteName());
-    }
+public interface JmpGuiColorPalette {
+    String getPaletteName();
 
-    public abstract String getPaletteName();
+    Color getSideBar();
+    Color getBottomBar();
+    Color getMainArea();
 
-    public abstract Color getSideBar();
-    public abstract Color getBottomBar();
-    public abstract Color getMainArea();
+    Color sliderDecoColor();
+    Color thumbColor();
+    Color trackFilledColor();
+    Color trackNotFilledColor();
 
-    public abstract Color sliderDecoColor();
-    public abstract Color thumbColor();
-    public abstract Color trackFilledColor();
-    public abstract Color trackNotFilledColor();
-
-    /**
-     * BaseButton
-     * Array structure
-     * [state of the button][element]
-     * element:
-     * - 0 - Background
-     * - 1 - Border Color
+   /**
+     * Array structure:<br>
+     * [state of the button][element]<br>
+     * element:<br>
+     * - 0 - Background<br>
+     * - 1 - Border Color<br>
      * - 2 - Border Highlight
      */
-    public abstract Color[][] getBaseButtonColors();
+   Color[][] getBaseButtonColors();
 }

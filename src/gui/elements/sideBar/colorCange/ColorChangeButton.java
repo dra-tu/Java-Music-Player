@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class ColorChangeButton extends JComboBox<String> {
     public ColorChangeButton(ColorMgr mgr) {
-        super(ColorMgr.getColorPaletteNames());
+        super(mgr.getColorPaletteNames());
 
         setSelectedItem(mgr.getSelectedPaletteName());
 

@@ -2,6 +2,7 @@ package gui;
 
 import gui.color.ColorMgr;
 import gui.color.palettes.DefaultColorPalette;
+import gui.color.palettes.NewColorPalette;
 import gui.elements.GuiFrame;
 
 import gui.playMode.AutoPlay;
@@ -25,10 +26,11 @@ public class Gui extends PlayerStarter {
         }
 
         ColorMgr colMgr = new ColorMgr();
+        colMgr.addPaletteToList(new DefaultColorPalette());
+        colMgr.addPaletteToList(new NewColorPalette());
+        colMgr.changeColor("Default");
 
         frame = new GuiFrame(colMgr);
-
-        colMgr.changeColor(new DefaultColorPalette());
         colMgr.add(frame);
 
         frame.createGuiElements(musicPlayer);
