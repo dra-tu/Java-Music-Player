@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class TUI extends PlayerStarter {
+public class TUI implements PlayerStarter {
     volatile MusicPlayer musicPlayer;
     private final TerminalLock termLock;
     private SongMenu songMenu;

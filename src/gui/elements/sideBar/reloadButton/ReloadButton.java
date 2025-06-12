@@ -1,14 +1,14 @@
 package gui.elements.sideBar.reloadButton;
 
 import gui.color.ColorMgr;
-import gui.elements.GuiFrame;
+import gui.Gui;
 import gui.elements.jmp.JmpButton;
 import musicPlayer.MusicPlayer;
 
 import java.io.IOException;
 
 public class ReloadButton extends JmpButton {
-    public ReloadButton(ColorMgr colorMgr, MusicPlayer musicPlayer, GuiFrame frame) {
+    public ReloadButton(ColorMgr colorMgr, MusicPlayer musicPlayer, Gui frame) {
 
         setText("Reload");
         colorMgr.add(this);
