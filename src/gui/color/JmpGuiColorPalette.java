@@ -2,17 +2,21 @@ package gui.color;
 
 import java.awt.*;
 
-public interface JmpGuiColorPalette {
-    String getPaletteName();
+public abstract class JmpGuiColorPalette {
+    public JmpGuiColorPalette() {
+        System.out.println("Moin from + " + getPaletteName());
+    }
 
-    Color getSideBar();
-    Color getBottomBar();
-    Color getMainArea();
+    public abstract String getPaletteName();
 
-    Color sliderDecoColor();
-    Color thumbColor();
-    Color trackFilledColor();
-    Color trackNotFilledColor();
+    public abstract Color getSideBar();
+    public abstract Color getBottomBar();
+    public abstract Color getMainArea();
+
+    public abstract Color sliderDecoColor();
+    public abstract Color thumbColor();
+    public abstract Color trackFilledColor();
+    public abstract Color trackNotFilledColor();
 
     /**
      * BaseButton
@@ -23,5 +27,5 @@ public interface JmpGuiColorPalette {
      * - 1 - Border Color
      * - 2 - Border Highlight
      */
-    Color[][] getBaseButtonColors();
+    public abstract Color[][] getBaseButtonColors();
 }

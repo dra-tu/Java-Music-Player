@@ -4,7 +4,7 @@ import gui.color.JmpGuiColorPalette;
 
 import java.awt.*;
 
-public class DefaultColorPalette implements JmpGuiColorPalette {
+public class DefaultColorPalette extends JmpGuiColorPalette {
     @Override
     public String getPaletteName() {
         return PALETTE_NAME;
